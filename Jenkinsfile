@@ -115,7 +115,7 @@ def oneNode = { name, path ->
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
-def checkout(String url, String branch="master", String credId){
+def checkout_cem(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     git branch: branch, credentialsId: credId, url: url
 }
@@ -170,7 +170,7 @@ pipeline {
                     for(i=0;i<repos.size();i++){
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
-                        checkout url: repo, branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_CRED_ID
+                        checkout_cem (repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                     }
                 }
             }
