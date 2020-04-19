@@ -122,6 +122,7 @@ def checkout_cem(String url, String branch="master", String credId){
     git branch: branch, credentialsId: credId, url: url
 }
 
+@NonCPS
 def installPackages(){
     nodemodules_folder_path = "${WORKSPACE}/node_modules"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
