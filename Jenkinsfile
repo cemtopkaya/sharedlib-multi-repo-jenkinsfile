@@ -154,6 +154,29 @@ pipeline {
 			}
 		}
 
+stage("checkout repos"){
+    steps{
+        echo "====++++executing checkout repos++++===="
+        echo "params.REPOS: ${REPOS}"
+        params.REPOS.each{
+            echo "echo it: ${it}"
+            println "println it: ${it}"
+            println it
+        }
+    }
+    post{
+        always{
+            echo "====++++always++++===="
+        }
+        success{
+            echo "====++++checkout repos executed successfully++++===="
+        }
+        failure{
+            echo "====++++checkout repos execution failed++++===="
+        }
+    }
+}
+
 		stage("Checkout"){
 		    
 		    environment{
