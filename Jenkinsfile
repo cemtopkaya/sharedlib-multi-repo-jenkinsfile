@@ -3,11 +3,11 @@ def checkPublishStatus(String packageName, String packageVersion){
     def result = false
     
     npmViewScript = "npm view ${packageName}@${packageVersion} ${params.NPM_REGISTRY}"
-    echo "** Ayn? versiyon kullan?lm?? m? kontrol� i�in script > npmViewScript: ${npmViewScript}"
-    /* E?er npm view aranan paketi bulamazsa sh komutu 1 (Error 404) ile hata f?rlatarak �?kacak!
-     * Bu y�zden kod k?r?lmas?n diye "returnStatus: true" ile sh execute edilecek ve exit code okunacak.
-     * Exit code 0'dan farkl?ysa ise yani "npm ERR! code E404" ile npm view hata f?rlatarak �?k?? yapm??sa bilece?iz ki; paket yok!
-     * E?er normal �?k?? yapm??sa bu kez �?kt?y? almak i�in "returnStdout: true" anahtar?yla tekrar paket sorgulanacak
+    echo "** Aynı versiyon kullanılmış mı kontrolü için script > npmViewScript: ${npmViewScript}"
+    /* Eğer npm view aranan paketi bulamazsa sh komutu 1 (Error 404) ile hata fırlatarak çıkacak!
+     * Bu yüzden kod kırılmasın diye "returnStatus: true" ile sh execute edilecek ve exit code okunacak.
+     * Exit code 0'dan farklıysa ise yani "npm ERR! code E404" ile npm view hata fırlatarak çıkış yapmışsa bileceğiz ki; paket yok!
+     * Eğer normal çıkış yapmışsa bu kez çıktıyı almak için "returnStdout: true" anahtarıyla tekrar paket sorgulanacak
      **/
     
     npmViewStatusCode = sh(returnStatus: true, script: "$npmViewScript")
@@ -52,7 +52,7 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
             )
         } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
             shStatusCode = sh (
-                label: "Paket y�kl� de?il ve yay?nlans?n istendi?i i�in Publishing",
+                label: "Paket yüklü değil ve yayınlansın istendiği için Publishing",
                 returnStatus: true,
                 script: "npm publish ${params.NPM_REGISTRY}"
             )
@@ -71,7 +71,7 @@ def unpublish(packageName, packageVersion){
 
 def unpublishIfNeeded(String packageName, String packageVersion, Boolean isPublished){
     if( params.FORCE_TO_PUBLISH || params.PUBLISH_IF_NOT ){
-        // zorla yay?nla denmi?se ve paket yay?ndaysa kald?rmal?y?z
+        // zorla yayınla denmişse ve paket yayındaysa kaldırmalıyız
         if(isPublished)
         {
             unpublish packageName, packageVersion
@@ -83,7 +83,7 @@ def checkPublishable(Boolean isPublished){
     if( params.FORCE_TO_PUBLISH == false){
         
         if(params.PUBLISH_IF_NOT && isPublished){
-            // zorla publish etme se�ene?i i?aretli de?ilse ve yay?nlanmas? isteniyorsa, yay?nlanm?? olmas? durumunda hata f?rlataca??z. 
+            // zorla publish etme seçeneği işaretli değilse ve yayınlanması isteniyorsa, yayınlanmış olması durumunda hata fırlatacağız. 
             error('Package has been published before! Aborting the build.')
         }
     }
@@ -116,7 +116,7 @@ def oneNode = { name, path ->
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
-def checkout_cem(String url, String branch="master", String credId){
+def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     git branch: branch, credentialsId: credId, url: url
 }
@@ -128,7 +128,7 @@ def installPackages(){
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: ${is_nodemodules_exits}"
     if( is_nodemodules_exits == false){
-        echo "*** NODE_MODULES Yok! NPM paketlerini y�kleyece?iz"
+        echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         for(i=0; i<kapsam.size(); i++) {
             scope = kapsam[i]
             sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
@@ -136,7 +136,7 @@ def installPackages(){
         //sh "npm --cache-min Infinity install"
         sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
-        echo "*** NODE_MODULES var ve tekrar NPM paketlerini y�klemeyelim"
+        echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
 }
                     
@@ -144,18 +144,18 @@ pipeline {
 	agent { label params.AGENT_NAME }
 	
     parameters {
-        string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave �st�nde �al??aca?? bilgisi')
-        string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile ba?lanaca?? user id')
-        string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo ba?lant?s? olacaksa CRED_ID kullan?lacak')
-        string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodlar? hangi BRANCH �st�nden �ekece?ini belirtiyoruz')
-        string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun g�nderilece?i branch')
+        string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave üstünde çalışacağı bilgisi')
+        string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
+        string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
+        string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
+        string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
-        text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'K�t�phanelerin reposu')
+        text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
-        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'E?er versiyon daha �nce kullan?lm??sa zorla ayn? versiyon numaras?yla VERDACCIO ya yay?nlar ')
-        booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha �nce yay?nlanmam??sa yay?nla, aksi halde hata f?rlat ')
+        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
+        booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'WorkSpace i temizle')
-        booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel �al??t?r')
+        booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
 
         choice(
             name: 'NPM_REGISTRY', 
@@ -174,7 +174,7 @@ pipeline {
                 expression { params.CLEAN_WORKSPACE as Boolean == true }
             }
 			steps {
-				echo "*** Klas�r� temizleyelim"
+				echo "*** Klasörü temizleyelim"
 			    cleanWs()
 			}
 		}
@@ -190,7 +190,7 @@ pipeline {
                     for(i=0;i<repos.size();i++){
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
-                        checkout_cem (repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                        checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                         installPackages()
                     }
                 }
@@ -213,7 +213,7 @@ pipeline {
         //             println "eLise hali: ${list}"
                 
     	// 	        if(env.IS_PACKAGE_FILE_EXISTS.toBoolean() == false) {
-        // 				echo "** Dosyalar olmad??? i�in SCM'den checkout yapal?m"
+        // 				echo "** Dosyalar olmadığı için SCM'den checkout yapalım"
         // 			   //git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_HTTPS_CRED_ID, url: params.GIT_REPO_ADDR_HTTPS
         // 			    git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_SSH_CRED_ID, url: params.GIT_REPO_ADDR_SSH
     	// 	        }
@@ -229,11 +229,11 @@ pipeline {
 		// 	steps {
 		// 	    script{
 		// 	        if( env.IS_NODEMODULES_EXISTS == "false"){
-        // 			    echo "*** NODE_MODULES Yok! NPM paketlerini y�kleyece?iz"
+        // 			    echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         // 			    sh "npm config set @cinar:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         // 			    sh "npm --cache-min Infinity install"
 		// 	        }else{
-        // 			    echo "*** NODE_MODULES var ve tekrar NPM paketlerini y�klemeyelim"
+        // 			    echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
 		// 	        }
 		// 	    }
 		// 	}
@@ -248,7 +248,7 @@ pipeline {
     	// 	        paths = params.PACKAGE_SOURCE_PATHS.split("\n")
     		        
     	// 	        if(names.size() != names.size()) {
-    	// 	            error('Parametrelerde verilen paket isimleriyle paket dosya yollar? ayn? say?da de?il! Yap?land?rma iptal edildi!')
+    	// 	            error('Parametrelerde verilen paket isimleriyle paket dosya yolları aynı sayıda değil! Yapılandırma iptal edildi!')
     	// 	        }
                         		        
     	// 	       def publish = [:]
@@ -279,7 +279,7 @@ pipeline {
                     eposta = "jenkins.service@ulakhaberlesme.com.tr"
                     name = "Jenkins Servis"
                     
-                    echo "*** Etiketlenecek ve Push edilecek. Kullan?lacak etikat ad?: ${tagName}"
+                    echo "*** Etiketlenecek ve Push edilecek. Kullanılacak etikat adı: ${tagName}"
                     
                     sshagent([params.GIT_SSH_CRED_ID]) {
                         sh "git config --local user.email '${eposta}'"
@@ -295,16 +295,16 @@ pipeline {
 	
     post { 
         success{
-            echo "** S�re� ba?ar?yla tamamland?"
+            echo "** Süreç başarıyla tamamlandı"
         }
         failure {
-            echo "** S�re� hatal? tamamland?"
+            echo "** Süreç hatalı tamamlandı"
         }
         cleanup{
-            echo "** S�re� tamamland? cleanup zaman?"
+            echo "** Süreç tamamlandı cleanup zamanı"
         }
         always { 
-            echo "** S�re� g�nah?yla sevab?yla tamamland?"
+            echo "** Süreç günahıyla sevabıyla tamamlandı"
         }
     }
 
