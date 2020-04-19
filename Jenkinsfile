@@ -134,7 +134,6 @@ pipeline {
         booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
 
         choice(name: 'NPM_REGISTRY', choices: [' --registry=http://192.168.13.183:4873 ', ' --registry=http://localhost:4873 '], description: '')
-        choice(name: 'NPM_REGISTRY1', choices: [' --registry=http://192.168.13.183:4873 ', ' --registry=http://localhost:4873 '], description: '')
     }
 	
 	stages {
