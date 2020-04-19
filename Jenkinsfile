@@ -1,4 +1,3 @@
-def kapsam = ["@kapsam1","@kapsam2"]
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
@@ -123,6 +122,7 @@ def checkout_cem(String url, String branch="master", String credId){
 }
 
 def installPackages(){
+    kapsam = ["@kapsam1","@kapsam2"]
     nodemodules_folder_path = "${WORKSPACE}/node_modules"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
