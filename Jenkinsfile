@@ -126,7 +126,7 @@ def installPackages(){
     nodemodules_folder_path = "${WORKSPACE}/node_modules"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
-    
+    echo "is_nodemodules_exits: ${is_nodemodules_exits}"
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         kapsam.each {
