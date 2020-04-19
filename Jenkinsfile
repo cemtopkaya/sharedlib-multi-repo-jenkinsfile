@@ -128,9 +128,9 @@ pipeline {
 
         text(name: 'SCOPED_PACKAGE_NAMES', defaultValue: '', description: 'Enter some information about the person')
 
-        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: true, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
-        booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: true, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
-        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: false, description: 'WorkSpace i temizle')
+        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
+        booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
+        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'WorkSpace i temizle')
         booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
 
         choice(name: 'NPM_REGISTRY', choices: [' --registry=http://192.168.13.183:4873 ', ' --registry=http://localhost:4873 '], description: '')
