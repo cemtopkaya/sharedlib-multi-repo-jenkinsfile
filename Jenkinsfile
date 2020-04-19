@@ -189,7 +189,7 @@ pipeline {
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
                         checkout_cem (repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-
+                        installPackages()
                     }
                 }
             }
