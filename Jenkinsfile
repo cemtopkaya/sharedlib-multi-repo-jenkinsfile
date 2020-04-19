@@ -158,7 +158,7 @@ stage("checkout repos"){
     steps{
         echo "====++++executing checkout repos++++===="
         echo "params.REPOS: ${REPOS}"
-        params.REPOS.each{
+        params.REPOS.split("\r\n").each{
             echo "echo it: ${it}"
             println "println it: ${it}"
             println it
