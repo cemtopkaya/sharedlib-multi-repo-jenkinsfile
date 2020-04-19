@@ -116,7 +116,7 @@ def oneNode = { name, path ->
 }
 
 def checkout(String url, String branch="master", String credId){
-    git url: url, branch: branch, credentialsId: credId
+    git branch: branch, credentialsId: credId, url: url
 }
                     
 pipeline {
