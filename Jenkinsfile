@@ -138,14 +138,6 @@ pipeline {
     }
 	
 	stages {
-
-        stage("neler var"){
-            steps{
-                echo "====++++executing A++++==== PARAMS:"
-                echo params
-                error("patlasın")
-            }
-        }
 	    
 		stage("Clean Workspace"){
             when {
