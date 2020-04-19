@@ -126,14 +126,20 @@ pipeline {
         string(name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
-        text(name: 'SCOPED_PACKAGE_NAMES', defaultValue: '', description: 'Enter some information about the person')
-
+        text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\r\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
+        
         booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
         booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'WorkSpace i temizle')
         booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
 
-        choice(name: 'NPM_REGISTRY', choices: ['  --registry=http://192.168.13.183:4873 ', ' --registry=http://localhost:4873 '], description: '')
+        choice(
+            name: 'NPM_REGISTRY', 
+            choices: [
+                ' --registry=http://localhost:4873 ',
+                ' --registry=http://192.168.13.183:4873 '
+            ], 
+            description: '')
     }
 	
 	stages {
