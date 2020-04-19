@@ -134,7 +134,7 @@ def installPackages(){
             sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         }
         //sh "npm --cache-min Infinity install"
-        sh "pwd && npm install"
+        sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
