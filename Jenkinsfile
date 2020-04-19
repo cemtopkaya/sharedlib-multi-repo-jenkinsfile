@@ -129,7 +129,7 @@ def installPackages(){
     echo "is_nodemodules_exits: ${is_nodemodules_exits}"
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        for(i=0; i<kapsam.size(); i++) {
+        for(i=0; i<env.kapsam.size(); i++) {
             scope = kapsam[i]
             echo "@scope: ${scope}"
             sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
