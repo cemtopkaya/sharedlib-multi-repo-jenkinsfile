@@ -161,7 +161,7 @@ pipeline {
                 echo "params.REPOS: ${REPOS}"
                 
 				script {
-                    repos = params.REPOS.split("\r\n")
+                    repos = params.REPOS.split("\n")
                     for(i=0;i<repos.size();i++){
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
