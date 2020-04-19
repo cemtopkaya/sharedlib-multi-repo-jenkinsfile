@@ -122,7 +122,6 @@ def checkout_cem(String url, String branch="master", String credId){
     git branch: branch, credentialsId: credId, url: url
 }
 
-@NonCPS
 def installPackages(){
     nodemodules_folder_path = "${WORKSPACE}/node_modules"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
@@ -130,9 +129,10 @@ def installPackages(){
     echo "is_nodemodules_exits: ${is_nodemodules_exits}"
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        kapsam.each {
-            echo "@kapsam: ${it}"
-            sh "npm config set ${it}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        for(i=0; i<kapsam.size(); i++) {
+            scope = kapsam[i]
+            echo "@scope: ${scope}"
+            sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         }
         sh "npm --cache-min Infinity install"
     }else{
@@ -146,7 +146,6 @@ pipeline {
     parameters {
         string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave üstünde çalışacağı bilgisi')
         string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
-        string(trim: true, name: 'GIT_REPO_ADDR_SSH', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'REPO ya SSH protokolü üstünden bağlanacaksak bu alan boş bırakılmamalı')
         string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
         string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
@@ -161,6 +160,7 @@ pipeline {
         choice(
             name: 'NPM_REGISTRY', 
             choices: [
+                ' --registry=http:///192.168.56.1:4873 ',
                 ' --registry=http://localhost:4873 ',
                 ' --registry=http://192.168.13.183:4873 '
             ], 
@@ -197,79 +197,79 @@ pipeline {
             }
         }
 
-		stage("Checkout"){
+		// stage("Checkout"){
 		    
-		    environment{
-                PACKAGE_FILE_PATH = "${WORKSPACE}/package.json"
-                IS_PACKAGE_FILE_EXISTS = fileExists PACKAGE_FILE_PATH
-		    }
+		//     environment{
+        //         PACKAGE_FILE_PATH = "${WORKSPACE}/package.json"
+        //         IS_PACKAGE_FILE_EXISTS = fileExists PACKAGE_FILE_PATH
+		//     }
 		    
-			steps {
-				script {
-                    def cmd = "cat angular.json | grep '\"projectType\": \"library\"' -C1 | grep -oE '\"(@.*|projects.*)>?\"'"
-                    def errors = sh( returnStdout: true, script: cmd )
-                    def list = errors.split( '\n' )
+		// 	steps {
+		// 		script {
+        //             def cmd = "cat angular.json | grep '\"projectType\": \"library\"' -C1 | grep -oE '\"(@.*|projects.*)>?\"'"
+        //             def errors = sh( returnStdout: true, script: cmd )
+        //             def list = errors.split( '\n' )
                     
-                    println "eLise hali: ${list}"
+        //             println "eLise hali: ${list}"
                 
-    		        if(env.IS_PACKAGE_FILE_EXISTS.toBoolean() == false) {
-        				echo "** Dosyalar olmadığı için SCM'den checkout yapalım"
-        			   //git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_HTTPS_CRED_ID, url: params.GIT_REPO_ADDR_HTTPS
-        			    git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_SSH_CRED_ID, url: params.GIT_REPO_ADDR_SSH
-    		        }
-				}
-			}
-		}
+    	// 	        if(env.IS_PACKAGE_FILE_EXISTS.toBoolean() == false) {
+        // 				echo "** Dosyalar olmadığı için SCM'den checkout yapalım"
+        // 			   //git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_HTTPS_CRED_ID, url: params.GIT_REPO_ADDR_HTTPS
+        // 			    git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_SSH_CRED_ID, url: params.GIT_REPO_ADDR_SSH
+    	// 	        }
+		// 		}
+		// 	}
+		// }
 		
-		stage("Install NPM Packages"){
-            environment {
-                NODEMODULES_FOLDER_PATH = "${WORKSPACE}/node_modules"
-                IS_NODEMODULES_EXISTS = fileExists(NODEMODULES_FOLDER_PATH)
-            }
-			steps {
-			    script{
-			        if( env.IS_NODEMODULES_EXISTS == "false"){
-        			    echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        			    sh "npm config set @cinar:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-        			    sh "npm --cache-min Infinity install"
-			        }else{
-        			    echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
-			        }
-			    }
-			}
-		}
+		// stage("Install NPM Packages"){
+        //     environment {
+        //         NODEMODULES_FOLDER_PATH = "${WORKSPACE}/node_modules"
+        //         IS_NODEMODULES_EXISTS = fileExists(NODEMODULES_FOLDER_PATH)
+        //     }
+		// 	steps {
+		// 	    script{
+		// 	        if( env.IS_NODEMODULES_EXISTS == "false"){
+        // 			    echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
+        // 			    sh "npm config set @cinar:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        // 			    sh "npm --cache-min Infinity install"
+		// 	        }else{
+        // 			    echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
+		// 	        }
+		// 	    }
+		// 	}
+		// }
 
-		stage("Find Package Version"){
-            environment { IS_PUBLISHED=false }
+		// stage("Find Package Version"){
+        //     environment { IS_PUBLISHED=false }
             
-			steps {
-                script {
-    		        names = params.SCOPED_PACKAGE_NAMES.split("\n")
-    		        paths = params.PACKAGE_SOURCE_PATHS.split("\n")
+		// 	steps {
+        //         script {
+    	// 	        names = params.SCOPED_PACKAGE_NAMES.split("\n")
+    	// 	        paths = params.PACKAGE_SOURCE_PATHS.split("\n")
     		        
-    		        if(names.size() != names.size()) {
-    		            error('Parametrelerde verilen paket isimleriyle paket dosya yolları aynı sayıda değil! Yapılandırma iptal edildi!')
-    		        }
+    	// 	        if(names.size() != names.size()) {
+    	// 	            error('Parametrelerde verilen paket isimleriyle paket dosya yolları aynı sayıda değil! Yapılandırma iptal edildi!')
+    	// 	        }
                         		        
-    		       def publish = [:]
-    		       for(i=0;i<names.size();i++){
-    		           echo "i: ${i instanceof Integer}"
-    		            def name = names[i]
-        		        def path = paths[i]
+    	// 	       def publish = [:]
+    	// 	       for(i=0;i<names.size();i++){
+    	// 	           echo "i: ${i instanceof Integer}"
+    	// 	            def name = names[i]
+        // 		        def path = paths[i]
         		       
-        		        if(params.RUN_PARALLEL == false) {
-        		          oneNode(name, path)
-        		        }else{
-        		            publish["Publish ${name}"] = { oneNode(name, path) }
-        		        }
-    		       }
+        // 		        if(params.RUN_PARALLEL == false) {
+        // 		          oneNode(name, path)
+        // 		        }else{
+        // 		            publish["Publish ${name}"] = { oneNode(name, path) }
+        // 		        }
+    	// 	       }
     		       
-    		       if(params.RUN_PARALLEL) {
-    		           parallel publish
-    		       }
-    		    }
-			}
-		}
+    	// 	       if(params.RUN_PARALLEL) {
+    	// 	           parallel publish
+    	// 	       }
+    	// 	    }
+		// 	}
+		// }
 		
 		stage('Git Push To Origin') {
             steps {
