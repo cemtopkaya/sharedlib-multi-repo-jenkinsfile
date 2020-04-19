@@ -158,10 +158,10 @@ stage("checkout repos"){
     steps{
         echo "====++++executing checkout repos++++===="
         echo "params.REPOS: ${REPOS}"
-        params.REPOS.split("\r\n").each{
-            echo "echo it: ${it}"
-            println "println it: ${it}"
-            println it
+        repos = params.REPOS.split("\r\n")
+        for(i=0;i<repos.size();i++){
+            repo = repos[i]
+            echo "repo adresi: ${repo}"
         }
     }
     post{
