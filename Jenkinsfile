@@ -1,4 +1,6 @@
 
+@Library('sl-multi-repo')_
+
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
     
@@ -191,7 +193,13 @@ pipeline {
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
                         checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                        installPackages()
+                        //installPackages()
+                        
+def projectPath = "${WORKSPACE}"
+def map = AngularParser.parseAngularJson(projectPath)
+//println map
+res = BuildSorter.getSortedLibraries(map)
+println res
                     }
                 }
             }
