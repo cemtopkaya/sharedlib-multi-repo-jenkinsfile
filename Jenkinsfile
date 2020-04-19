@@ -1,3 +1,5 @@
+def kapsam = ["@kapsam1","@kapsam2"]
+
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
     
@@ -119,6 +121,22 @@ def checkout_cem(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     git branch: branch, credentialsId: credId, url: url
 }
+
+def installPackages(){
+    nodemodules_folder_path = "${WORKSPACE}/node_modules"
+    is_nodemodules_exits = fileExists(nodemodules_folder_path)
+    
+    if( is_nodemodules_exits == "false"){
+        echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
+        kapsam.each {
+            echo "@kapsam: ${it}"
+            sh "npm config set ${it}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        }
+        sh "npm --cache-min Infinity install"
+    }else{
+        echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
+    }
+}
                     
 pipeline {
 	agent { label params.AGENT_NAME }
@@ -171,6 +189,7 @@ pipeline {
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
                         checkout_cem (repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+
                     }
                 }
             }
