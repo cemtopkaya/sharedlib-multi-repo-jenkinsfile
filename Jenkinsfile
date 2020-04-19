@@ -119,7 +119,7 @@ pipeline {
 	agent { label env.AGENT_NAME }
 	
     parameters {
-        string(name: 'AGENT_NAME', defaultValue: 'UI_demo_node', description: 'Hangi slave üstünde çalışacağı bilgisi')
+        string(name: 'AGENT_NAME', defaultValue: 'any', description: 'Hangi slave üstünde çalışacağı bilgisi')
         string(name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
         string(name: 'GIT_REPO_ADDR_SSH', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'REPO ya SSH protokolü üstünden bağlanacaksak bu alan boş bırakılmamalı')
         string(name: 'GIT_SSH_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı SSH protokolüyle olacaksa, SSH Key bilgisi içeren CRED_ID kullanılacak')
