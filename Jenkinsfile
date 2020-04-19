@@ -1,5 +1,8 @@
 
-@Library('sl-multi-repo')_
+@Library('sl-multi-repo')
+
+import Parser.AngularParser;
+import Sorter.BuildSorter; 
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
