@@ -159,9 +159,9 @@ pipeline {
 
                 echo "====++++executing checkout repos++++===="
                 echo "params.REPOS: ${REPOS}"
-                repos = params.REPOS.split("\r\n")
                 
 				script {
+                    repos = params.REPOS.split("\r\n")
                     for(i=0;i<repos.size();i++){
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
