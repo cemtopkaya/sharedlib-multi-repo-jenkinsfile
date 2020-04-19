@@ -124,6 +124,7 @@ def checkout_cem(String url, String branch="master", String credId){
 
 def installPackages(){
     nodemodules_folder_path = "${WORKSPACE}/node_modules"
+    echo "nodemodules_folder_path: ${nodemodules_folder_path}"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     
     if( is_nodemodules_exits == "false"){
