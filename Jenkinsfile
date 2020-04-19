@@ -114,6 +114,10 @@ def oneNode = { name, path ->
     publishIfNeeded name, path, packageVersion, isPublished
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
+
+def checkout(String url, String branch="master", String credId){
+    git url: url, branch: branch, credentialsId: credId
+}
                     
 pipeline {
 	agent { label params.AGENT_NAME }
@@ -122,7 +126,7 @@ pipeline {
         string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave üstünde çalışacağı bilgisi')
         string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
         string(trim: true, name: 'GIT_REPO_ADDR_SSH', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'REPO ya SSH protokolü üstünden bağlanacaksak bu alan boş bırakılmamalı')
-        string(trim: true, name: 'GIT_SSH_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı SSH protokolüyle olacaksa, SSH Key bilgisi içeren CRED_ID kullanılacak')
+        string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
         string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
@@ -165,7 +169,7 @@ pipeline {
                     for(i=0;i<repos.size();i++){
                         repo = repos[i]
                         echo "repo adresi: ${repo}"
-                        git branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_SSH_CRED_ID, url: params.GIT_REPO_ADDR_SSH
+                        checkout url: repo, branch: params.SOURCE_BRANCH_NAME, credentialsId: params.GIT_CRED_ID
                     }
                 }
             }
