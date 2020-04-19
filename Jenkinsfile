@@ -131,10 +131,10 @@ def installPackages(){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         for(i=0; i<kapsam.size(); i++) {
             scope = kapsam[i]
-            echo "@scope: ${scope}"
             sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         }
-        sh "npm --cache-min Infinity install"
+        //sh "npm --cache-min Infinity install"
+        sh "pwd && npm install"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
