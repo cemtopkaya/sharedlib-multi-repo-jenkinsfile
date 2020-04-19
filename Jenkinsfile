@@ -119,14 +119,14 @@ pipeline {
 	agent { label params.AGENT_NAME }
 	
     parameters {
-        string(name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave üstünde çalışacağı bilgisi')
-        string(name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
-        string(name: 'GIT_REPO_ADDR_SSH', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'REPO ya SSH protokolü üstünden bağlanacaksak bu alan boş bırakılmamalı')
-        string(name: 'GIT_SSH_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı SSH protokolüyle olacaksa, SSH Key bilgisi içeren CRED_ID kullanılacak')
-        string(name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
-        string(name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
+        string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave üstünde çalışacağı bilgisi')
+        string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
+        string(trim: true, name: 'GIT_REPO_ADDR_SSH', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'REPO ya SSH protokolü üstünden bağlanacaksak bu alan boş bırakılmamalı')
+        string(trim: true, name: 'GIT_SSH_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı SSH protokolüyle olacaksa, SSH Key bilgisi içeren CRED_ID kullanılacak')
+        string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
+        string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
-        text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\r\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
+        text(trim: true, name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\r\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
         booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
         booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
