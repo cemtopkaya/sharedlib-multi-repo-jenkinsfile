@@ -237,10 +237,10 @@ sh "pwd"
                         // println "packageJsonLines: ${packageJsonLines}"
                         for (el in map) {
                             echo "${el.key} ${el.value}"
-                            def filep = new FilePath(new File("${WORKSPACE}/developer/${el.value.path}"))
+                            def filep = "${WORKSPACE}/developer/${el.value.path}"
                             println "fileppppppppppppppppppppppppppp ${filep}"
                             println filep.readToString()
-                            el.value.dependencies = parsePackageJson("${WORKSPACE}/developer/${el.value.path}")
+                            el.value.dependencies = parsePackageJson(filep)
                         }
                         println "MAP:"
                         println map
