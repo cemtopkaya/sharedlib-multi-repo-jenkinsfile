@@ -221,7 +221,7 @@ sh "pwd"
                         def projectPath = "${WORKSPACE}/developer"
                         def lines = readFile(file: './developer/angular.json')
                         println "lines::: "+lines
-                        def map = Parser.parseAngularJson(lines)
+                        def map = parseAngularJson(lines)
                         println map
                         res = getSortedLibraries(map)
                         println res
