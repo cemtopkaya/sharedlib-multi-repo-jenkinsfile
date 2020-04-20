@@ -243,10 +243,10 @@ sh "pwd"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
                                 def fileAbs = new File(absolutePackageJsonPath)
-                                def linesAbs = fileAbs.readToString()
+                                def linesAbs = fileAbs.readFile()
                                 print "linesAbs: ${linesAbs}"
                                 def fileRel = new File(relativePackageJsonPath)
-                                def linesRel = fileAbs.readToString()
+                                def linesRel = fileAbs.readFile()
                                 print "linesRel: ${linesRel}"
 
                                 el.value.dependencies = parsePackageJson(linesRel)
