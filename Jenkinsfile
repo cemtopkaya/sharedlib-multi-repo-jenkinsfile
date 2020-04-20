@@ -268,13 +268,13 @@ pipeline {
                                 }
                         
                                 def res = getSortedLibraries(map)
+                                println "SON >>>>>>> RES: $map"
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 echo "Caught: ${err}"
                             } 
 
-                        println "SON >>>>>>> RES: $res"
                         // res.each { entry ->
                         //     println entry.value.dependencies
                         // } 
