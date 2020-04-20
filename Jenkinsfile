@@ -282,7 +282,7 @@ sh "pwd"
                                 // el.value.dependencies = res
 
                                 println ">>>>>>>> MAP:${res.size()}"
-                                echo res
+                                println res
 
                             }
                             catch (err) {
