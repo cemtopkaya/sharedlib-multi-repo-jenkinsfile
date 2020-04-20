@@ -222,19 +222,7 @@ pipeline {
                 
 				script {
                     repos = params.REPOS.split("\n")
-                    for(i=0;i<repos.size();i++){
-                        repo = repos[i]
-                        echo "repo adresi: ${repo}"
-                        checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                        //installPackages()
-echo "------------------------------"
-sh "pwd"
-                        def projectPath = "${WORKSPACE}/developer"
-                        def lines = readFile(file: './developer/angular.json')
-                        println "lines::: "+lines
-                        def map = parseAngularJson(lines)
-                        println map
-                        
+                    for(i=0;i<repos.size();i++){                        
             
                         // println "WORKSPACE: ${WORKSPACE}"
                         // def dir = "${WORKSPACE}/developer/package.json"
@@ -262,9 +250,19 @@ sh "pwd"
 
                                 // def sonuc = parsePackageJson(absolutePackageJsonPath)
                                 // echo "sonuccccccccccccccc: ${sonuc}"
+
+                                repo = repos[i]
+                                echo "repo adresi: ${repo}"
+                                checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                //installPackages()
+
+                                def projectPath = "${WORKSPACE}/developer"
+                                //def lines = readFile(file: "./developer/angular.json")
+                                def map = parseAngularJson("./developer")
+                                println map
+
                                 for (el in mapToList(map)) {
-                                    def relativePackageJsonPath = "./developer/${el.value.path}/package.json"
-                                    println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
+                                    def relativePackageJsonPath = "./developer/${el.value.path}"
                                     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
@@ -275,8 +273,8 @@ sh "pwd"
                                 echo "Caught: ${err}"
                             } 
 
-                        println "SON >>>>>>> RES:"
-                        map.each { k,v ->
+                        println "SON >>>>>>> RES:"+res
+                        res.each { k,v ->
                             println v.dependencies
                         } 
                     }
