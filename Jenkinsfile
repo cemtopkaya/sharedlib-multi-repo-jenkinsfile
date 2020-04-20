@@ -159,7 +159,7 @@ pipeline {
         
         booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
         booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
-        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: true, description: 'WorkSpace i temizle')
+        booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: false, description: 'WorkSpace i temizle')
         booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
 
         choice(
