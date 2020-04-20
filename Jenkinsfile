@@ -248,7 +248,7 @@ sh "pwd"
                         for (el in mapToList(map)) {
                             echo "${el.key} >>>>>>>>>>> ${el.value.name}  ||||  ${el.value.path} |||||  ${el.value.dependencies}"
                             def absolutePackageJsonPath = "${WORKSPACE}/developer/${el.value.path}/package.json"
-                            def relativePackageJsonPath = './developer/${el.value.path}/package.json'
+                            def relativePackageJsonPath = "./developer/${el.value.path}/package.json"
                             println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
