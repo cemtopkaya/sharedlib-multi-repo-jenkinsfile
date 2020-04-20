@@ -245,12 +245,7 @@ sh "pwd"
                         // println "************* ---------- ******************"
                         // def packageJsonLines = new File(packageJsonPath).readLines()
                         // println "packageJsonLines: ${packageJsonLines}"
-                        for (el in mapToList(map)) {
-                            echo "${el.key} >>>>>>>>>>> ${el.value.name}  ||||  ${el.value.path} |||||  ${el.value.dependencies}"
-                            def absolutePackageJsonPath = "${WORKSPACE}/developer/${el.value.path}/package.json"
-                            def relativePackageJsonPath = "./developer/${el.value.path}/package.json"
-                            println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
-                            println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
+                       
                             try {
                                 // def fileAbs = new File(absolutePackageJsonPath)
                                 // // fileAbs.properties.each { println "$it.key -> $it.value" }
@@ -267,24 +262,21 @@ sh "pwd"
 
                                 // def sonuc = parsePackageJson(absolutePackageJsonPath)
                                 // echo "sonuccccccccccccccc: ${sonuc}"
-                                        
-
-                                // def res = []
-                                // def json = readJSON file:absolutePackageJsonPath
-                                // json["peerDependencies"].each { key, value ->
-                                //     if(key.startsWith("@")){
-                                //         res.add(key)
-                                //     }
-                                // }
-                                el.value.dependencies  = parsePackageJson(absolutePackageJsonPath)
+                                for (el in mapToList(map)) {
+                                    echo "${el.key} >>>>>>>>>>> ${el.value.name}  ||||  ${el.value.path} |||||  ${el.value.dependencies}"
+                                    def absolutePackageJsonPath = "${WORKSPACE}/developer/${el.value.path}/package.json"
+                                    def relativePackageJsonPath = "./developer/${el.value.path}/package.json"
+                                    println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
+                                    println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
+                                    el.value.dependencies  = parsePackageJson(absolutePackageJsonPath)
+                                }
+                        
+                                res = getSortedLibraries(map)
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 echo "Caught: ${err}"
                             } 
-                        }
-                        
-                        // res = getSortedLibraries(map)
 
                         println "SON >>>>>>> RES:"
                         map.each { k,v ->
