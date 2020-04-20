@@ -278,7 +278,7 @@ sh "pwd"
                                 }
                                 el.value.dependencies = res
 
-                                echo ">>>>>>>> echo MAP:" + res
+                                echo ">>>>>>>> echo MAP:" + el.value.dependencies
 
                             }
                             catch (err) {
