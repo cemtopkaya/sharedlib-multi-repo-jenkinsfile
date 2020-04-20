@@ -267,8 +267,8 @@ pipeline {
                         
                                 def sortedLibs = getSortedLibraries(projectLibs)
 
-                                for(lib in sortedLibs){
-                                    println "Kütüp adı: $lib"
+                                sortedLibs.each{
+                                    println "Kütüp adı: $it"
                                 }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
