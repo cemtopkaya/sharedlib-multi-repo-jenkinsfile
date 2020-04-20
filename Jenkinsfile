@@ -273,10 +273,10 @@ sh "pwd"
                                 def json = readJSON file:absolutePackageJsonPath
                                 println "peerDependencies:------------ ${json}"
                                 json["peerDependencies"].each { key, value ->
-                                    println "Walked through key $key and value $value"
+                                    echo "Walked through key $key and value $value"
                                     if(key.startsWith("@")){
                                         res.add(key)
-                                        echo "eklendi ${key}"
+                                        println "eklendi ${key}"
                                     }
                                 }
                                 // el.value.dependencies = res
