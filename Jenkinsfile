@@ -265,9 +265,16 @@ sh "pwd"
                                 // def linesRel = contentRel.split("\n")
                                 // echo "linesRel: ${linesRel}"
 
-                                def sonuc = parsePackageJson(absolutePackageJsonPath)
-                                echo "sonuccccccccccccccc: ${sonuc}"
+                                // def sonuc = parsePackageJson(absolutePackageJsonPath)
+                                // echo "sonuccccccccccccccc: ${sonuc}"
                                         
+                                def json = readJSON file:absFilePath
+                                echo "peerDependencies:------------ ${json.class.name}"
+                                echo json["peerDependencies"].each { key, value ->
+                                    echo "Walked through key $key and value $value"
+                                    echo "Sınıf adı: ${key.class.name}"
+                                }
+
                                 println ">>>>>>>> MAP:"
                                 println map
 
