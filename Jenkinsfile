@@ -248,14 +248,13 @@ sh "pwd"
                                 def fileRel = new File(relativePackageJsonPath)
                                 def linesRel = fileAbs.readToString()
                                 print "linesRel: ${linesRel}"
+
+                                el.value.dependencies = parsePackageJson(linesRel)
                             }
                             catch (e) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 println e
                             } 
-                            def linesPackageJson = readFile(file: )
-                            println "linesPackageJson: ${linesPackageJson}"
-                            el.value.dependencies = parsePackageJson(linesPackageJson)
                         }
                         println "MAP:"
                         println map
