@@ -269,6 +269,7 @@ pipeline {
 
                                 sortedLibs.each{
                                     println "Kütüp adı: $it"
+                                    oneNode it, projectLibs."${it}"."path"
                                 }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
