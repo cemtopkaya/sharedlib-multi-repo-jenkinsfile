@@ -164,6 +164,13 @@ def installPackages(){
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
 }
+
+@NonCPS
+List<List<?>> mapToList(Map map) {
+  return map.collect { it ->
+    [it.key, it.value]
+  }
+}
                     
 pipeline {
 	agent { label params.AGENT_NAME }
@@ -236,7 +243,7 @@ sh "pwd"
                         // println "************* ---------- ******************"
                         // def packageJsonLines = new File(packageJsonPath).readLines()
                         // println "packageJsonLines: ${packageJsonLines}"
-                        for (el in map) {
+                        for (el in mapToList(map)) {
                             echo "${el.key} >>>>>>>>>>> ${el.value.name}  ||||  ${el.value.path} |||||  ${el.value.dependencies}"
                             def absolutePackageJsonPath = "${WORKSPACE}/developer/${el.value.path}/package.json"
                             def relativePackageJsonPath = './developer/${el.value.path}/package.json'
