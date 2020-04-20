@@ -281,7 +281,7 @@ pipeline {
                                 // echo "sonuccccccccccccccc: ${sonuc}"
 
                                 repo = repos[i]
-                                echo "repo adresi: ${repo}"
+                                echo "repo adresi: $repo"
                                 checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                 //installPackages()
 
