@@ -124,6 +124,8 @@ def oneNode = { name, path ->
 def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     sh "pwd && mkdir branch && cd branch && pwd"
+
+    subFolder = branch // Jenkinsfile olan yeri silmeyelim diye
     // git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
     checkout([
         $class: 'GitSCM', 
@@ -131,7 +133,7 @@ def checkout(String url, String branch="master", String credId){
         doGenerateSubmoduleConfigurations: false, 
         extensions: [[
             $class: 'RelativeTargetDirectory', 
-            relativeTargetDir: "${branch}", 
+            relativeTargetDir: subFolder, 
             timeout: 30
         ]], 
         submoduleCfg: [], 
@@ -146,6 +148,7 @@ def checkout(String url, String branch="master", String credId){
 def installPackages(){
     kapsam = ["@kapsam1","@kapsam2"]
     nodemodules_folder_path = "${WORKSPACE}/${params.SOURCE_BRANCH_NAME}/node_modules"
+    sh "cd ${nodemodules_folder_path} && pwd"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: ${is_nodemodules_exits}"
