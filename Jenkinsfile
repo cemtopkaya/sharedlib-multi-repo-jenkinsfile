@@ -252,11 +252,11 @@ sh "pwd"
                             println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
-                                // def fileAbs = new File(absolutePackageJsonPath)
+                                def fileAbs = new File(absolutePackageJsonPath)
                                 // // fileAbs.properties.each { println "$it.key -> $it.value" }
-                                // def linesAbs = readFile absolutePackageJsonPath
-                                // def lis = linesAbs.split(System.getProperty("line.separator"))
-                                // print "lis : ${lis}"
+                                def linesAbs = readFile absolutePackageJsonPath
+                                def lis = linesAbs.split(System.getProperty("line.separator"))
+                                print "lis : ${lis}"
                                 // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
                                 def contentRel = readFile file:relativePackageJsonPath
