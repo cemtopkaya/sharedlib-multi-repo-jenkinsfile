@@ -257,7 +257,7 @@ sh "pwd"
 
                                 // el.value.dependencies = parsePackageJson(linesRel)
                             }
-                            catch (e) {
+                            catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 echo "Caught: ${err}"
                             } 
