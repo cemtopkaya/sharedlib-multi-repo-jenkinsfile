@@ -249,11 +249,11 @@ sh "pwd"
                                 def lis = linesAbs.split(System.getProperty("line.separator"))
                                 print "lis : ${lis}"
                                 print "linesAbs: ${linesAbs}"
-                                def fileRel = new File(relativePackageJsonPath)
-                                def contentRel = readFile file:relativePackageJsonPath
-                                print "contentRel: ${contentRel}"
-                                def linesRel = contentRel.split("\n")
-                                print "linesRel: ${linesRel}"
+                                // def fileRel = new File(relativePackageJsonPath)
+                                // def contentRel = readFile file:relativePackageJsonPath
+                                // print "contentRel: ${contentRel}"
+                                // def linesRel = contentRel.split("\n")
+                                // print "linesRel: ${linesRel}"
 
                                 // el.value.dependencies = parsePackageJson(linesRel)
                             }
@@ -268,7 +268,7 @@ sh "pwd"
                         // res = getSortedLibraries(map)
 
                         println "RES:"
-                        println res
+                        // println res
                     }
                 }
             }
