@@ -124,7 +124,7 @@ def oneNode = { name, path ->
 def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     sh "pwd"
-    sh "mkdir branch"
+    sh "mkdir branch && cd branch"
     git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
 }
 
