@@ -166,10 +166,12 @@ def installPackages(){
 }
 
 @NonCPS
-List<List<?>> mapToList(Map map) {
-  return map.collect { it ->
-    [it.key, it.value]
-  }
+def mapToList(depmap) {
+    def dlist = []
+    for (def entry2 in depmap) {
+        dlist.add(new java.util.AbstractMap.SimpleImmutableEntry(entry2.key, entry2.value))
+    }
+    dlist
 }
                     
 pipeline {
