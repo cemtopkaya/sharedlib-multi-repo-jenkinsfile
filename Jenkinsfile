@@ -123,7 +123,7 @@ def oneNode = { name, path ->
 
 def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
-    sh "pwd && mkdir branch && cd branch && pwd"
+    //sh "pwd && mkdir branch && cd branch && pwd"
 
     subFolder = branch // Jenkinsfile olan yeri silmeyelim diye
     // git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
@@ -133,8 +133,7 @@ def checkout(String url, String branch="master", String credId){
         doGenerateSubmoduleConfigurations: false, 
         extensions: [[
             $class: 'RelativeTargetDirectory', 
-            relativeTargetDir: subFolder, 
-            timeout: 30
+            relativeTargetDir: subFolder
         ]], 
         submoduleCfg: [], 
         userRemoteConfigs: [[
