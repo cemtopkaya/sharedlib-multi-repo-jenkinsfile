@@ -37,6 +37,7 @@ def buildPackage(String packageName){
     if( params.PUBLISH_IF_NOT == true || params.FORCE_TO_PUBLISH == true){
         sh (
             label:"NPM Package Building ($packageName)",
+            returnStatus: false,
             script: "ng build $packageName"
         )
     }
