@@ -255,7 +255,8 @@ sh "pwd"
                                 def fileAbs = new File(absolutePackageJsonPath)
                                 // // fileAbs.properties.each { println "$it.key -> $it.value" }
                                 def linesAbs = readFile absolutePackageJsonPath
-                                def lis = linesAbs.split(System.getProperty("line.separator"))
+                                def lis = linesAbs.split("\n")
+                                // def lis = linesAbs.split(System.getProperty("line.separator"))
                                 print "lis : ${lis}"
                                 // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
