@@ -269,14 +269,14 @@ sh "pwd"
                                 // echo "sonuccccccccccccccc: ${sonuc}"
                                         
 
-                                def res = []
-                                def json = readJSON file:absolutePackageJsonPath
-                                json["peerDependencie"].each { key, value ->
-                                    if(key.startsWith("@")){
-                                        res.add(key)
-                                    }
-                                }
-                                el.value.dependencies = res
+                                // def res = []
+                                // def json = readJSON file:absolutePackageJsonPath
+                                // json["peerDependencies"].each { key, value ->
+                                //     if(key.startsWith("@")){
+                                //         res.add(key)
+                                //     }
+                                // }
+                                el.value.dependencies  = parsePackageJson(absolutePackageJsonPath)
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
