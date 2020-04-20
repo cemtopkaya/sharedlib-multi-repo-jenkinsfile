@@ -125,7 +125,23 @@ def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
     sh "pwd"
     sh "mkdir branch && cd branch"
-    git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
+    // git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
+    checkout([
+        $class: 'GitSCM', 
+        branches: [[name: "*/${branch}"]], 
+        doGenerateSubmoduleConfigurations: false, 
+        extensions: [[
+            $class: 'RelativeTargetDirectory', 
+            relativeTargetDir: "${branch}", 
+            timeout: 30
+        ]], 
+        submoduleCfg: [], 
+        userRemoteConfigs: [[
+            credentialsId: credId, 
+            url: gitUrl
+        ]]
+    ]);
+
 }
 
 def installPackages(){
