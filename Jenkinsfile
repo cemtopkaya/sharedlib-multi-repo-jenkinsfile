@@ -268,11 +268,15 @@ sh "pwd"
                                 // def sonuc = parsePackageJson(absolutePackageJsonPath)
                                 // echo "sonuccccccccccccccc: ${sonuc}"
                                         
+
+                                def res = []
                                 def json = readJSON file:absolutePackageJsonPath
                                 echo "peerDependencies:------------ ${json}"
                                 echo json["peerDependencies"].each { key, value ->
                                     echo "Walked through key $key and value $value"
-                                    echo "Sınıf adı: ${key.class.name}"
+                                    if(key.startsWith("@")){
+                                        res.add(key)
+                                    }
                                 }
 
                                 println ">>>>>>>> MAP:"
