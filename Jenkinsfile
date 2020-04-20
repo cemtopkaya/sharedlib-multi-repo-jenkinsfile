@@ -239,7 +239,7 @@ sh "pwd"
                             echo "${el.key} ${el.value}"
                             def filep = "${WORKSPACE}/developer/${el.value.path}"
                             println "fileppppppppppppppppppppppppppp ${filep}"
-                            println (new File(filep+"/package.json")).readToString()
+                            // println (new File(filep+"/package.json")).readToString()
                             el.value.dependencies = parsePackageJson(filep)
                         }
                         println "MAP:"
