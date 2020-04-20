@@ -277,9 +277,6 @@ sh "pwd"
                                     }
                                 }
                                 el.value.dependencies = res
-
-                                echo ">>>>>>>> echo MAP:" + el.value.dependencies
-
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
@@ -290,7 +287,9 @@ sh "pwd"
                         // res = getSortedLibraries(map)
 
                         println "SON >>>>>>> RES:"
-                        // println res
+                        map.each { k,v ->
+                            println v.dependencies
+                        } 
                     }
                 }
             }
