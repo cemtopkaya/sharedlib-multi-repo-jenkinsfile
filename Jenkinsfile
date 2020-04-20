@@ -309,7 +309,7 @@ pipeline {
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-                                echo "Caught: ${err}"
+                                echo "Caught: $err"
                             } 
 
                         // res.each { entry ->
