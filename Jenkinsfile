@@ -276,6 +276,7 @@ sh "pwd"
                                     echo "Walked through key $key and value $value"
                                     if(key.startsWith("@")){
                                         res.add(key)
+                                        echo "eklendi ${key}"
                                     }
                                 }
                                 // el.value.dependencies = res
