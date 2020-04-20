@@ -268,7 +268,7 @@ sh "pwd"
                                 // def sonuc = parsePackageJson(absolutePackageJsonPath)
                                 // echo "sonuccccccccccccccc: ${sonuc}"
                                         
-                                def json = readJSON file:absFilePath
+                                def json = readJSON file:absolutePackageJsonPath
                                 echo "peerDependencies:------------ ${json.class.name}"
                                 echo json["peerDependencies"].each { key, value ->
                                     echo "Walked through key $key and value $value"
