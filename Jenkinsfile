@@ -252,12 +252,12 @@ sh "pwd"
                             println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
-                                def fileAbs = new File(absolutePackageJsonPath)
+                                // def fileAbs = new File(absolutePackageJsonPath)
                                 // // fileAbs.properties.each { println "$it.key -> $it.value" }
-                                def linesAbs = readFile absolutePackageJsonPath
-                                def lis = linesAbs.split("\n")
+                                // def linesAbs = readFile absolutePackageJsonPath
+                                // def lis = linesAbs.split("\n")
                                 // def lis = linesAbs.split(System.getProperty("line.separator"))
-                                print "lis : ${lis}"
+                                // print "lis : ${lis}"
                                 // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
                                 // def contentRel = readFile file:relativePackageJsonPath
@@ -265,11 +265,12 @@ sh "pwd"
                                 // def linesRel = contentRel.split("\n")
                                 // echo "linesRel: ${linesRel}"
 
+                                def sonuc = parsePackageJson(absolutePackageJsonPath)
+                                echo "sonuccccccccccccccc: ${sonuc}"
                                         
                                 println ">>>>>>>> MAP:"
                                 println map
 
-                                // el.value.dependencies = parsePackageJson(linesRel)
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
