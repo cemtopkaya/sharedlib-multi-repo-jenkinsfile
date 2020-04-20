@@ -243,23 +243,23 @@ sh "pwd"
                             println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
-                                def fileAbs = new File(absolutePackageJsonPath)
-                                // fileAbs.properties.each { println "$it.key -> $it.value" }
-                                def linesAbs = readFile absolutePackageJsonPath
-                                def lis = linesAbs.split(System.getProperty("line.separator"))
-                                print "lis : ${lis}"
-                                print "linesAbs: ${linesAbs}"
+                                // def fileAbs = new File(absolutePackageJsonPath)
+                                // // fileAbs.properties.each { println "$it.key -> $it.value" }
+                                // def linesAbs = readFile absolutePackageJsonPath
+                                // def lis = linesAbs.split(System.getProperty("line.separator"))
+                                // print "lis : ${lis}"
+                                // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
-                                // def contentRel = readFile file:relativePackageJsonPath
-                                // print "contentRel: ${contentRel}"
-                                // def linesRel = contentRel.split("\n")
-                                // print "linesRel: ${linesRel}"
+                                def contentRel = readFile file:relativePackageJsonPath
+                                print "contentRel: ${contentRel}"
+                                def linesRel = contentRel.split("\n")
+                                print "linesRel: ${linesRel}"
 
                                 // el.value.dependencies = parsePackageJson(linesRel)
                             }
                             catch (e) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-                                println e
+                                echo "Caught: ${err}"
                             } 
                         }
                         println "MAP:"
