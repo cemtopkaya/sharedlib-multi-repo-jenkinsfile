@@ -216,7 +216,8 @@ pipeline {
                         echo "repo adresi: ${repo}"
                         checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                         //installPackages()
-
+echo "------------------------------"
+sh "pwd"
                         def projectPath = "${WORKSPACE}/developer"
                         def map = AngularParser.parseAngularJson(projectPath)
                         println map
