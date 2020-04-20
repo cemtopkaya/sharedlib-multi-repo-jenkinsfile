@@ -71,6 +71,7 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
 def unpublish(packageName, packageVersion){
     sh (
         label:"Unpublish Package: ${packageName}@${packageVersion}",
+        returnStatus: false,
         script: "npm unpublish ${packageName}@${packageVersion}  ${params.NPM_REGISTRY}"
     )
 }
