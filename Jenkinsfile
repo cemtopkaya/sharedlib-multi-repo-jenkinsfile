@@ -98,7 +98,10 @@ def checkPublishable(Boolean isPublished){
 }
 
 def getPackageVersion(packageSrcPath){
-    String version = sh(returnStdout: true, script: "node -p -e \"require(\'${WORKSPACE}${packageSrcPath}/package.json\').version\"").trim()
+    def json = readJSON(file: "$packageSrcPath/package.json")
+    
+    //String version = sh(returnStdout: true, script: "node -p -e \"require(\'${WORKSPACE}${packageSrcPath}/package.json\').version\"").trim()
+    String version = json.version
     echo "** Paketin versiyonu > $version"
     version
 }
@@ -106,7 +109,7 @@ def getPackageVersion(packageSrcPath){
 
 def oneNode = { name, path ->
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    echo "---->$i - name: ${name} - path: ${path}"
+    echo "---->$i - name: $name - path: $path"
     
     packageVersion = getPackageVersion path
     
