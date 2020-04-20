@@ -268,7 +268,8 @@ pipeline {
                                 }
                         
                                 def res = getSortedLibraries(map)
-                                println "SON >>>>>>> RES: $map"
+                                println ">>>>>>> Sorted Libs: $map"
+                                println ">>>>>>> Sorted Deps: $res"
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
