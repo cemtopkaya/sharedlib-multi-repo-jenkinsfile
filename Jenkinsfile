@@ -273,7 +273,7 @@ pipeline {
                                     println "Paketttttttttt: $paket"
                                     def libPath = "./developer/${paket.path}"
                                     println "LibPathhhhh: $libPath"
-                                    oneNode name:libName, path: libPath
+                                    oneNode(libName, libPath)
                                 }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
