@@ -225,15 +225,15 @@ sh "pwd"
                         println map
                         
             
-                        println "WORKSPACE: ${WORKSPACE}"
-                        def dir = "${WORKSPACE}/developer/package.json"
-                        println "dirrrrrrrrrrrr: ${dir}"
-                        def packageJsonPath = "./developer/${root}/package.json"
-                        println "packageJsonPath: ${packageJsonPath}"
-                        def packageJsonLines = readFile(file: packageJsonPath)
-                        println "************* ---------- ******************"
+                        // println "WORKSPACE: ${WORKSPACE}"
+                        // def dir = "${WORKSPACE}/developer/package.json"
+                        // println "dirrrrrrrrrrrr: ${dir}"
+                        // def packageJsonPath = "./developer/${root}/package.json"
+                        // println "packageJsonPath: ${packageJsonPath}"
+                        // def packageJsonLines = readFile(file: packageJsonPath)
+                        // println "************* ---------- ******************"
                         // def packageJsonLines = new File(packageJsonPath).readLines()
-                        println "packageJsonLines: ${packageJsonLines}"
+                        // println "packageJsonLines: ${packageJsonLines}"
                         for (el in map) {
                             echo "${el.key} ${el.value}"
                             el.value.dependencies = parsePackageJson(el.value.path)
