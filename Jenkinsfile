@@ -257,17 +257,19 @@ pipeline {
                                 //installPackages()
 
                                 def projectPath = "${WORKSPACE}/developer"
-                                //def lines = readFile(file: "./developer/angular.json")
-                                def map = parseAngularJson("./developer")
-                                println map
+                                def projectLibs = parseAngularJson("./developer")
 
                                 println "------------- getSortedLibraries ---------"
-                                for (el in mapToList(map)) {
+                                for (el in mapToList(projectLibs)) {
                                     def relativePackageJsonPath = "./developer/${el.value.path}"
                                     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
-                                def res = getSortedLibraries(map)
+                                def sortedLibs = getSortedLibraries(projectLibs)
+
+                                for(lib in sortedLibs){
+                                    println "Kütüp adı: $lib"
+                                }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
                             }
