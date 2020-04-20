@@ -223,7 +223,27 @@ sh "pwd"
                         println "lines::: "+lines
                         def map = parseAngularJson(lines)
                         println map
+                        
+            
+                        println "WORKSPACE: ${WORKSPACE}"
+                        def dir = "${WORKSPACE}/developer/package.json"
+                        println "dirrrrrrrrrrrr: ${dir}"
+                        def packageJsonPath = "./developer/${root}/package.json"
+                        println "packageJsonPath: ${packageJsonPath}"
+                        def packageJsonLines = readFile(file: packageJsonPath)
+                        println "************* ---------- ******************"
+                        // def packageJsonLines = new File(packageJsonPath).readLines()
+                        println "packageJsonLines: ${packageJsonLines}"
+                        for (el in map) {
+                            echo "${el.key} ${el.value}"
+                            el.value.dependencies = parsePackageJson(el.value.path)
+                        }
+                        println "MAP:"
+                        println map
+                        
                         res = getSortedLibraries(map)
+
+                        println "RES:"
                         println res
                     }
                 }
