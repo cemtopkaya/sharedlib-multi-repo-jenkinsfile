@@ -269,7 +269,7 @@ sh "pwd"
                                 // echo "sonuccccccccccccccc: ${sonuc}"
                                         
                                 def json = readJSON file:absolutePackageJsonPath
-                                echo "peerDependencies:------------ ${json.class.name}"
+                                echo "peerDependencies:------------ ${json}"
                                 echo json["peerDependencies"].each { key, value ->
                                     echo "Walked through key $key and value $value"
                                     echo "Sınıf adı: ${key.class.name}"
