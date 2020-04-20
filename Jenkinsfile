@@ -274,8 +274,8 @@ pipeline {
                             } 
 
                         println "SON >>>>>>> RES:"+res
-                        res.each { k,v ->
-                            println v.dependencies
+                        res.each { entry ->
+                            println entry.value.dependencies
                         } 
                     }
                 }
