@@ -266,6 +266,7 @@ pipeline {
                                     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
+                                println "------------- getSortedLibraries ---------"
                                 def res = getSortedLibraries(map)
                             }
                             catch (err) {
