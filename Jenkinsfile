@@ -236,7 +236,7 @@ sh "pwd"
                         // println "packageJsonLines: ${packageJsonLines}"
                         for (el in map) {
                             echo "${el.key} ${el.value}"
-                            el.value.dependencies = parsePackageJson(el.value.path)
+                            el.value.dependencies = parsePackageJson("./developer/${el.value.path}")
                         }
                         println "MAP:"
                         println map
