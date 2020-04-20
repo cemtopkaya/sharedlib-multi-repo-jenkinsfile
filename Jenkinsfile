@@ -268,7 +268,7 @@ sh "pwd"
                                     def relativePackageJsonPath = "./developer/${el.value.path}/package.json"
                                     println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
                                     println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
-                                    el.value.dependencies  = parsePackageJson(absolutePackageJsonPath)
+                                    el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
                                 res = getSortedLibraries(map)
