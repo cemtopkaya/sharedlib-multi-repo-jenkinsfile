@@ -219,7 +219,9 @@ pipeline {
 echo "------------------------------"
 sh "pwd"
                         def projectPath = "${WORKSPACE}/developer"
-                        def map = AngularParser.parseAngularJson(readFile(file: './developer/angular.json'))
+                        def lines = readFile(file: './developer/angular.json')
+                        println "lines::: "+lines
+                        def map = AngularParser.parseAngularJson(lines)
                         println map
                         res = BuildSorter.getSortedLibraries(map)
                         println res
