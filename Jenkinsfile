@@ -20,13 +20,18 @@ def checkPublishStatus(String packageName, String packageVersion){
     if(npmViewStatusCode == 1){
         result = false
     }else {
-        checkVersionPublished = sh(
-            label: "$npmViewScript",
-            returnStdout: true, 
-            script: "${npmViewScript} | wc -m"
-        ).trim() as Integer
-        
-        result = checkVersionPublished > 0
+        try {
+            checkVersionPublished = sh(
+                label: "$npmViewScript",
+                returnStdout: true, 
+                script: "${npmViewScript} | wc -m"
+            ).trim() as Integer
+            
+            result = checkVersionPublished > 0
+        }
+        catch (err) {
+            println "npm view hata fırlattı: $err"
+        }
     }
 
     echo "is published: $result"
