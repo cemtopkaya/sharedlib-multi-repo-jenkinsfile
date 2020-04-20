@@ -278,9 +278,10 @@ sh "pwd"
                                         res.add(key)
                                     }
                                 }
+                                // el.value.dependencies = res
 
                                 println ">>>>>>>> MAP:"
-                                println map
+                                echo res
 
                             }
                             catch (err) {
