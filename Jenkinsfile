@@ -243,7 +243,8 @@ sh "pwd"
                             println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
                             try {
                                 def fileAbs = new File(absolutePackageJsonPath)
-                                def linesAbs = fileAbs.readFile()
+                                fileAbs.properties.each { println "$it.key -> $it.value" }
+                                def linesAbs = fileAbs.text
                                 print "linesAbs: ${linesAbs}"
                                 def fileRel = new File(relativePackageJsonPath)
                                 def linesRel = fileAbs.readFile()
