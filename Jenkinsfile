@@ -261,12 +261,12 @@ pipeline {
                                 def map = parseAngularJson("./developer")
                                 println map
 
+                                println "------------- getSortedLibraries ---------"
                                 for (el in mapToList(map)) {
                                     def relativePackageJsonPath = "./developer/${el.value.path}"
                                     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
-                                println "------------- getSortedLibraries ---------"
                                 def res = getSortedLibraries(map)
                             }
                             catch (err) {
