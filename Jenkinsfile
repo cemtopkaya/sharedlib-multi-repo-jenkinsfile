@@ -269,7 +269,7 @@ pipeline {
 
                                 sortedLibs.each{
                                     println "Kütüp adı: $it"
-                                    Paket paket = projectLibs."$it"
+                                    def paket = projectLibs."$it"
                                     println "Paketttttttttt: $paket"
                                     def libPath = "./developer/${paket.path}"
                                     println "LibPathhhhh: $libPath"
