@@ -259,10 +259,10 @@ sh "pwd"
                                 print "lis : ${lis}"
                                 // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
-                                def contentRel = readFile file:relativePackageJsonPath
-                                echo "contentRel: ${contentRel}"
-                                def linesRel = contentRel.split("\n")
-                                echo "linesRel: ${linesRel}"
+                                // def contentRel = readFile file:relativePackageJsonPath
+                                // echo "contentRel: ${contentRel}"
+                                // def linesRel = contentRel.split("\n")
+                                // echo "linesRel: ${linesRel}"
 
                                         
                                 println ">>>>>>>> MAP:"
