@@ -255,6 +255,10 @@ sh "pwd"
                                 def linesRel = contentRel.split("\n")
                                 echo "linesRel: ${linesRel}"
 
+                                        
+                                println ">>>>>>>> MAP:"
+                                println map
+
                                 // el.value.dependencies = parsePackageJson(linesRel)
                             }
                             catch (err) {
@@ -262,12 +266,10 @@ sh "pwd"
                                 echo "Caught: ${err}"
                             } 
                         }
-                        println "MAP:"
-                        println map
                         
                         // res = getSortedLibraries(map)
 
-                        println "RES:"
+                        println "SON >>>>>>> RES:"
                         // println res
                     }
                 }
