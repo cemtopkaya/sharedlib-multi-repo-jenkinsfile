@@ -267,13 +267,13 @@ pipeline {
                         
                                 def sortedLibs = getSortedLibraries(projectLibs)
 
-                                sortedLibs.each{
-                                    println "Kütüp adı: $it"
-                                    def paket = projectLibs."$it"
+                                sortedLibs.each{ libName ->
+                                    println "Kütüp adı: $libName"
+                                    def paket = projectLibs."$libName"
                                     println "Paketttttttttt: $paket"
                                     def libPath = "./developer/${paket.path}"
                                     println "LibPathhhhh: $libPath"
-                                    oneNode name:it, path: libPath
+                                    oneNode name:libName, path: libPath
                                 }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
