@@ -255,7 +255,7 @@ sh "pwd"
                                 def linesRel = contentRel.split("\n")
                                 print "linesRel: ${linesRel}"
 
-                                //el.value.dependencies = parsePackageJson(linesRel)
+                                // el.value.dependencies = parsePackageJson(linesRel)
                             }
                             catch (e) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
@@ -265,7 +265,7 @@ sh "pwd"
                         println "MAP:"
                         println map
                         
-                        res = getSortedLibraries(map)
+                        // res = getSortedLibraries(map)
 
                         println "RES:"
                         println res
