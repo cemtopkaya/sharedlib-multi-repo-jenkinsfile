@@ -40,11 +40,16 @@ def checkPublishStatus(String packageName, String packageVersion){
 
 def buildPackage(String packageName){
     if( params.PUBLISH_IF_NOT == true || params.FORCE_TO_PUBLISH == true){
-        sh (
-            label:"NPM Package Building ($packageName)",
-            returnStatus: false,
-            script: "ng build $packageName"
-        )
+        try {
+            sh (
+                label:"NPM Package Building ($packageName)",
+                returnStatus: false,
+                script: "ng build $packageName"
+            )
+        }
+        catch (err) {
+            println "npm view hata fırlattı: $err"
+        }
     }
 }
 
@@ -57,17 +62,27 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
         
         def shStatusCode = 0
         if ( params.FORCE_TO_PUBLISH == true) {
-            shStatusCode = sh (
-                label: "Zorla Publishing: $libDistFolderPath",
-                returnStatus: true,
-                script: "npm publish ${params.NPM_REGISTRY} --force"
-            )
+            try {
+                shStatusCode = sh (
+                    label: "Zorla Publishing: $libDistFolderPath",
+                    returnStatus: true,
+                    script: "npm publish ${params.NPM_REGISTRY} --force"
+                )
+            }
+            catch (err) {
+                println "npm publish hata fırlattı: $err"
+            }
         } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
-            shStatusCode = sh (
-                label: "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
-                returnStatus: true,
-                script: "npm publish ${params.NPM_REGISTRY}"
-            )
+            try {                
+                shStatusCode = sh (
+                    label: "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
+                    returnStatus: true,
+                    script: "npm publish ${params.NPM_REGISTRY}"
+                )
+            }
+            catch (err) {
+                println "npm publish else içinde hata fırlattı: $err"
+            }
         }
         
         checkPublishStatus(packageName, packageVersion)
@@ -75,11 +90,16 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
 }
 
 def unpublish(packageName, packageVersion){
-    sh (
-        label:"Unpublish Package: ${packageName}@${packageVersion}",
-        returnStatus: false,
-        script: "npm unpublish ${packageName}@${packageVersion}  ${params.NPM_REGISTRY}"
-    )
+    try {
+        sh (
+            label:"Unpublish Package: ${packageName}@${packageVersion}",
+            returnStatus: false,
+            script: "npm unpublish ${packageName}@${packageVersion}  ${params.NPM_REGISTRY}"
+        )
+    }
+    catch (err) {
+        println "npm unpublish içinde hata fırlattı: $err"
+    }
 }
 
 def unpublishIfNeeded(String packageName, String packageVersion, Boolean isPublished){
