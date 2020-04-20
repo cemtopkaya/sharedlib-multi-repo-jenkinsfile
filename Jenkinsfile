@@ -305,7 +305,7 @@ pipeline {
                                     //oneNode(libName, libPath)
                                 }
                                 // println ">>>>>>> Sorted Libs: $map"
-                                println ">>>>>>> Sorted Deps: $res"
+                                // println ">>>>>>> Sorted Deps: $res"
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
