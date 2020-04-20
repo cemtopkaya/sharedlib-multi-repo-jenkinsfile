@@ -174,19 +174,20 @@ def checkout(String url, String branch="master", String credId){
 
 }
 
-def installPackages(){
+def installPackages(String sourceFolder){
     kapsam = ["@kapsam1","@kapsam2"]
-    nodemodules_folder_path = "${WORKSPACE}/${params.SOURCE_BRANCH_NAME}/node_modules"
-    sh "cd ${nodemodules_folder_path} && pwd"
-    echo "nodemodules_folder_path: ${nodemodules_folder_path}"
+    nodemodules_folder_path = "$sourceFolder/node_modules"
+    sh "cd $nodemodules_folder_path && pwd"
+    echo "nodemodules_folder_path: $nodemodules_folder_path"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
-    echo "is_nodemodules_exits: ${is_nodemodules_exits}"
+    echo "is_nodemodules_exits: $is_nodemodules_exits"
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        for(i=0; i<kapsam.size(); i++) {
-            scope = kapsam[i]
-            sh "npm config set ${scope}:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-        }
+        // for(i=0; i<kapsam.size(); i++) {
+        //     scope = kapsam[i]
+        //     // sh "npm config set $scope:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        // }
+        sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
         sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
@@ -283,7 +284,7 @@ pipeline {
                                 repo = repos[i]
                                 echo "repo adresi: ${repo}"
                                 checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                //installPackages()
+                                installPackages()
 
                                 def projectPath = "${WORKSPACE}/developer"
                                 def projectLibs = parseAngularJson("./developer")
