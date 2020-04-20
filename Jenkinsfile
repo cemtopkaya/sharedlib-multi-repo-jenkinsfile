@@ -237,10 +237,23 @@ sh "pwd"
                         // println "packageJsonLines: ${packageJsonLines}"
                         for (el in map) {
                             echo "${el.key} ${el.value}"
-                            def filep = "${WORKSPACE}/developer/${el.value.path}"
-                            println "fileppppppppppppppppppppppppppp  ${filep}"
-                            // println (new File(filep+"/package.json")).readToString()
-                            def linesPackageJson = readFile(file: './developer/${el.value.path}/package.json')
+                            def absolutePackageJsonPath = "${WORKSPACE}/developer/${el.value.path}/package.json"
+                            def relativePackageJsonPath = './developer/${el.value.path}/package.json'
+                            println "fileppppppppppppppppppppppppppp  absolutePackageJsonPath: ${absolutePackageJsonPath}"
+                            println "fileppppppppppppppppppppppppppp  relativePackageJsonPath: ${relativePackageJsonPath}"
+                            try {
+                                def fileAbs = new File(absolutePackageJsonPath)
+                                def linesAbs = fileAbs.readToString()
+                                print "linesAbs: ${linesAbs}"
+                                def fileRel = new File(relativePackageJsonPath)
+                                def linesRel = fileAbs.readToString()
+                                print "linesRel: ${linesRel}"
+                            }
+                            catch (e) {
+                                println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
+                                println e
+                            } 
+                            def linesPackageJson = readFile(file: )
                             println "linesPackageJson: ${linesPackageJson}"
                             el.value.dependencies = parsePackageJson(linesPackageJson)
                         }
