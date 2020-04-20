@@ -123,12 +123,12 @@ def oneNode = { name, path ->
 
 def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
-    git branch: branch, credentialsId: credId, url: url
+    git branch: branch, credentialsId: credId, url: url, relativeTargetDir: branch
 }
 
 def installPackages(){
     kapsam = ["@kapsam1","@kapsam2"]
-    nodemodules_folder_path = "${WORKSPACE}/node_modules"
+    nodemodules_folder_path = "${WORKSPACE}/${params.SOURCE_BRANCH_NAME}/node_modules"
     echo "nodemodules_folder_path: ${nodemodules_folder_path}"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: ${is_nodemodules_exits}"
