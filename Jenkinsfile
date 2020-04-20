@@ -281,7 +281,9 @@ sh "pwd"
                                 }
                                 // el.value.dependencies = res
 
-                                println ">>>>>>>> MAP:${res.size()}"
+def i = res.size()
+                                echo ">>>>>>>> echo MAP:${i}"
+                                println ">>>>>>>> MAP:${i}"
                                 println res
 
                             }
