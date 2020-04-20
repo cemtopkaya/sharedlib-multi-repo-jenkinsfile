@@ -240,7 +240,8 @@ sh "pwd"
                             def filep = "${WORKSPACE}/developer/${el.value.path}"
                             println "fileppppppppppppppppppppppppppp ${filep}"
                             // println (new File(filep+"/package.json")).readToString()
-                            el.value.dependencies = parsePackageJson(filep)
+                            def linesPackageJson = readFile(file: './developer/${el.value.path}/package.json')
+                            el.value.dependencies = parsePackageJson(linesPackageJson)
                         }
                         println "MAP:"
                         println map
