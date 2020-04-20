@@ -284,25 +284,25 @@ pipeline {
 		// 	}
 		// }
 		
-		stage('Git Push To Origin') {
-            steps {
-                script {
-                    // return null
-                    // tagName = "${env.JOB_NAME}-v${MAJOR}.${PHASE_NUMBER}.${SPRINT_NUMBER}-b${env.BUILD_NUMBER}"
-                    // eposta = "jenkins.service@ulakhaberlesme.com.tr"
-                    // name = "Jenkins Servis"
+		// stage('Git Push To Origin') {
+        //     steps {
+        //         script {
+        //             // return null
+        //             // tagName = "${env.JOB_NAME}-v${MAJOR}.${PHASE_NUMBER}.${SPRINT_NUMBER}-b${env.BUILD_NUMBER}"
+        //             // eposta = "jenkins.service@ulakhaberlesme.com.tr"
+        //             // name = "Jenkins Servis"
                     
-                    // echo "*** Etiketlenecek ve Push edilecek. Kullanılacak etikat adı: ${tagName}"
+        //             // echo "*** Etiketlenecek ve Push edilecek. Kullanılacak etikat adı: ${tagName}"
                     
-                    // sshagent([params.GIT_SSH_CRED_ID]) {
-                    //     sh "git config --local user.email '${eposta}'"
-                    //     sh "git config --local user.name '$name'"
-                    //     sh "git tag -fa ${tagName} -m 'git tag oldu'"
-                    //     sh "git push origin HEAD:$TARGET_BRANCH_NAME --tags"
-                    // }
-                }
-            }
-        }
+        //             // sshagent([params.GIT_SSH_CRED_ID]) {
+        //             //     sh "git config --local user.email '${eposta}'"
+        //             //     sh "git config --local user.name '$name'"
+        //             //     sh "git tag -fa ${tagName} -m 'git tag oldu'"
+        //             //     sh "git push origin HEAD:$TARGET_BRANCH_NAME --tags"
+        //             // }
+        //         }
+        //     }
+        // }
 	}
 	
 	
