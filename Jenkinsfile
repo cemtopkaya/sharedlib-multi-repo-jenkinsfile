@@ -269,7 +269,7 @@ pipeline {
 
                                 sortedLibs.each{
                                     println "Kütüp adı: $it"
-                                    oneNode(name:it, path: ("./developer/"+projectLibs."${it}"."path"))
+                                    oneNode name:it, path: "./developer/${projectLibs.$it.path}"
                                 }
                                 println ">>>>>>> Sorted Libs: $map"
                                 println ">>>>>>> Sorted Deps: $res"
