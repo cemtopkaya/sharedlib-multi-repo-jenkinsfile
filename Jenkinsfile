@@ -271,7 +271,7 @@ sh "pwd"
 
                                 def res = []
                                 def json = readJSON file:absolutePackageJsonPath
-                                json["peerDependencies"].each { key, value ->
+                                json["peerDependencie"].each { key, value ->
                                     if(key.startsWith("@")){
                                         res.add(key)
                                     }
