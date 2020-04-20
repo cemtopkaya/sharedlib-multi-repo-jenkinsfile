@@ -183,11 +183,10 @@ def installPackages(String sourceFolder){
     echo "is_nodemodules_exits: $is_nodemodules_exits"
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        // for(i=0; i<kapsam.size(); i++) {
-        //     scope = kapsam[i]
-        //     // sh "npm config set $scope:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-        // }
-        sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        for(i=0; i<kapsam.size(); i++) {
+            scope = kapsam[i]
+            sh "npm config set $scope:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+        }
         //sh "npm --cache-min Infinity install"
         sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
