@@ -123,8 +123,7 @@ def oneNode = { name, path ->
 
 def checkout(String url, String branch="master", String credId){
     echo "url:${url}, branch:${branch}, credId:${credId}"
-    sh "pwd"
-    sh "mkdir branch && cd branch"
+    sh "pwd && mkdir branch && cd branch && pwd"
     // git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
     checkout([
         $class: 'GitSCM', 
@@ -138,7 +137,7 @@ def checkout(String url, String branch="master", String credId){
         submoduleCfg: [], 
         userRemoteConfigs: [[
             credentialsId: credId, 
-            url: gitUrl
+            url: url
         ]]
     ]);
 
