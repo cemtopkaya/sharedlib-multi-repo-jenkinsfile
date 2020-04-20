@@ -289,12 +289,12 @@ pipeline {
                                 def projectLibs = parseAngularJson("./developer")
 
                                 println "------------- getSortedLibraries ---------"
-                                for (el in mapToList(projectLibs)) {
-                                    def relativePackageJsonPath = "./developer/${el.value.path}"
-                                    el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
-                                }
+                                // for (el in mapToList(projectLibs)) {
+                                //     def relativePackageJsonPath = "./developer/${el.value.path}"
+                                //     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
+                                // }
                         
-                                def sortedLibs = getSortedLibraries(projectLibs)
+                                // def sortedLibs = getSortedLibraries(projectLibs)
 
                                 // sortedLibs.each{ libName ->
                                 //     // println "Kütüp adı: $libName"
