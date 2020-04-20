@@ -285,8 +285,8 @@ pipeline {
                                 checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                 //installPackages()
 
-                                def projectPath = "${WORKSPACE}/developer"
-                                def projectLibs = parseAngularJson("./developer")
+                                // def projectPath = "${WORKSPACE}/developer"
+                                // def projectLibs = parseAngularJson("./developer")
 
                                 println "------------- getSortedLibraries ---------"
                                 // for (el in mapToList(projectLibs)) {
