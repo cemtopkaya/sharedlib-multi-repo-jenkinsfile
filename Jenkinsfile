@@ -45,20 +45,20 @@ def buildPackage(String packageName){
 def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPublished){
         		        
     echo "NPM Package Publishing ($packageName)"
-    
-    dir("${WORKSPACE}${packageSrcPath.replace('projects', 'dist')}"){
+    def libDistFolderPath = "${packageSrcPath.replace('projects', 'dist')}"
+    dir(libDistFolderPath){
         unpublish(packageName, packageVersion)
         
         def shStatusCode = 0
         if ( params.FORCE_TO_PUBLISH == true) {
             shStatusCode = sh (
-                label: "Zorla Publishing",
+                label: "Zorla Publishing: $libDistFolderPath",
                 returnStatus: true,
                 script: "npm publish ${params.NPM_REGISTRY} --force"
             )
         } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
             shStatusCode = sh (
-                label: "Paket yüklü değil ve yayınlansın istendiği için Publishing",
+                label: "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
                 returnStatus: true,
                 script: "npm publish ${params.NPM_REGISTRY}"
             )
@@ -100,7 +100,6 @@ def checkPublishable(Boolean isPublished){
 def getPackageVersion(packageSrcPath){
     def json = readJSON(file: "$packageSrcPath/package.json")
     
-    //String version = sh(returnStdout: true, script: "node -p -e \"require(\'${WORKSPACE}${packageSrcPath}/package.json\').version\"").trim()
     String version = json.version
     echo "** Paketin versiyonu > $version"
     version
