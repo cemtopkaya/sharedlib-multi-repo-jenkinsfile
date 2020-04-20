@@ -266,17 +266,17 @@ pipeline {
                                     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
                         
-                                res = getSortedLibraries(map)
+                                def res = getSortedLibraries(map)
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 echo "Caught: ${err}"
                             } 
 
-                        println "SON >>>>>>> RES:"+res
-                        res.each { entry ->
-                            println entry.value.dependencies
-                        } 
+                        println "SON >>>>>>> RES: $res"
+                        // res.each { entry ->
+                        //     println entry.value.dependencies
+                        // } 
                     }
                 }
             }
