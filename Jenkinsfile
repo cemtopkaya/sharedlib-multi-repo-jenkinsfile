@@ -251,9 +251,9 @@ sh "pwd"
                                 // print "linesAbs: ${linesAbs}"
                                 // def fileRel = new File(relativePackageJsonPath)
                                 def contentRel = readFile file:relativePackageJsonPath
-                                print "contentRel: ${contentRel}"
+                                echo "contentRel: ${contentRel}"
                                 def linesRel = contentRel.split("\n")
-                                print "linesRel: ${linesRel}"
+                                echo "linesRel: ${linesRel}"
 
                                 // el.value.dependencies = parsePackageJson(linesRel)
                             }
