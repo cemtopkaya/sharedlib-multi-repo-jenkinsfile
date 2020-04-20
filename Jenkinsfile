@@ -3,6 +3,7 @@
 
 import Parser.AngularParser;
 import Sorter.BuildSorter; 
+import hudson.FilePath;
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
