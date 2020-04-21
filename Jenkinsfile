@@ -163,7 +163,7 @@ def checkout(String url, String branch="master", String credId){
         doGenerateSubmoduleConfigurations: false, 
         extensions: [[
             $class: 'RelativeTargetDirectory', 
-            relativeTargetDir: subFolder
+            //relativeTargetDir: subFolder
         ]], 
         submoduleCfg: [], 
         userRemoteConfigs: [[
@@ -273,15 +273,15 @@ pipeline {
                                 // echo "sonuccccccccccccccc: ${sonuc}"
 
                                 repo = repos[i]
-                                echo "repo adresi: ${repo}"
+                                echo "-> repo adresi: ${repo}"
                                 def projectPath = "$WORKSPACE/$dirSourceCode"
 
                                 dir(projectPath){
-                                    checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                    checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                     //installPackages(projectPath)
                                     def projectLibs = getLibs(".")
                                     
-                                    println "------------- getLibDependencies ---------"
+                                    println "-> ------------ getLibDependencies ---------"
                                     for (entry in projectLibs) {
                                         /**
                                         * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
@@ -295,7 +295,7 @@ pipeline {
                                     }
 
                             
-                                    println "------------- getSortedLibraries ---------"
+                                    println "-> ------------ getSortedLibraries ---------"
                                     // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
                                     def sortedLibs = getSortedLibraries(projectLibs)
 
