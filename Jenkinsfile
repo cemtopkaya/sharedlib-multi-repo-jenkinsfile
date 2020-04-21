@@ -212,12 +212,12 @@ pipeline {
             steps{
                 script{
                     try {
-                        npmLogin
+                        npmLogin("jenkins.service", "cicd123", "test@example.com", "http://192.168.56.1:4873")
                     }
                     catch (err) {
                         echo "-> Hata: $err"
                         installNpmCliLogin()
-                        npmLogin
+                        npmLogin()
                     }
                 }
             }
