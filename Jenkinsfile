@@ -208,7 +208,70 @@ pipeline {
     }
 	
 	stages {
-        stage('test'){
+        
+		stage("Clean Workspace"){
+            when {
+                expression { params.CLEAN_WORKSPACE as Boolean == true }
+            }
+			steps {
+				echo "*** Klasörü temizleyelim"
+			    cleanWs()
+			}
+		}
+
+        stage('PreRequisites'){
+            steps{
+                script{
+
+                    try {
+                        echo "-> NODE Yüklü mü?"
+                        is_node_installed = sh(
+                            label: "NODE Yüklü mü?",
+                            returnStdout: true, 
+                            script: "whereis node | grep ' ' -ic"
+                        ).trim() as Integer
+                    }
+                    catch (exception) {
+                     
+                        if(is_node_installed == 0){
+                            echo "-> NodeJs Yükleniyor"
+                            sh(
+                                label: "NodeJs Yükleniyor",
+                                returnStdout: false, 
+                                script: "sudo apt-get update                                         \
+                                          && apt-get upgrade -y                                      \
+                                          && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+                                          && apt-get install -y nodejs                               \
+                                          && node --version                                          \
+                                          && npm --version"
+                            )   
+                        }   
+                    }
+
+                    echo "-> Angular CLI Yüklü mü?"
+                    try {
+                        is_angular_cli_installed =  sh(
+                            label: "Angular CLI Yüklü mü?",
+                            returnStdout: true, 
+                            script: "ng --version"
+                        )
+                        println "is_angular_cli_installed: $is_angular_cli_installed"
+
+                     }
+                    catch (err) {
+                            //script: "ng --version | grep '8.3.23' -i -c"
+                        echo "-> istisna: Angular CLI Yüklü DEĞİL! $err"
+                        sh(
+                            label: "Angular CLI Yükleniyor",
+                            returnStdout: false, 
+                            script: "npm install -g @angular/cli@8.3.23"
+                        )
+                    }
+                }
+            }
+        }
+
+        stage('Npm Login'){
             steps{
                 script{
                     try {
@@ -223,146 +286,72 @@ pipeline {
             }
         }
 
-		// stage("Clean Workspace"){
-        //     when {
-        //         expression { params.CLEAN_WORKSPACE as Boolean == true }
-        //     }
-		// 	steps {
-		// 		echo "*** Klasörü temizleyelim"
-		// 	    cleanWs()
-		// 	}
-		// }
+        stage("checkout repos"){
+            steps{
 
-        // stage('PreRequisites'){
-        //     steps{
-        //         script{
-
-        //             try {
-        //                 echo "-> NODE Yüklü mü?"
-        //                 is_node_installed = sh(
-        //                     label: "NODE Yüklü mü?",
-        //                     returnStdout: true, 
-        //                     script: "whereis node | grep ' ' -ic"
-        //                 ).trim() as Integer
-        //             }
-        //             catch (exception) {
-                     
-        //                 if(is_node_installed == 0){
-        //                     echo "-> NodeJs Yükleniyor"
-        //                     sh(
-        //                         label: "NodeJs Yükleniyor",
-        //                         returnStdout: false, 
-        //                         script: "sudo apt-get update                                         \
-        //                                   && apt-get upgrade -y                                      \
-        //                                   && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-        //                                   && apt-get install -y nodejs                               \
-        //                                   && node --version                                          \
-        //                                   && npm --version"
-        //                     )   
-        //                 }   
-        //             }
-
-        //             try {
-        //                 // npm login
-        //                 sh(
-        //                     label: "NPM Login",
-        //                     returnStdout: false, 
-        //                     script: ""
-        //                 )
-        //             }
-        //             catch (exception) {
-        //                 onCatch
-        //             }
-
-        //             echo "-> Angular CLI Yüklü mü?"
-        //             try {
-        //                 is_angular_cli_installed =  sh(
-        //                     label: "Angular CLI Yüklü mü?",
-        //                     returnStdout: true, 
-        //                     script: "ng --version"
-        //                 )
-        //                 println "is_angular_cli_installed: $is_angular_cli_installed"
-
-        //              }
-        //             catch (err) {
-        //                     //script: "ng --version | grep '8.3.23' -i -c"
-        //                 echo "-> istisna: Angular CLI Yüklü DEĞİL! $err"
-        //                 sh(
-        //                     label: "Angular CLI Yükleniyor",
-        //                     returnStdout: false, 
-        //                     script: "npm install -g @angular/cli@8.3.23"
-        //                 )
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage("checkout repos"){
-        //     steps{
-
-        //         echo "====++++executing checkout repos++++===="
-        //         echo "params.REPOS: ${REPOS}"
+                echo "====++++executing checkout repos++++===="
+                echo "params.REPOS: ${REPOS}"
                 
-		// 		script {
-        //             dirSourceCode = "./source_codes"
-        //             repos = params.REPOS.split("\n")
-        //             for(i=0;i<repos.size();i++){
+				script {
+                    dirSourceCode = "./source_codes"
+                    repos = params.REPOS.split("\n")
+                    for(i=0;i<repos.size();i++){
                        
-        //                     try {
+                            try {
 
-        //                         repo = repos[i]
-        //                         echo "-> repo adresi: ${repo}"
-        //                         def projectPath = "$dirSourceCode"
+                                repo = repos[i]
+                                echo "-> repo adresi: ${repo}"
+                                def projectPath = "$dirSourceCode"
 
-        //                         dir(projectPath){
-        //                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-        //                             installPackages(".")
-        //                             def projectLibs = getLibs(".")
-        //                             echo "-> projectLibs: $projectLibs"
-        //                             println "-> ------------ getLibDependencies ---------"
-        //                             projectLibs.each{
-        //                                 println it.value.path
-        //                                 /**
-        //                                 * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-        //                                 */
+                                dir(projectPath){
+                                    checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                    installPackages(".")
+                                    def projectLibs = getLibs(".")
+                                    echo "-> projectLibs: $projectLibs"
+                                    println "-> ------------ getLibDependencies ---------"
+                                    projectLibs.each{
+                                        println it.value.path
+                                        /**
+                                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                                        */
                                         
-        //                                 // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-        //                                 def libDirPath = "./$it.value.path"
+                                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                                        def libDirPath = "./$it.value.path"
 
-        //                                 // paketin bağımlılıklarını bulalım
-        //                                 it.value.dependencies  = getLibDependencies(libDirPath)
-        //                             }
+                                        // paketin bağımlılıklarını bulalım
+                                        it.value.dependencies  = getLibDependencies(libDirPath)
+                                    }
 
                             
-        //                             println "-> ------------ getSortedLibraries ---------"
-        //                             // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-        //                             def sortedLibs = getSortedLibraries(projectLibs)
+                                    println "-> ------------ getSortedLibraries ---------"
+                                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                                    def sortedLibs = getSortedLibraries(projectLibs)
 
-        //                             sortedLibs.each{ libName ->
-        //                                 println "Kütüp adı: $libName"
-        //                                 def paket = projectLibs."$libName"
-        //                                 println "Paketttttttttt: $paket"
-        //                                 def libPath = "./$paket.path"
-        //                                 println "LibPathhhhh: $libPath"
-        //                                 oneNode(libName, libPath)
-        //                             }
-        //                             // println ">>>>>>> Sorted Libs: $map"
-        //                             // println ">>>>>>> Sorted Deps: $res"
+                                    sortedLibs.each{ libName ->
+                                        println "Kütüp adı: $libName"
+                                        def paket = projectLibs."$libName"
+                                        println "Paketttttttttt: $paket"
+                                        def libPath = "./$paket.path"
+                                        println "LibPathhhhh: $libPath"
+                                        oneNode(libName, libPath)
+                                    }
+                                    // println ">>>>>>> Sorted Libs: $map"
+                                    // println ">>>>>>> Sorted Deps: $res"
                                 
-        //                         }
-        //                     }
-        //                     catch (err) {
-        //                         println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-        //                         echo "Caught: $err"
-        //                     } 
+                                }
+                            }
+                            catch (err) {
+                                println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
+                                echo "Caught: $err"
+                            } 
 
-        //                 // res.each { entry ->
-        //                 //     println entry.value.dependencies
-        //                 // } 
-        //             }
-        //         }
-        //     }
-        // }
+                        // res.each { entry ->
+                        //     println entry.value.dependencies
+                        // } 
+                    }
+                }
+            }
+        }
 
 		// stage("Checkout"){
 		    
