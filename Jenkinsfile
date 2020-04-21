@@ -214,7 +214,7 @@ pipeline {
                         npmLogin
                     }
                     catch (err) {
-                        installNpmCliLogin
+                        installNpmCliLogin()
                         npmLogin
                     }
                 }
