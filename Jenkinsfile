@@ -167,11 +167,12 @@ def installPackages(String sourceFolder){
 }
 
 def npmLogin(userName="jenkins.service", pass="cicd123", email="test@example.com", registry="http://192.168.56.1:4873"){
-    sh (
+    cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
         script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
-        returnStdout: false
+        returnStdout: true
     )
+
 }
 
 def installNpmCliLogin(){
@@ -214,6 +215,7 @@ pipeline {
                         npmLogin
                     }
                     catch (err) {
+                        echo "-> Hata: $err"
                         installNpmCliLogin()
                         npmLogin
                     }
