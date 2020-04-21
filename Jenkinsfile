@@ -175,7 +175,7 @@ def checkout(String url, String branch="master", String credId){
 }
 
 def installPackages(String sourceFolder){
-    is_nodemodules_exits = fileExists(nodemodules_folder_path)
+    is_nodemodules_exits = fileExists("node_modules")
     echo "-> is_nodemodules_exits: $is_nodemodules_exits"
 
     if( is_nodemodules_exits == false){
@@ -186,6 +186,7 @@ def installPackages(String sourceFolder){
         // }
         sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
+            sh "pwd"
         dir(sourceFolder){
             sh "pwd && npm install"
         }
