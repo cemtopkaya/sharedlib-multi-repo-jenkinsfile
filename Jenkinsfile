@@ -251,18 +251,9 @@ pipeline {
                 echo "params.REPOS: ${REPOS}"
                 
 				script {
+                    dirSourceCode = "source_codes"
                     repos = params.REPOS.split("\n")
-                    for(i=0;i<repos.size();i++){                        
-            
-                        // println "WORKSPACE: ${WORKSPACE}"
-                        // def dir = "${WORKSPACE}/developer/package.json"
-                        // println "dirrrrrrrrrrrr: ${dir}"
-                        // def packageJsonPath = "./developer/${root}/package.json"
-                        // println "packageJsonPath: ${packageJsonPath}"
-                        // def packageJsonLines = readFile(file: packageJsonPath)
-                        // println "************* ---------- ******************"
-                        // def packageJsonLines = new File(packageJsonPath).readLines()
-                        // println "packageJsonLines: ${packageJsonLines}"
+                    for(i=0;i<repos.size();i++){
                        
                             try {
                                 // def fileAbs = new File(absolutePackageJsonPath)
@@ -283,38 +274,43 @@ pipeline {
 
                                 repo = repos[i]
                                 echo "repo adresi: ${repo}"
-                                def projectPath = "${WORKSPACE}/developer"
+                                def projectPath = "$WORKSPACE/$dirSourceCode"
 
-                                checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                //installPackages(projectPath)
+                                dir(projectPath){
+                                    checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                    //installPackages(projectPath)
+                                    def projectLibs = getLibs(".")
+                                    
+                                    println "------------- getLibDependencies ---------"
+                                    for (entry in projectLibs) {
+                                        /**
+                                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                                        */
+                                        
+                                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                                        def libDirPath = "./$dirSourceCode/$entry.value.path"
 
-                                def projectLibs = parseAngularJson("./developer")
+                                        // paketin bağımlılıklarını bulalım
+                                        entry.value.dependencies  = getLibDependencies(libDirPath)
+                                    }
 
-                                println "------------- getSortedLibraries ---------"
-                                for (entry in projectLibs) {
-                                    echo "-> ${entry.key} | ${entry.value.dependencies}"
-                                    def relativePackageJsonPath = "./developer/$entry.value.path"
-                                    echo "relativePackageJsonPath -> $relativePackageJsonPath"
-                                    entry.value.dependencies  = parsePackageJson(relativePackageJsonPath)
+                            
+                                    println "------------- getSortedLibraries ---------"
+                                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                                    def sortedLibs = getSortedLibraries(projectLibs)
+
+                                    sortedLibs.each{ libName ->
+                                        println "Kütüp adı: $libName"
+                                        def paket = projectLibs."$libName"
+                                        println "Paketttttttttt: $paket"
+                                        def libPath = "./developer/$paket.path"
+                                        println "LibPathhhhh: $libPath"
+                                        //oneNode(libName, libPath)
+                                    }
+                                    // println ">>>>>>> Sorted Libs: $map"
+                                    // println ">>>>>>> Sorted Deps: $res"
+                                
                                 }
-
-                                // for (el in mapToList(projectLibs)) {
-                                //     def relativePackageJsonPath = "./developer/${el.value.path}"
-                                //     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
-                                // }
-                        
-                                def sortedLibs = getSortedLibraries(projectLibs)
-
-                                sortedLibs.each{ libName ->
-                                    println "Kütüp adı: $libName"
-                                    def paket = projectLibs."$libName"
-                                    println "Paketttttttttt: $paket"
-                                    def libPath = "./developer/${paket.path}"
-                                    println "LibPathhhhh: $libPath"
-                                    oneNode(libName, libPath)
-                                }
-                                // println ">>>>>>> Sorted Libs: $map"
-                                // println ">>>>>>> Sorted Deps: $res"
                             }
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
