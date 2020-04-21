@@ -201,12 +201,10 @@ pipeline {
                     sh(
                         script: """
         #!/bin/bash
-        echo "What is your name?"
-        read ANSWER
-        echo "How many dogs you have?"
-        read ANSWER
-        echo "How many cats you have?"
-        read ANSWER
+        npm adduser --registry=http://192.168.56.1:4873
+        read jenkins.service
+        read cicd123
+        read j@j.net
                     """,
                     label: "hedeeee"
                     )
