@@ -234,10 +234,11 @@ echo "-> Angular CLI Yüklü mü?"
                     is_angular_cli_installed = sh(
                         label: "Angular CLI Yüklü mü?",
                         returnStdout: true, 
-                        //script: "ng --version | grep '8.3.23' -i -c"
                         script: "whereis ng | grep ' ' -ic"
                     )
 
+                        //script: "ng --version | grep '8.3.23' -i -c"
+echo "-> Angular CLI Yüklü mü?"
                     echo "is_angular_cli_installed: $is_angular_cli_installed"
                     
                     if(is_angular_cli_installed as Integer == 0){
