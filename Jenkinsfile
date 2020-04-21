@@ -252,7 +252,7 @@ pipeline {
                                     echo "-> projectLibs: $projectLibs"
                                     println "-> ------------ getLibDependencies ---------"
                                     projectLibs.each{
-                                        println it
+                                        println it.key
                                     }
                                     for (entry in projectLibs) {
                                         /**
