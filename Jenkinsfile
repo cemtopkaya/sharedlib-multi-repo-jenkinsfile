@@ -178,9 +178,9 @@ def installPackages(String sourceFolder){
     //kapsam = ["@kapsam1","@kapsam2"]
     nodemodules_folder_path = "$sourceFolder/node_modules"
     echo "nodemodules_folder_path: $nodemodules_folder_path"
-    sh "cd $nodemodules_folder_path && pwd"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: $is_nodemodules_exits"
+    
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         // for(i=0; i<kapsam.size(); i++) {
