@@ -230,29 +230,31 @@ echo "-> NodeJs Yükleniyor"
                         )   
                     }
 
-echo "-> Angular CLI Yüklü mü?"
-                try {
-                    is_angular_cli_installed = sh(
-                        label: "Angular CLI Yüklü mü?",
-                        returnStdout: true, 
-                        script: "whereis ng | grep ' ' -ic"
-                    )
+                    echo "-> Angular CLI Yüklü mü?"
+                    try {
+                        is_angular_cli_installed = sh(
+                            label: "Angular CLI Yüklü mü?",
+                            returnStdout: true, 
+                            script: "whereis ng | grep ' ' -ic"
+                        )
 
-                }
-                catch (err) {
-                    echo "-> istisna: $err"
-                }
+                        
 
                         //script: "ng --version | grep '8.3.23' -i -c"
-echo "-> Angular CLI Yüklü mü?"
-                    echo "is_angular_cli_installed: $is_angular_cli_installed"
-                    
-                    if(is_angular_cli_installed as Integer == 0){
-                        sh(
-                            label: "Angular CLI Yükleniyor",
-                            returnStdout: false, 
-                            script: "npm install -g @angular/cli@8.3.23"
-                        )   
+                        echo "-> Angular CLI Yüklü mü?"
+                        echo "is_angular_cli_installed: $is_angular_cli_installed"
+                        
+                        if(is_angular_cli_installed as Integer == 0){
+                            sh(
+                                label: "Angular CLI Yükleniyor",
+                                returnStdout: false, 
+                                script: "npm install -g @angular/cli@8.3.23"
+                            )   
+                        }
+
+                    }
+                    catch (err) {
+                        echo "-> istisna: $err"
                     }
                 }
             }
