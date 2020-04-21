@@ -249,7 +249,7 @@ pipeline {
                                     checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                     installPackages(".")
                                     def projectLibs = getLibs(".")
-                                    
+                                    echo "-> projectLibs: $projectLibs"
                                     println "-> ------------ getLibDependencies ---------"
                                     for (entry in projectLibs) {
                                         /**
