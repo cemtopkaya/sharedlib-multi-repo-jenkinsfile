@@ -209,25 +209,42 @@ pipeline {
         stage('PreRequisites'){
             steps{
                 script{
-echo "-> NODE Yüklü mü?"
-                    is_node_installed = sh(
-                        label: "NODE Yüklü mü?",
-                        returnStdout: true, 
-                        script: "whereis node | grep ' ' -ic"
-                    ).trim() as Integer
 
-                    if(is_node_installed == 0){
-                        echo "-> NodeJs Yükleniyor"
+                    try {
+                        echo "-> NODE Yüklü mü?"
+                        is_node_installed = sh(
+                            label: "NODE Yüklü mü?",
+                            returnStdout: true, 
+                            script: "whereis node | grep ' ' -ic"
+                        ).trim() as Integer
+                    }
+                    catch (exception) {
+                     
+                        if(is_node_installed == 0){
+                            echo "-> NodeJs Yükleniyor"
+                            sh(
+                                label: "NodeJs Yükleniyor",
+                                returnStdout: false, 
+                                script: "sudo apt-get update                                         \
+                                          && apt-get upgrade -y                                      \
+                                          && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+                                          && apt-get install -y nodejs                               \
+                                          && node --version                                          \
+                                          && npm --version"
+                            )   
+                        }   
+                    }
+
+                    try {
+                        // npm login
                         sh(
-                            label: "NodeJs Yükleniyor",
+                            label: "NPM Login",
                             returnStdout: false, 
-                            script: "sudo apt-get update                                          \
-                                        && apt-get upgrade -y                                      \
-                                        && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-                                        && apt-get install -y nodejs                               \
-                                        && node --version                                          \
-                                        && npm --version"
-                        )   
+                            script: ""
+                        )
+                    }
+                    catch (exception) {
+                        onCatch
                     }
 
                     echo "-> Angular CLI Yüklü mü?"
