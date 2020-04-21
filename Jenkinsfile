@@ -151,29 +151,6 @@ def oneNode = { name, path ->
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
-def checkout(String url, String branch="master", String credId){
-    echo "url:${url}, branch:${branch}, credId:${credId}"
-    //sh "pwd && mkdir branch && cd branch && pwd"
-
-    subFolder = branch // Jenkinsfile olan yeri silmeyelim diye
-    // git branch: branch, credentialsId: credId, url: url, relativeTargetDir: "branch"
-    checkout([
-        $class: 'GitSCM', 
-        branches: [[name: "*/${branch}"]], 
-        doGenerateSubmoduleConfigurations: false, 
-        extensions: [[
-            $class: 'RelativeTargetDirectory', 
-            //relativeTargetDir: subFolder
-        ]], 
-        submoduleCfg: [], 
-        userRemoteConfigs: [[
-            credentialsId: credId, 
-            url: url
-        ]]
-    ]);
-
-}
-
 def installPackages(String sourceFolder){
     is_nodemodules_exits = fileExists("node_modules")
     echo "-> is_nodemodules_exits: $is_nodemodules_exits"
@@ -201,7 +178,7 @@ pipeline {
         text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
-        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: false, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
+        booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: true, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
         booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
         booleanParam(name: 'CLEAN_WORKSPACE', defaultValue: false, description: 'WorkSpace i temizle')
         booleanParam(name: 'RUN_PARALLEL', defaultValue: false, description: 'Paralel çalıştır')
