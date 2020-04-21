@@ -165,7 +165,19 @@ def installPackages(String sourceFolder){
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
 }
-                    
+
+def npmLogin(userName="jenkins.service", pass="cicd123", email="test@example.com", registry="http://192.168.56.1:4873"){
+    sh (
+        label: "npm-cli-login ile Login oluyoruz",
+        script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
+        returnStdout: false
+    )
+}
+
+def installNpmCliLogin(){
+    sh "npm install -g npm-cli-login"
+}
+
 pipeline {
 	agent { label params.AGENT_NAME }
 	
@@ -198,17 +210,13 @@ pipeline {
         stage('test'){
             steps{
                 script{
-                    sh(
-                        script: """
-#!/bin/bash
-npm adduser --registry=http://192.168.56.1:4873 <<!
-jenkins.service
-cicd123
-j@j.net
-!
-""",
-                    label: "hedeeee"
-                    )
+                    try {
+                        npmLogin
+                    }
+                    catch (err) {
+                        installNpmCliLogin
+                        npmLogin
+                    }
                 }
             }
         }
