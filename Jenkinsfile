@@ -189,7 +189,9 @@ def installPackages(String sourceFolder){
         // }
         sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
-        sh "pwd && npm install"
+        dir(sourceFolder){
+            sh "pwd && npm install"
+        }
         // sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
