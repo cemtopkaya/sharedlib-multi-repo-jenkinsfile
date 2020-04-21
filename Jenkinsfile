@@ -175,10 +175,10 @@ def checkout(String url, String branch="master", String credId){
 }
 
 def installPackages(String sourceFolder){
-    kapsam = ["@kapsam1","@kapsam2"]
+    //kapsam = ["@kapsam1","@kapsam2"]
     nodemodules_folder_path = "$sourceFolder/node_modules"
-    sh "cd $nodemodules_folder_path && pwd"
     echo "nodemodules_folder_path: $nodemodules_folder_path"
+    sh "cd $nodemodules_folder_path && pwd"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: $is_nodemodules_exits"
     if( is_nodemodules_exits == false){
