@@ -224,7 +224,6 @@ pipeline {
                 script{
 
                     try {
-                        echo "-> NODE Yüklü mü?"
                         is_node_installed = sh(
                             label: "NODE Yüklü mü?",
                             returnStdout: true, 
@@ -232,35 +231,27 @@ pipeline {
                         ).trim() as Integer
                     }
                     catch (exception) {
-                     
-                        if(is_node_installed == 0){
-                            echo "-> NodeJs Yükleniyor"
-                            sh(
-                                label: "NodeJs Yükleniyor",
-                                returnStdout: false, 
-                                script: "sudo apt-get update                                         \
-                                          && apt-get upgrade -y                                      \
-                                          && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-                                          && apt-get install -y nodejs                               \
-                                          && node --version                                          \
-                                          && npm --version"
-                            )   
-                        }   
+                        sh(
+                            label: "NodeJs Yükleniyor",
+                            returnStdout: false, 
+                            script: "sudo apt-get update                                         \
+                                        && apt-get upgrade -y                                      \
+                                        && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+                                        && apt-get install -y nodejs                               \
+                                        && node --version                                          \
+                                        && npm --version"
+                        )
                     }
 
-                    echo "-> Angular CLI Yüklü mü?"
                     try {
                         is_angular_cli_installed =  sh(
                             label: "Angular CLI Yüklü mü?",
                             returnStdout: true, 
                             script: "ng --version"
                         )
-                        println "is_angular_cli_installed: $is_angular_cli_installed"
-
-                     }
+                    }
                     catch (err) {
                             //script: "ng --version | grep '8.3.23' -i -c"
-                        echo "-> istisna: Angular CLI Yüklü DEĞİL! $err"
                         sh(
                             label: "Angular CLI Yükleniyor",
                             returnStdout: false, 
@@ -300,7 +291,7 @@ pipeline {
                             try {
 
                                 repo = repos[i]
-                                echo "-> repo adresi: ${repo}"
+                                echo "-> repo adresi:  ${repo}"
                                 def projectPath = "$dirSourceCode"
 
                                 dir(projectPath){
