@@ -273,7 +273,7 @@ pipeline {
                                         println "Kütüp adı: $libName"
                                         def paket = projectLibs."$libName"
                                         println "Paketttttttttt: $paket"
-                                        def libPath = "./developer/$paket.path"
+                                        def libPath = "./$paket.path"
                                         println "LibPathhhhh: $libPath"
                                         //oneNode(libName, libPath)
                                     }
