@@ -251,6 +251,9 @@ pipeline {
                                     def projectLibs = getLibs(".")
                                     echo "-> projectLibs: $projectLibs"
                                     println "-> ------------ getLibDependencies ---------"
+                                    projectLibs.each{
+                                        println it
+                                    }
                                     for (entry in projectLibs) {
                                         /**
                                         * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
