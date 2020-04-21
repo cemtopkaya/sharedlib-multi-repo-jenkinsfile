@@ -233,9 +233,11 @@ pipeline {
                         returnStdout: true, 
                         //script: "ng --version | grep '8.3.23' -i -c"
                         script: "whereis ng | grep ' ' -ic"
-                    ).trim() as Integer
+                    ).trim()
 
-                    if(is_angular_cli_installed == 0){
+                    echo "is_angular_cli_installed: $is_angular_cli_installed"
+                    
+                    if(is_angular_cli_installed as Integer == 0){
                         sh(
                             label: "Angular CLI Yükleniyor",
                             returnStdout: false, 
