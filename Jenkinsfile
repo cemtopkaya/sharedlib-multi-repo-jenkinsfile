@@ -286,7 +286,7 @@ pipeline {
                                 def projectPath = "${WORKSPACE}/developer"
 
                                 checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                // installPackages(projectPath)
+                                installPackages(projectPath)
 
                                 def projectLibs = parseAngularJson("./developer")
 
