@@ -294,6 +294,7 @@ pipeline {
                                 for (entry in projectLibs) {
                                     echo "-> ${entry.key} | ${entry.value.dependencies}"
                                     def relativePackageJsonPath = "./developer/$el.value.path"
+                                    echo "relativePackageJsonPath -> $relativePackageJsonPath"
                                     entry.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
 
