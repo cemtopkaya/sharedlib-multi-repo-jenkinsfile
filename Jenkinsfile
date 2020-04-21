@@ -229,7 +229,7 @@ pipeline {
                     }
 
                     is_angular_cli_installed = sh(
-                        label: "$npmViewScript",
+                        label: "Angular CLI Yüklü mü?",
                         returnStdout: true, 
                         script: " ng --version | grep '8.3.23' -i -c"
                     ).trim() as Integer
