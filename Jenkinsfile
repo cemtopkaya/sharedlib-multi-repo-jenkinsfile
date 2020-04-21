@@ -180,7 +180,7 @@ def installPackages(String sourceFolder){
     echo "nodemodules_folder_path: $nodemodules_folder_path"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
     echo "is_nodemodules_exits: $is_nodemodules_exits"
-    
+
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         // for(i=0; i<kapsam.size(); i++) {
@@ -189,7 +189,8 @@ def installPackages(String sourceFolder){
         // }
         sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
-        sh "pwd && npm install ${params.NPM_REGISTRY}"
+        sh "pwd && npm install"
+        // sh "pwd && npm install ${params.NPM_REGISTRY}"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
