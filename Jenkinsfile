@@ -213,9 +213,9 @@ pipeline {
                     label: "NODE Yüklü mü?",
                     returnStdout: true, 
                     script: "whereis node | grep ' ' -ic"
-                ).trim() as Integer > 0
+                ).trim() as Integer
 
-                if(!is_node_installed){
+                if(is_node_installed == 0){
                     sh(
                         label: "NodeJs Yükleniyor",
                         returnStdout: false, 
@@ -232,9 +232,9 @@ pipeline {
                     label: "$npmViewScript",
                     returnStdout: true, 
                     script: " ng --version | grep '8.3.23' -i -c"
-                ).trim() as Integer > 0
+                ).trim() as Integer
 
-                if(!is_angular_cli_installed){
+                if(is_angular_cli_installed == 0){
                     sh(
                         label: "Angular CLI Yükleniyor",
                         returnStdout: false, 
