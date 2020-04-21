@@ -175,11 +175,8 @@ def checkout(String url, String branch="master", String credId){
 }
 
 def installPackages(String sourceFolder){
-    //kapsam = ["@kapsam1","@kapsam2"]
-    nodemodules_folder_path = "$sourceFolder/node_modules"
-    echo "nodemodules_folder_path: $nodemodules_folder_path"
     is_nodemodules_exits = fileExists(nodemodules_folder_path)
-    echo "is_nodemodules_exits: $is_nodemodules_exits"
+    echo "-> is_nodemodules_exits: $is_nodemodules_exits"
 
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
@@ -294,10 +291,16 @@ pipeline {
                                 def projectLibs = parseAngularJson("./developer")
 
                                 println "------------- getSortedLibraries ---------"
-                                for (el in mapToList(projectLibs)) {
-                                    def relativePackageJsonPath = "./developer/${el.value.path}"
-                                    el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
+                                for (entry in projectLibs) {
+                                    echo "-> $entry.key | $entry.value"
+                                    def relativePackageJsonPath = "./developer/$el.value.path"
+                                    entry.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
+
+                                // for (el in mapToList(projectLibs)) {
+                                //     def relativePackageJsonPath = "./developer/${el.value.path}"
+                                //     el.value.dependencies  = parsePackageJson(relativePackageJsonPath)
+                                // }
                         
                                 def sortedLibs = getSortedLibraries(projectLibs)
 
