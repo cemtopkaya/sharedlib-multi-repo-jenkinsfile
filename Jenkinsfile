@@ -235,31 +235,19 @@ echo "-> NODE Yüklü mü?"
                         is_angular_cli_installed =  sh(
                             label: "Angular CLI Yüklü mü?",
                             returnStdout: true, 
-                            script: "whereis ng | grep ' ' -ic"
+                            script: "ng --version"
                         )
                         println "is_angular_cli_installed: $is_angular_cli_installed"
 
-                        
-                        try {
-                            //script: "ng --version | grep '8.3.23' -i -c"
-                            echo "-> Angular CLI Yüklü mü?"
-                            
-                            if(is_angular_cli_installed as Integer == 0){
-                                sh(
-                                    label: "Angular CLI Yükleniyor",
-                                    returnStdout: false, 
-                                    script: "npm install -g @angular/cli@8.3.23"
-                                )   
-                            }
-                            
-                        }
-                        catch (err) {
-                            echo "-> 2. istisna: $err"
-                        }
-
-                    }
+                     }
                     catch (err) {
-                        echo "-> istisna: $err"
+                            //script: "ng --version | grep '8.3.23' -i -c"
+                        echo "-> istisna: Angular CLI Yüklü DEĞİL! $err"
+                        sh(
+                            label: "Angular CLI Yükleniyor",
+                            returnStdout: false, 
+                            script: "npm install -g @angular/cli@8.3.23"
+                        )
                     }
                 }
             }
