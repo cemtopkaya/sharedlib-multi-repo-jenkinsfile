@@ -39,6 +39,7 @@ def checkPublishStatus(String packageName, String packageVersion){
 }
 
 def buildPackage(String packageName){
+    echo "-> ------------- buildPackage ------------------"
     if( params.PUBLISH_IF_NOT == true || params.FORCE_TO_PUBLISH == true){
         try {
             sh (
