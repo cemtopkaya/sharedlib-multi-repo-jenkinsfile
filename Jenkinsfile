@@ -206,6 +206,44 @@ pipeline {
 			}
 		}
 
+        stage('PreRequisites'){
+            steps{
+                
+                is_node_installed = sh(
+                    label: "NODE Yüklü mü?",
+                    returnStdout: true, 
+                    script: "whereis node | grep ' ' -ic"
+                ).trim() as Integer > 0
+
+                if(!is_node_installed){
+                    sh(
+                        label: "NodeJs Yükleniyor",
+                        returnStdout: false, 
+                        script: "sudo apt-get update                                          \
+ && apt-get upgrade -y                                      \
+ && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+ && apt-get install -y nodejs                               \
+ && node --version                                          \
+ && npm --version"
+                    )   
+                }
+
+                is_angular_cli_installed = sh(
+                    label: "$npmViewScript",
+                    returnStdout: true, 
+                    script: " ng --version | grep '8.3.23' -i -c"
+                ).trim() as Integer > 0
+
+                if(!is_angular_cli_installed){
+                    sh(
+                        label: "Angular CLI Yükleniyor",
+                        returnStdout: false, 
+                        script: "npm install -g @angular/cli@8.3.23"
+                    )   
+                }
+            }
+        }
+
         stage("checkout repos"){
             steps{
 
