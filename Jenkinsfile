@@ -261,7 +261,7 @@ pipeline {
                                         def libDirPath = "./$it.value.path"
 
                                         // paketin bağımlılıklarını bulalım
-                                        entry.value.dependencies  = getLibDependencies(libDirPath)
+                                        it.value.dependencies  = getLibDependencies(libDirPath)
                                     }
 
                             
