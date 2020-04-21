@@ -252,15 +252,13 @@ pipeline {
                                     echo "-> projectLibs: $projectLibs"
                                     println "-> ------------ getLibDependencies ---------"
                                     projectLibs.each{
-                                        println it.key
-                                    }
-                                    for (entry in projectLibs) {
+                                        println it.value.path
                                         /**
                                         * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
                                         */
                                         
                                         // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                                        def libDirPath = "./$dirSourceCode/$entry.value.path"
+                                        def libDirPath = "./$it.value.path"
 
                                         // paketin bağımlılıklarını bulalım
                                         entry.value.dependencies  = getLibDependencies(libDirPath)
