@@ -237,7 +237,7 @@ echo "-> NODE Yüklü mü?"
                             returnStdout: true, 
                             script: "whereis ng | grep ' ' -ic"
                         )
-                        echo "is_angular_cli_installed: $is_angular_cli_installed"
+                        println "is_angular_cli_installed: $is_angular_cli_installed"
 
                         
                         try {
