@@ -256,21 +256,6 @@ pipeline {
                     for(i=0;i<repos.size();i++){
                        
                             try {
-                                // def fileAbs = new File(absolutePackageJsonPath)
-                                // // fileAbs.properties.each { println "$it.key -> $it.value" }
-                                // def linesAbs = readFile absolutePackageJsonPath
-                                // def lis = linesAbs.split("\n")
-                                // def lis = linesAbs.split(System.getProperty("line.separator"))
-                                // print "lis : ${lis}"
-                                // print "linesAbs: ${linesAbs}"
-                                // def fileRel = new File(relativePackageJsonPath)
-                                // def contentRel = readFile file:relativePackageJsonPath
-                                // echo "contentRel: ${contentRel}"
-                                // def linesRel = contentRel.split("\n")
-                                // echo "linesRel: ${linesRel}"
-
-                                // def sonuc = parsePackageJson(absolutePackageJsonPath)
-                                // echo "sonuccccccccccccccc: ${sonuc}"
 
                                 repo = repos[i]
                                 echo "-> repo adresi: ${repo}"
@@ -278,7 +263,7 @@ pipeline {
 
                                 dir(projectPath){
                                     checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                    //installPackages(projectPath)
+                                    installPackages(".")
                                     def projectLibs = getLibs(".")
                                     
                                     println "-> ------------ getLibDependencies ---------"
@@ -419,7 +404,6 @@ pipeline {
         //     }
         // }
 	}
-	
 	
     post { 
         success{
