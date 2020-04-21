@@ -182,7 +182,7 @@ def installPackages(String sourceFolder){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
         sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
-        sh "pwd && npm install"
+        sh "pwd && npm install --no-bin-links"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
