@@ -231,11 +231,17 @@ echo "-> NodeJs Yükleniyor"
                     }
 
 echo "-> Angular CLI Yüklü mü?"
+                try {
                     is_angular_cli_installed = sh(
                         label: "Angular CLI Yüklü mü?",
                         returnStdout: true, 
                         script: "whereis ng | grep ' ' -ic"
                     )
+
+                }
+                catch (err) {
+                    echo "-> istisna: $err"
+                }
 
                         //script: "ng --version | grep '8.3.23' -i -c"
 echo "-> Angular CLI Yüklü mü?"
