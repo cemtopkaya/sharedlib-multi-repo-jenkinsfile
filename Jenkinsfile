@@ -200,12 +200,13 @@ pipeline {
                 script{
                     sh(
                         script: """
-        #!/bin/bash
-        npm adduser --registry=http://192.168.56.1:4873
-        read jenkins.service
-        read cicd123
-        read j@j.net
-                    """,
+#!/bin/bash
+npm adduser --registry=http://192.168.56.1:4873 <<!
+jenkins.service
+cicd123
+j@j.net
+!
+""",
                     label: "hedeeee"
                     )
                 }
