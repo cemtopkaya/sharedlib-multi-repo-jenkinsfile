@@ -187,15 +187,6 @@ def installPackages(String sourceFolder){
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
 }
-
-@NonCPS
-def mapToList(depmap) {
-    def dlist = []
-    for (def entry2 in depmap) {
-        dlist.add(new java.util.AbstractMap.SimpleImmutableEntry(entry2.key, entry2.value))
-    }
-    dlist
-}
                     
 pipeline {
 	agent { label params.AGENT_NAME }
@@ -244,7 +235,7 @@ pipeline {
                 echo "params.REPOS: ${REPOS}"
                 
 				script {
-                    dirSourceCode = "source_codes"
+                    dirSourceCode = "./source_codes"
                     repos = params.REPOS.split("\n")
                     for(i=0;i<repos.size();i++){
                        
@@ -252,7 +243,7 @@ pipeline {
 
                                 repo = repos[i]
                                 echo "-> repo adresi: ${repo}"
-                                def projectPath = "$WORKSPACE/$dirSourceCode"
+                                def projectPath = "$dirSourceCode"
 
                                 dir(projectPath){
                                     checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
