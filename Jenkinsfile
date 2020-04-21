@@ -292,7 +292,7 @@ pipeline {
 
                                 println "------------- getSortedLibraries ---------"
                                 for (entry in projectLibs) {
-                                    echo "-> ${entry.key} | ${entry.value}"
+                                    echo "-> ${entry.key} | ${entry.value.dependencies}"
                                     def relativePackageJsonPath = "./developer/$el.value.path"
                                     entry.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
