@@ -286,13 +286,13 @@ pipeline {
                                 def projectPath = "${WORKSPACE}/developer"
 
                                 checkout(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                installPackages(projectPath)
+                                //installPackages(projectPath)
 
                                 def projectLibs = parseAngularJson("./developer")
 
                                 println "------------- getSortedLibraries ---------"
                                 for (entry in projectLibs) {
-                                    echo "-> $entry.key | $entry.value"
+                                    echo "-> ${entry.key} | ${entry.value}"
                                     def relativePackageJsonPath = "./developer/$el.value.path"
                                     entry.value.dependencies  = parsePackageJson(relativePackageJsonPath)
                                 }
