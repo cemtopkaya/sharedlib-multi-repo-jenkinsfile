@@ -180,17 +180,9 @@ def installPackages(String sourceFolder){
 
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        // for(i=0; i<kapsam.size(); i++) {
-        //     scope = kapsam[i]
-        //     // sh "npm config set $scope:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-        // }
         sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
         //sh "npm --cache-min Infinity install"
-            sh "pwd"
-        dir(sourceFolder){
-            sh "pwd && npm install"
-        }
-        // sh "pwd && npm install ${params.NPM_REGISTRY}"
+        sh "pwd && npm install"
     }else{
         echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
     }
