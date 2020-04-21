@@ -209,6 +209,7 @@ pipeline {
         stage('PreRequisites'){
             steps{
                 script{
+echo "-> NODE Yüklü mü?"
                     is_node_installed = sh(
                         label: "NODE Yüklü mü?",
                         returnStdout: true, 
@@ -216,6 +217,7 @@ pipeline {
                     ).trim() as Integer
 
                     if(is_node_installed == 0){
+echo "-> NodeJs Yükleniyor"
                         sh(
                             label: "NodeJs Yükleniyor",
                             returnStdout: false, 
@@ -228,12 +230,13 @@ pipeline {
                         )   
                     }
 
+echo "-> Angular CLI Yüklü mü?"
                     is_angular_cli_installed = sh(
                         label: "Angular CLI Yüklü mü?",
                         returnStdout: true, 
                         //script: "ng --version | grep '8.3.23' -i -c"
                         script: "whereis ng | grep ' ' -ic"
-                    ).trim()
+                    )
 
                     echo "is_angular_cli_installed: $is_angular_cli_installed"
                     
