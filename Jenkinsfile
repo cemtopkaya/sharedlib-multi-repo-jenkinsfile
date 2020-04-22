@@ -170,7 +170,7 @@ def npmLogin(_userName, _pass, _email=null, _registry){
     echo "_userName: $_userName, _pass: $_pass, _email: $_email, _registry: $_registry"
     userName = _userName ?: "jenkins"
     pass = _pass ?: "service"
-    email = _email ?: "jenkins@service.com"
+    email = _email ?: "jenkins@servis.com"
     registry = _registry ?: "http://192.168.56.1:4873"
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
@@ -189,7 +189,7 @@ pipeline {
 	agent { label params.AGENT_NAME }
 	
     parameters {
-        string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave Üstünde çalışacağı bilgisi')
+        string(trim: true, name: 'AGENT_NAME', defaultValue: 'UI_demo_node', description: 'Hangi slave Üstünde çalışacağı bilgisi')
         string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
         string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
         // string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
@@ -198,9 +198,9 @@ pipeline {
 
 
         string(trim: true, name: 'NPM_USERNAME', defaultValue: 'jenkins', description: 'NPM Kullanıcı Bilgileri')
-        string(trim: true, name: 'NPM_PASS', defaultValue: 'service', description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_PASS', defaultValue: 'servis', description: 'NPM Kullanıcı Bilgileri')
 
-        text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
+        text(name: 'REPOS', defaultValue: 'ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
@@ -284,7 +284,7 @@ pipeline {
                     catch (err) {
                         echo "-> Hata:   $err"
                         installNpmCliLogin()
-                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS","jenkins@service.com","${params.NPM_REGISTRY.replace('--registry=','').trim()}")
+                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS","jenkins@servis.com","${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                 }
             }
