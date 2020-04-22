@@ -282,7 +282,7 @@ pipeline {
                         )
                     }
                     catch (err) {
-                        echo "-> Hata: $err"
+                        echo "-> Hata:  $err"
                         installNpmCliLogin()
                         npmLogin(
                             _userName:params.NPM_USERNAME, 
