@@ -168,9 +168,9 @@ def installPackages(String sourceFolder){
 
 def npmLogin(_userName, _pass, _email=null, _registry){
     echo "_userName: $_userName, _pass: $_pass, _email: $_email, _registry: $_registry"
-    userName = _userName ?: "jenkins.service"
-    pass = _pass ?: "cicd123"
-    email = _email ?: "test@example.com"
+    userName = _userName ?: "jenkins"
+    pass = _pass ?: "service"
+    email = _email ?: "jenkins@service.com"
     registry = _registry ?: "http://192.168.56.1:4873"
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
@@ -196,8 +196,8 @@ pipeline {
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
 
-        string(trim: true, name: 'NPM_USERNAME', defaultValue: 'jenkins.service', description: 'NPM Kullanıcı Bilgileri')
-        string(trim: true, name: 'NPM_PASS', defaultValue: 'q1w2e3r4', description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_USERNAME', defaultValue: 'jenkins', description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_PASS', defaultValue: 'service', description: 'NPM Kullanıcı Bilgileri')
 
         text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
@@ -281,7 +281,7 @@ pipeline {
                     catch (err) {
                         echo "-> Hata:   $err"
                         installNpmCliLogin()
-                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS","test@example.com","${params.NPM_REGISTRY.replace('--registry=','').trim()}")
+                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS","jenkins@service.com","${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                 }
             }
