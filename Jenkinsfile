@@ -1,5 +1,5 @@
 
-@Library('gui_multi_repo')
+@Library('gui_multi_repo@master')
 // @Library('sl-multi-repo')
 
 import Parser.AngularParser;
