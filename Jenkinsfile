@@ -191,7 +191,8 @@ pipeline {
     parameters {
         string(trim: true, name: 'AGENT_NAME', defaultValue: 'docker_slave', description: 'Hangi slave Üstünde çalışacağı bilgisi')
         string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
-        string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
+        string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
+        // string(trim: true, name: 'GIT_CRED_ID', defaultValue: 'github-user-pass-cemtopkaya', description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
         string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
@@ -199,7 +200,8 @@ pipeline {
         string(trim: true, name: 'NPM_USERNAME', defaultValue: 'jenkins', description: 'NPM Kullanıcı Bilgileri')
         string(trim: true, name: 'NPM_PASS', defaultValue: 'service', description: 'NPM Kullanıcı Bilgileri')
 
-        text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
+        text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
+        // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
         booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: true, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
@@ -210,6 +212,7 @@ pipeline {
         choice(
             name: 'NPM_REGISTRY', 
             choices: [
+                ' --registry=http://192.168.13.33:4873 ',
                 ' --registry=http://192.168.56.1:4873 ',
                 ' --registry=http://192.168.13.183:4873 ',
                 ' --registry=http://localhost:4873 '
