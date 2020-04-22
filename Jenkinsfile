@@ -168,10 +168,10 @@ def installPackages(String sourceFolder){
 
 def npmLogin(_userName, _pass, _email, _registry){
     echo "_userName: $_userName, _pass: $_pass, _email: $_email, _registry: $_registry"
-    userName = _userName || "jenkins.service"
-    pass = _pass || "cicd123"
-    email = _email || "test@example.com"
-    registry = _registry || "http://192.168.56.1:4873"
+    userName = _userName ?: "jenkins.service"
+    pass = _pass ?: "cicd123"
+    email = _email ?: "test@example.com"
+    registry = _registry ?: "http://192.168.56.1:4873"
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
