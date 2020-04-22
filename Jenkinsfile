@@ -171,7 +171,7 @@ def npmLogin(_userName, _pass, _email=null, _registry){
     echo "_userName: $_userName, _pass: $_pass, _email: $_email, _registry: $_registry"
     userName = _userName ?: "jenkins"
     pass = _pass ?: "service"
-    email = _email ?: "jenkins@servis.com"
+    email = _email ?: "jenkins@service.com"
     registry = _registry ?: "http://192.168.56.1:4873"
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
