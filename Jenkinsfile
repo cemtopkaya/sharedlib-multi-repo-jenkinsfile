@@ -166,7 +166,11 @@ def installPackages(String sourceFolder){
     }
 }
 
-def npmLogin(userName="jenkins.service", pass="cicd123", email="test@example.com", registry){
+def npmLogin(_userName, _pass, _email, _registry){
+    userName = _userName || "jenkins.service"
+    pass = _pass || "cicd123"
+    email = _email || "test@example.com"
+    registry = _registry || "http://192.168.56.1:4873"
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
         script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
