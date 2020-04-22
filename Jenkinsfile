@@ -183,7 +183,7 @@ def npmLogin(_userName, _pass, _email=null, _registry){
 }
 
 def installNpmCliLogin(){
-    sh "sudo npm install -g npm-cli-login"
+    sh "npm install -g npm-cli-login"
 }
 
 pipeline {
