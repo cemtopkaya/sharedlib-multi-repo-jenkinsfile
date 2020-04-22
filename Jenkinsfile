@@ -172,6 +172,7 @@ def npmLogin(_userName, _pass, _email, _registry){
     pass = _pass || "cicd123"
     email = _email || "test@example.com"
     registry = _registry || "http://192.168.56.1:4873"
+    echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
         script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
