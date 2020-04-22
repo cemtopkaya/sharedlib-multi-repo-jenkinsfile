@@ -176,14 +176,14 @@ def npmLogin(_userName, _pass, _email=null, _registry){
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
-        script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
+        script: "npm-cli-login -u $userName -p $pass -e $email -r $registry",
         returnStdout: true
     )
 
 }
 
 def installNpmCliLogin(){
-    sh "npm install -g npm-cli-login"
+    sh "sudo npm install -g npm-cli-login"
 }
 
 pipeline {
