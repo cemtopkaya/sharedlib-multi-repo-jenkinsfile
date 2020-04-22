@@ -281,6 +281,8 @@ pipeline {
             steps{
                 script{
                     try {
+                        sh "npm config set @cinar:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+                        sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
                         //npmLogin("$params.NPM_USERNAME","$params.NPM_PASS",null, "${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                     catch (err) {
