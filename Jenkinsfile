@@ -275,12 +275,12 @@ pipeline {
             steps{
                 script{
                     try {
-                        npmLogin(_userName:params.NPM_USERNAME, _pass:params.NPM_PASS, _email:"test@example.com", _registry:params.NPM_REGISTRY.replace('--registry=','').trim())
+                        npmLogin(_userName:"$params.NPM_USERNAME", _pass:"$params.NPM_PASS", _email:"test@example.com", _registry:"${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                     catch (err) {
                         echo "-> Hata:   $err"
                         installNpmCliLogin()
-                        npmLogin(_userName:params.NPM_USERNAME, _pass:params.NPM_PASS, _email:"test@example.com", _registry:params.NPM_REGISTRY.replace('--registry=','').trim())
+                        npmLogin(_userName:"$params.NPM_USERNAME", _pass:"$params.NPM_PASS", _email:"test@example.com", _registry:"${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                 }
             }
