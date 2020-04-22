@@ -362,7 +362,7 @@ pipeline {
             }
         }
 
-		// stage("Checkout"){
+		// stage("Checkout"){ 
 		    
 		//     environment{
         //         PACKAGE_FILE_PATH = "${WORKSPACE}/package.json"
