@@ -166,7 +166,7 @@ def installPackages(String sourceFolder){
     }
 }
 
-def npmLogin(userName="jenkins.service", pass="cicd123", email="test@example.com", registry="http://192.168.56.1:4873"){
+def npmLogin(userName="jenkins.service", pass="cicd123", email="test@example.com", registry){
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
         script: " npm-cli-login -u $userName -p $pass -e $email -r $registry",
@@ -201,8 +201,8 @@ pipeline {
             name: 'NPM_REGISTRY', 
             choices: [
                 ' --registry=http://192.168.56.1:4873 ',
-                ' --registry=http://localhost:4873 ',
-                ' --registry=http://192.168.13.183:4873 '
+                ' --registry=http://192.168.13.183:4873 ',
+                ' --registry=http://localhost:4873 '
             ], 
             description: '')
     }
@@ -234,7 +234,7 @@ pipeline {
                         sh(
                             label: "NodeJs Yükleniyor",
                             returnStdout: false, 
-                            script: "sudo apt-get update                                         \
+                            script: "sudo apt-get update                                           \
                                         && apt-get upgrade -y                                      \
                                         && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
                                         && apt-get install -y nodejs                               \
