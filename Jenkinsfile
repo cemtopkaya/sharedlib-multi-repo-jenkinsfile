@@ -276,7 +276,7 @@ pipeline {
             steps{
                 script{
                     try {
-                        npmLogin(null,"",_email:null,"${params.NPM_REGISTRY.replace('--registry=','').trim()}")
+                        npmLogin(_userName:null,"",_email:,"${params.NPM_REGISTRY.replace('--registry=','').trim()}")
                     }
                     catch (err) {
                         echo "-> Hata:   $err"
