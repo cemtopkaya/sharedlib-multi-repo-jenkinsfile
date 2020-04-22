@@ -166,7 +166,7 @@ def installPackages(String sourceFolder){
     }
 }
 
-def npmLogin(_userName, _pass, _email, _registry){
+def npmLogin(_userName=null, _pass=null, _email=null, _registry){
     echo "_userName: $_userName, _pass: $_pass, _email: $_email, _registry: $_registry"
     userName = _userName ?: "jenkins.service"
     pass = _pass ?: "cicd123"
