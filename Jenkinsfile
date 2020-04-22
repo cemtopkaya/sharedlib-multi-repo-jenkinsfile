@@ -193,6 +193,10 @@ pipeline {
         string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
+
+        string(trim: true, name: 'NPM_USERNAME', defaultValue: 'jenkins.service', description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_PASS', defaultValue: 'q1w2e3r4', description: 'NPM Kullanıcı Bilgileri')
+
         text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         
@@ -270,12 +274,22 @@ pipeline {
             steps{
                 script{
                     try {
-                        npmLogin("jenkins.service", "cicd123", "test@example.com", "http://192.168.56.1:4873")
+                        npmLogin(
+                            _userName:params.NPM_USERNAME, 
+                            _pass:param.NPM_PASS, 
+                            _email:"test@example.com", 
+                            _registry:params.NPM_REGISTRY.replace('--registry=','').trim()
+                        )
                     }
                     catch (err) {
                         echo "-> Hata: $err"
                         installNpmCliLogin()
-                        npmLogin()
+                        npmLogin(
+                            _userName:params.NPM_USERNAME, 
+                            _pass:param.NPM_PASS, 
+                            _email:"test@example.com", 
+                            _registry:params.NPM_REGISTRY.replace('--registry=','').trim()
+                        )
                     }
                 }
             }
