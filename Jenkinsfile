@@ -172,7 +172,7 @@ def npmLogin(_userName, _pass, _email=null, _registry){
     userName = _userName ?: "jenkins"
     pass = _pass ?: "service"
     email = _email ?: "jenkins@service.com"
-    registry = _registry ?: "http://192.168.56.1:4873"
+    registry = _registry ?: params.NPM_REGISTRY.replace('--registry=','')
     echo "userName: $userName, pass: $pass, email: $email, registry: $registry"
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
