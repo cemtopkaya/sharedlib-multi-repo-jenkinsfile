@@ -233,7 +233,7 @@ pipeline {
             }
 			steps {
 				echo "*** Klasörü temizleyelim"
-                echo "Master located at ${InetAddress.localHost.hostAddress}"
+                echo "Master located at ${env.BUILD_URL.split('/')[2].split(':')[0]}"
 			    cleanWs()
 			}
 		}
