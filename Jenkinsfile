@@ -233,6 +233,7 @@ pipeline {
             }
 			steps {
 				echo "*** Klasörü temizleyelim"
+                echo "Master located at ${InetAddress.localHost.hostAddress}"
 			    cleanWs()
 			}
 		}
