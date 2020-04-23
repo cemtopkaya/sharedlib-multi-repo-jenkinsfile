@@ -232,8 +232,7 @@ pipeline {
                 expression { params.CLEAN_WORKSPACE as Boolean == true }
             }
 			steps {
-				echo "*** Klasörü temizleyelim"
-                echo "Master located at ${env.BUILD_URL.split('/')[2].split(':')[0]}"
+				echo "*** Klasörü temizleyelim. Master located at ${env.BUILD_URL.split('/')[2].split(':')[0]}"
 			    cleanWs()
 			}
 		}
