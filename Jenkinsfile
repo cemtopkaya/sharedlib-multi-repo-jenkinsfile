@@ -214,8 +214,8 @@ pipeline {
         choice(
             name: 'NPM_REGISTRY', 
             choices: [
-                ' --registry=http://192.168.13.33:4873 ',
                 ' --registry=http://192.168.56.1:4873 ',
+                ' --registry=http://192.168.13.33:4873 ',
                 ' --registry=http://192.168.13.183:4873 ',
                 ' --registry=http://localhost:4873 '
             ], 
