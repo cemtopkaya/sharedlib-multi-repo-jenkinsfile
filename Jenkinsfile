@@ -186,9 +186,6 @@ def installNpmCliLogin(){
     sh "npm install -g npm-cli-login"
 }
 
-def masterIP = InetAddress.localHost.hostAddress
-println "Master located at ${masterIP}"
-
 pipeline {
 	agent { label params.AGENT_NAME }
 	
