@@ -331,7 +331,7 @@ pipeline {
                                             }
                                         }
 
-                                        stage("Install Packages\n$repoName"){
+                                        stage("Install Packages $repoName"){
                                             dir(projectPath){
                                                 installPackages(".")
                                             }
@@ -340,7 +340,7 @@ pipeline {
                                         def projectLibs = getLibs(".")
                                         echo "-> projectLibs: $projectLibs"
 
-                                        stage("Ordering Builds Of Libs\n$repoName"){
+                                        stage("Ordering Builds Of Libs ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}..."){
                                             println "-> ------------ getLibDependencies ---------"
                                             projectLibs.each{
                                                 println it.value.path
@@ -356,7 +356,7 @@ pipeline {
                                             }
                                         }
 
-                                        stage("Building & Publishing Libs\n$repoName"){
+                                        stage("Building & Publishing Libs $repoName"){
                                     
                                             println "-> ------------ getSortedLibraries ---------"
                                             // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
