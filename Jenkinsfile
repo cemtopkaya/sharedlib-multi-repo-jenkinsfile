@@ -310,6 +310,10 @@ pipeline {
 
         stage("checkout repos"){
             steps{
+
+                echo "====++++executing checkout repos++++===="
+                echo "params.REPOS: $params.REPOS"
+                
 				script {
                     dirSourceCode = "./source_codes"
                     repos = params.REPOS.split("\n")
@@ -329,6 +333,9 @@ pipeline {
                                 def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
                                 repoName = "${fullRepoName.substring(0, length)}..."
                                 echo "-> repoName: $repoName"
+                                
+            stages {
+            
                                 node
                                 {
                                     stage("Checkout $repoName")
@@ -386,6 +393,7 @@ pipeline {
                                         }
                                     }
                                 }
+            }
                             }
                             continue
 
