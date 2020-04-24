@@ -303,6 +303,7 @@ pipeline {
         }
 
         stage("checkout repos"){
+            agent { label params.AGENT_NAME }
             steps{
 
                 echo "====++++executing checkout repos++++===="
