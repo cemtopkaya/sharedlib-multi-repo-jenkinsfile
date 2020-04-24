@@ -320,7 +320,7 @@ pipeline {
                             def projectPath = "$dirSourceCode"
 
                             dir(projectPath){
-                                echo "Length ve LastIndexOf: $repo.size() && ${repo.lastIndexOf('/')}"
+                                echo "Size() ve LastIndexOf: $repo.size() && ${repo.lastIndexOf('/')}"
                                 if(repo.size() > 0 && repo.lastIndexOf('/')>0){
                                     node {
                                         stage("Checkout ${repo.substring(repo.lastIndexOf('/')+1,-1)}"){
