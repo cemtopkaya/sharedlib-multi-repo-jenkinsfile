@@ -313,61 +313,64 @@ pipeline {
                     repos = params.REPOS.split("\n")
                     for(i=0;i<repos.size();i++){
                        
-                            try {
+                        try {
 
-                                repo = repos[i]
-                                echo "-> repo adresi:  ${repo}"
-                                def projectPath = "$dirSourceCode"
+                            repo = repos[i]
+                            echo "-> repo adresi:  ${repo}"
+                            def projectPath = "$dirSourceCode"
 
-                                dir(projectPath){
+                            dir(projectPath){
+                                echo "Length ve LastIndexOf: $repo.length && ${repo.lastIndexOf('/')}"
+                                if(repo.length > 0 && repo.lastIndexOf('/')>0){
                                     node {
                                         stage("Checkout ${repo.substring(repo.lastIndexOf('/')+1,-1)}"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
                                     }
-                                    continue
-
-                                    installPackages(".")
-                                    def projectLibs = getLibs(".")
-                                    echo "-> projectLibs: $projectLibs"
-                                    println "-> ------------ getLibDependencies ---------"
-                                    projectLibs.each{
-                                        println it.value.path
-                                        /**
-                                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                                        */
-                                        
-                                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                                        def libDirPath = "./$it.value.path"
-
-                                        // paketin bağımlılıklarını bulalım
-                                        it.value.dependencies  = getLibDependencies(libDirPath)
-                                    }
-
-                            
-                                    println "-> ------------ getSortedLibraries ---------"
-                                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                                    def sortedLibs = getSortedLibraries(projectLibs)
-
-                                    sortedLibs.each{ libName ->
-                                        println "Kütüp adı: $libName"
-                                        def paket = projectLibs."$libName"
-                                        println "Paketttttttttt: $paket"
-                                        def libPath = "./$paket.path"
-                                        println "LibPathhhhh: $libPath"
-                                        oneNode(libName, libPath)
-                                    }
-                                    // println ">>>>>>> Sorted Libs: $map"
-                                    // println ">>>>>>> Sorted Deps: $res"
-                                
                                 }
+                                continue
+
+                                installPackages(".")
+                                def projectLibs = getLibs(".")
+                                echo "-> projectLibs: $projectLibs"
+                                println "-> ------------ getLibDependencies ---------"
+                                projectLibs.each{
+                                    println it.value.path
+                                    /**
+                                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                                    */
+                                    
+                                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                                    def libDirPath = "./$it.value.path"
+
+                                    // paketin bağımlılıklarını bulalım
+                                    it.value.dependencies  = getLibDependencies(libDirPath)
+                                }
+
+                        
+                                println "-> ------------ getSortedLibraries ---------"
+                                // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                                def sortedLibs = getSortedLibraries(projectLibs)
+
+                                sortedLibs.each{ libName ->
+                                    println "Kütüp adı: $libName"
+                                    def paket = projectLibs."$libName"
+                                    println "Paketttttttttt: $paket"
+                                    def libPath = "./$paket.path"
+                                    println "LibPathhhhh: $libPath"
+                                    oneNode(libName, libPath)
+                                }
+                                // println ">>>>>>> Sorted Libs: $map"
+                                // println ">>>>>>> Sorted Deps: $res"
+                            
                             }
-                            catch (err) {
-                                println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-                                echo "Caught: $err"
-                                echo "err.getMessage: ${err.getMessage()}"
-                                echo "err.getMessage: ${err.getStackTrace().join('\n')}"
-                            } 
+                        }
+                        catch (err) {
+                            println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
+                            echo "Caught: $err"
+                            echo "err.getMessage: ${err.getMessage()}"
+                            echo "err.getMessage: ${err.getStackTrace().join('\n')}"
+                        } 
 
                         // res.each { entry ->
                         //     println entry.value.dependencies
