@@ -315,12 +315,14 @@ pipeline {
             }
             steps{
                 
+                script {
+                    
                 echo "params.REPOS: $params.REPOS"
                 repoUrls = params.REPOS.split("\n")
                 echo "repoUrls: $repoUrls"
                 echo "repoUrls.size(): ${repoUrls.size()}"
                 echo "repoUrls.class.name: ${repoUrls.class.name}"
-                script {
+                
                     repoUrls.each { rep ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
