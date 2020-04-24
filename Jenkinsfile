@@ -324,7 +324,7 @@ pipeline {
                             if(isValidRepoUrl)
                             {
                                 lastSlashPos = repo.lastIndexOf("/")+1
-                                repoName = repo.substring(lastSlashPos)
+                                repoName = ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}...
                                 echo "-> repoName: $repoName"
                                 node
                                 {
@@ -344,7 +344,7 @@ pipeline {
                                     def projectLibs = getLibs(projectPath)
                                     echo "-> projectLibs: $projectLibs"
 
-                                    stage("Ordering Builds Of Libs ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}...")
+                                    stage("Ordering Builds Of Libs $repoName")
                                     {
                                         println "-> ------------ getLibDependencies ---------"
                                         projectLibs.each
