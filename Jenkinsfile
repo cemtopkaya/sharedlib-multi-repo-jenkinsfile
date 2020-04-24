@@ -141,18 +141,19 @@ def getPackageVersion(packageSrcPath){
 def oneNode = { rootDir, name, path ->
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     echo "---->$i - rootDir: $rootDir, name: $name - path: $path"
-    
-    packageVersion = getPackageVersion "$rootDir/$path"
-    
-    Boolean isPublished = checkPublishStatus(name, packageVersion)
-    
-    Boolean isPublishable = checkPublishable(isPublished)
-    
-    unpublishIfNeeded(name, packageVersion, isPublished)
-    
-    buildPackage name
-    
-    publishIfNeeded name, path, packageVersion, isPublished
+    dir(rootDir){
+        packageVersion = getPackageVersion "$rootDir/$path"
+        
+        Boolean isPublished = checkPublishStatus(name, packageVersion)
+        
+        Boolean isPublishable = checkPublishable(isPublished)
+        
+        unpublishIfNeeded(name, packageVersion, isPublished)
+        
+        buildPackage name
+        
+        publishIfNeeded name, path, packageVersion, isPublished
+    }
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
