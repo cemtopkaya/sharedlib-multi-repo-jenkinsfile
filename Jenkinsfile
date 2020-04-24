@@ -142,7 +142,7 @@ def oneNode = { rootDir, name, path ->
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     echo "---->$i - rootDir: $rootDir, name: $name - path: $path"
     dir(rootDir){
-        packageVersion = getPackageVersion "$rootDir/$path"
+        packageVersion = getPackageVersion "$path"
         
         Boolean isPublished = checkPublishStatus(name, packageVersion)
         
