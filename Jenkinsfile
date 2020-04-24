@@ -209,8 +209,7 @@ def genParallelStages(repoUrl, projectPath){
         echo "-> projectLibs: $projectLibs"
         
         return {
-            stages 
-            {
+            stages {
                 stage("Checkout $repoName")
                 {
                     dir(projectPath)
@@ -386,6 +385,7 @@ pipeline {
             environment{
                 dirSourceCode = "./source_code"
                 repos = params.REPOS.split("\n")
+                stepsForParallel = [:]
             }
             
             steps{
@@ -398,10 +398,12 @@ pipeline {
                         // rep = repoUrls.getAt(i)
                         projectPath = "$env.dirSourceCode/$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
-                        def parallels = genParallelStages(repoUrl, projectPath)
-                        println "parallels: $parallels"
+                        env.stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
                     }
+                    println "stepsForParallel: $env.stepsForParallel"
+
                 }
+                //parallel stepsForParallel
             }
         }
 
