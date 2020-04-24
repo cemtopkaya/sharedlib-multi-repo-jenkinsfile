@@ -317,6 +317,7 @@ pipeline {
             steps{
                 echo "params.REPOS: $params.REPOS"
                 echo "repoUrls: $repoUrls"
+                echo "repoUrls.size(): ${repoUrls.size()}"
                 echo "repoUrls.class.name: ${repoUrls.class.name}"
                 script {
                     // repos.each { repo ->
