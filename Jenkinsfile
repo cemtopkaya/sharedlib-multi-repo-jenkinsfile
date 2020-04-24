@@ -316,6 +316,14 @@ pipeline {
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
+                script {
+                    // repos.each { repo ->
+                        for(i=0;i<repos.size();i++){
+                        
+                        repo = repos[i]
+                        echo "repo: $repo"
+                    }
+                }
             }
         }
 
