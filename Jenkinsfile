@@ -321,10 +321,9 @@ pipeline {
                 echo "repoUrls.class.name: ${repoUrls.class.name}"
                 script {
                     // repos.each { repo ->
-                        for(i=0;i<repoUrls.size();i++){
-                        
-                        repo = repoUrls[i]
-                        echo "repo: $repo"
+                    for(i=0;i<repoUrls.size();i++){
+                        rep = repoUrls.getAt(i)
+                        echo "rep: $rep"
                     }
                 }
             }
