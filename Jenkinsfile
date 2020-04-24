@@ -393,14 +393,11 @@ pipeline {
                 script {
                 echo "params.REPOS: $params.REPOS"
                 repoUrls = params.REPOS.split("\n")
-                echo "repoUrls: $repoUrls"
-                echo "repoUrls.size(): ${repoUrls.size()}"
-                echo "repoUrls.class.name: ${repoUrls.class.name}"
 
-                    repoUrls.each { repoUrl ->
+                    repoUrls.each { idx, repoUrl ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
-                        echo "repoUrl: $repoUrl"
+                        echo "---- idx: $idx, repoUrl: $repoUrl"
                         def parallels = genParallelStages(repoUrl, projectPath)
                         println "parallels: $parallels"
                     }
