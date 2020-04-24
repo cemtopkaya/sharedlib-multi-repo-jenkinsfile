@@ -312,10 +312,11 @@ pipeline {
             environment{
                 dirSourceCode = "./source_code"
                 projectPath = "$dirSourceCode"
-                repoUrls = params.REPOS.split("\n")
             }
             steps{
+                
                 echo "params.REPOS: $params.REPOS"
+                repoUrls = params.REPOS.split("\n")
                 echo "repoUrls: $repoUrls"
                 echo "repoUrls.size(): ${repoUrls.size()}"
                 echo "repoUrls.class.name: ${repoUrls.class.name}"
