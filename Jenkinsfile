@@ -177,9 +177,8 @@ def npmLogin(_userName, _pass, _email="jenkins@service.com", _registry){
     cikti = sh (
         label: "npm-cli-login ile Login oluyoruz",
         script: "npm-cli-login -u $userName -p $pass -e $email -r $registry",
-        returnStdout: true
+        returnStdout: false
     )
-
 }
 
 def installNpmCliLogin(){
@@ -288,22 +287,20 @@ pipeline {
         stage('Npm Login'){
             steps{
                 script{
+                    def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
                     try {
-                        // sh "npm config set @cinar:registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-                        // sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS",null, "${params.NPM_REGISTRY.replace('--registry=','').trim()}")
+                        npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                     catch (err) {
                         echo "-> Hata:   $err"
                         installNpmCliLogin()
-                        npmLogin("$params.NPM_USERNAME","$params.NPM_PASS","jenkins@servis.com","${params.NPM_REGISTRY.replace('--registry=','').trim()}")
+                        npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                 }
             }
         }
 
         stage("checkout repos"){
-            agent { label params.AGENT_NAME }
             steps{
 
                 echo "====++++executing checkout repos++++===="
