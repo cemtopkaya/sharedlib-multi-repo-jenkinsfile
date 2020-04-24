@@ -378,7 +378,7 @@ pipeline {
                                                 println "Paketttttttttt: $paket"
                                                 def libPath = "./$paket.path"
                                                 println "LibPathhhhh: $libPath"
-                                                oneNode(projectLibs, libName, libPath)
+                                                oneNode(projectPath, libName, libPath)
                                         }
                                     }
                                 }
