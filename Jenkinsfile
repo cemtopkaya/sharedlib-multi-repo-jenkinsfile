@@ -325,7 +325,7 @@ pipeline {
                                 if(isValidRepoUrl){
                                     lastSlashPos = repo.lastIndexOf("/")+1
                                     echo "repo: $repo ---- lastSlashPos: $lastSlashPos"
-                                    repoName = repo.substring(lastSlashPos,-1)
+                                    repoName = repo.substring(lastSlashPos,repo.size()-1)
                                     node {
                                         stage("Checkout ${}"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
