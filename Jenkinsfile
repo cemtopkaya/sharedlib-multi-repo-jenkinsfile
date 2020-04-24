@@ -309,23 +309,24 @@ pipeline {
         }
 
         stage("checkout repos"){
+            environment{
+                dirSourceCode = "./source_code"
+                projectPath = "$dirSourceCode"
+                repos = params.REPOS.split("\n")
+                isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
+            }
             steps{
                 echo "params.REPOS: $params.REPOS"
                 
-                def repos = params.REPOS.split("\n")
                 repos.each 
                 { repo ->
                 // for(i=0;i<repos.size();i++){
                     
                     catchError 
                     {
-
                         // repo = repos[i]
                         echo "-> repo adresi:  ${repo}"
-                        def dirSourceCode = "./source_code"
-                        def projectPath = "$dirSourceCode"
 
-                        def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
                         if(isValidRepoUrl)
                         {
                             lastSlashPos = repo.lastIndexOf("/")+1
