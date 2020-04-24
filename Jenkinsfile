@@ -316,6 +316,8 @@ pipeline {
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
+                echo "env.repos: $env.repos"
+                echo "env.repos.class.name: $env.repos.class.name"
                 script {
                     // repos.each { repo ->
                         for(i=0;i<env.repos.size();i++){
