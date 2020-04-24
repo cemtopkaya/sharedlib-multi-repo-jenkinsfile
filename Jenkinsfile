@@ -325,15 +325,20 @@ pipeline {
                                 lastSlashPos = repo.lastIndexOf("/")+1
                                 repoName = repo.substring(lastSlashPos)
                                 echo "-> repoName: $repoName"
-                                node {
-                                    stage("Checkout $repoName"){
-                                        dir(projectPath){
+                                node 
+                                {
+                                    stage("Checkout $repoName")
+                                    {
+                                        dir(projectPath)
+                                        {
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
                                     }
 
-                                    stage("Install Packages $repoName"){
-                                        dir(projectPath){
+                                    stage("Install Packages $repoName")
+                                    {
+                                        dir(projectPath)
+                                        {
                                             installPackages(".")
                                         }
                                     }
@@ -341,9 +346,11 @@ pipeline {
                                     def projectLibs = getLibs(".")
                                     echo "-> projectLibs: $projectLibs"
 
-                                    stage("Ordering Builds Of Libs ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}..."){
+                                    stage("Ordering Builds Of Libs ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}...")
+                                    {
                                         println "-> ------------ getLibDependencies ---------"
-                                        projectLibs.each{
+                                        projectLibs.each
+                                        {
                                             println it.value.path
                                             /**
                                             * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
@@ -357,19 +364,21 @@ pipeline {
                                         }
                                     }
 
-                                    stage("Building & Publishing Libs $repoName"){
-                                
+                                    stage("Building & Publishing Libs $repoName")
+                                    {
                                         println "-> ------------ getSortedLibraries ---------"
                                         // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
                                         def sortedLibs = getSortedLibraries(projectLibs)
 
-                                        sortedLibs.each{ libName ->
-                                            println "Kütüp adı: $libName"
-                                            def paket = projectLibs."$libName"
-                                            println "Paketttttttttt: $paket"
-                                            def libPath = "./$paket.path"
-                                            println "LibPathhhhh: $libPath"
-                                            oneNode(libName, libPath)
+                                        sortedLibs.each
+                                        {
+                                            libName ->
+                                                println "Kütüp adı: $libName"
+                                                def paket = projectLibs."$libName"
+                                                println "Paketttttttttt: $paket"
+                                                def libPath = "./$paket.path"
+                                                println "LibPathhhhh: $libPath"
+                                                oneNode(libName, libPath)
                                         }
                                     }
                                 }
@@ -382,11 +391,8 @@ pipeline {
                         }
                         catch (err) {
                             println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-                            echo "Caught: $err"
-                            echo "err.getMessage: ${err.getMessage()}"
-                            echo "err.getMessage: ${err.getStackTrace().join('\n')}"
-                            } 
-
+                            echo "-> Caught: $err"
+                            
                             // res.each { entry ->
                             //     println entry.value.dependencies
                             // } 
