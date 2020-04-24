@@ -314,103 +314,89 @@ pipeline {
                 echo "====++++executing checkout repos++++===="
                 echo "params.REPOS: $params.REPOS"
                 
-				script {
-                    dirSourceCode = "./source_codes"
-                    repos = params.REPOS.split("\n")
-                    for(i=0;i<repos.size();i++){
-                       
-                        try {
+                dirSourceCode = "./source_codes"
+                repos = params.REPOS.split("\n")
+                repos.each 
+                { repo ->
+                // for(i=0;i<repos.size();i++){
+                    
+                    catchError 
+                    {
 
-                            repo = repos[i]
-                            echo "-> repo adresi:  ${repo}"
-                            def projectPath = "$dirSourceCode"
+                        // repo = repos[i]
+                        echo "-> repo adresi:  ${repo}"
+                        def projectPath = "$dirSourceCode"
 
-                            def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
-                            if(isValidRepoUrl)
-                            {
-                                lastSlashPos = repo.lastIndexOf("/")+1
-                                def fullRepoName = repo.substring(lastSlashPos)
-                                def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
-                                repoName = "${fullRepoName.substring(0, length)}..."
-                                echo "-> repoName: $repoName"
-                                
-            stages {
-            
-                                node
+                        def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
+                        if(isValidRepoUrl)
+                        {
+                            lastSlashPos = repo.lastIndexOf("/")+1
+                            def fullRepoName = repo.substring(lastSlashPos)
+                            def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
+                            repoName = "${fullRepoName.substring(0, length)}..."
+                            echo "-> repoName: $repoName"
+                            
+                            stages {
+                                stage("Checkout $repoName")
                                 {
-                                    stage("Checkout $repoName")
+                                    dir(projectPath)
                                     {
-                                        dir(projectPath)
-                                        {
-                                            checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                                        }
-                                    }
-
-                                    stage("Install Packages $repoName")
-                                    {
-                                        installPackages(projectPath)
-                                    }
-                                                    
-                                    def projectLibs = getLibs(projectPath)
-                                    echo "-> projectLibs: $projectLibs"
-
-                                    stage("Ordering Builds Of Libs $repoName")
-                                    {
-                                        println "-> ------------ getLibDependencies ---------"
-                                        projectLibs.each
-                                        {
-                                            println it.value.path
-                                            /**
-                                            * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                                            */
-                                            
-                                            // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                                            def libDirPath = "$projectPath/$it.value.path"
-
-                                            // paketin bağımlılıklarını bulalım
-                                            it.value.dependencies  = getLibDependencies(libDirPath)
-                                        }
-                                    }
-
-                                    stage("Build & Publish Libs $repoName")
-                                    {
-                                        println "-> ------------ getSortedLibraries ---------"
-                                        // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                                        def sortedLibs = getSortedLibraries(projectLibs)
-
-                                        sortedLibs.each
-                                        {
-                                            libName ->
-                                                println "Kütüp adı: $libName"
-                                                def paket = projectLibs."$libName"
-                                                println "Paketttttttttt: $paket"
-                                                def libPath = "./$paket.path"
-                                                println "LibPathhhhh: $libPath"
-                                                
-                                                dir(projectPath){
-                                                    oneNode(libName, libPath)
-                                                }
-                                        }
+                                        checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                     }
                                 }
-            }
-                            }
-                            continue
 
-                            // println ">>>>>>> Sorted Libs: $map"
-                            // println ">>>>>>> Sorted Deps: $res"
-                        
-                        }
-                        catch (err) {
-                            println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
-                            echo "-> Caught: $err"
+                                stage("Install Packages $repoName")
+                                {
+                                    installPackages(projectPath)
+                                }
+                                                
+                                def projectLibs = getLibs(projectPath)
+                                echo "-> projectLibs: $projectLibs"
+
+                                stage("Ordering Builds Of Libs $repoName")
+                                {
+                                    println "-> ------------ getLibDependencies ---------"
+                                    projectLibs.each
+                                    {
+                                        println it.value.path
+                                        /**
+                                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                                        */
+                                        
+                                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                                        def libDirPath = "$projectPath/$it.value.path"
+
+                                        // paketin bağımlılıklarını bulalım
+                                        it.value.dependencies  = getLibDependencies(libDirPath)
+                                    }
+                                }
+
+                                stage("Build & Publish Libs $repoName")
+                                {
+                                    println "-> ------------ getSortedLibraries ---------"
+                                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                                    def sortedLibs = getSortedLibraries(projectLibs)
+
+                                    sortedLibs.each
+                                    {
+                                        libName ->
+                                            println "Kütüp adı: $libName"
+                                            def paket = projectLibs."$libName"
+                                            println "Paketttttttttt: $paket"
+                                            def libPath = "./$paket.path"
+                                            println "LibPathhhhh: $libPath"
+                                            
+                                            dir(projectPath){
+                                                oneNode(libName, libPath)
+                                            }
+                                    }
+                                }
                             
-                            // res.each { entry ->
-                            //     println entry.value.dependencies
-                            // } 
+                            }
                         }
                     
                     }
+                
                 }
             }
         }
