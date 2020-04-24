@@ -362,7 +362,7 @@ pipeline {
                                         }
                                     }
 
-                                    stage("Building & Publishing Libs $repoName")
+                                    stage("Build & Publish Libs $repoName")
                                     {
                                         println "-> ------------ getSortedLibraries ---------"
                                         // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
