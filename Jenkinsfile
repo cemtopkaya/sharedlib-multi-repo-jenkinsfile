@@ -306,7 +306,7 @@ pipeline {
             steps{
 
                 echo "====++++executing checkout repos++++===="
-                echo "params.REPOS: $params.REPOS"
+                echo "params.REPOS:  $params.REPOS"
                 
 				script {
                     dirSourceCode = "./source_codes"
