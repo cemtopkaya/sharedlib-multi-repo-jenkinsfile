@@ -394,7 +394,7 @@ pipeline {
                 echo "params.REPOS: $params.REPOS"
                 repoUrls = params.REPOS.split("\n")
 
-                    repoUrls.each { idx, repoUrl ->
+                    repoUrls.eachWithIndex { repoUrl, idx ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
                         echo "---- idx: $idx, repoUrl: $repoUrl"
