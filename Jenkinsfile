@@ -319,7 +319,6 @@ pipeline {
                             echo "-> repo adresi:  ${repo}"
                             def projectPath = "$dirSourceCode"
 
-                            dir(projectPath){
                                 def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
                                 if(isValidRepoUrl){
                                     lastSlashPos = repo.lastIndexOf("/")+1
@@ -327,11 +326,15 @@ pipeline {
                                     echo "-> repoName: $repoName"
                                     node {
                                         stage("Checkout $repoName"){
-                                            checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                            dir(projectPath){
+                                                checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                                            }
                                         }
 
                                         stage("Install Packages\n$repoName"){
-                                            installPackages(".")
+                                            dir(projectPath){
+                                                installPackages(".")
+                                            }
                                         }
                                                         
                                         def projectLibs = getLibs(".")
