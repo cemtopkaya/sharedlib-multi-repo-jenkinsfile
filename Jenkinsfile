@@ -355,7 +355,7 @@ pipeline {
                                             */
                                             
                                             // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                                            def libDirPath = "./$it.value.path"
+                                            def libDirPath = "$projectPath/$it.value.path"
 
                                             // paketin bağımlılıklarını bulalım
                                             it.value.dependencies  = getLibDependencies(libDirPath)
