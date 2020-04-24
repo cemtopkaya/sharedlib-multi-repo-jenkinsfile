@@ -316,10 +316,10 @@ pipeline {
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
-                
-                repos.each 
-                { repo ->
-                // for(i=0;i<repos.size();i++){
+                script {
+                repos.each { 
+                    repo ->
+                    // for(i=0;i<repos.size();i++){
                     
                     catchError 
                     {
@@ -335,7 +335,7 @@ pipeline {
                             echo "-> repoName: $repoName"
                             def projectLibs = getLibs(projectPath)
                             echo "-> projectLibs: $projectLibs"
-                            
+                            node {
                             stages 
                             {
                                 stage("Checkout $repoName")
@@ -391,10 +391,11 @@ pipeline {
                                 }
                             
                             }
+                            }
                         }
                     
                     }
-                
+                }
                 }
             }
         }
