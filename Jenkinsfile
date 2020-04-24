@@ -385,7 +385,6 @@ pipeline {
         stage("Generate Stages"){
             environment{
                 dirSourceCode = "./source_code"
-                projectPath = "$dirSourceCode"
                 repos = params.REPOS.split("\n")
             }
             
@@ -397,7 +396,8 @@ pipeline {
                     repoUrls.eachWithIndex { repoUrl, idx ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
-                        echo "---- idx: $idx, repoUrl: $repoUrl"
+                        projectPath = "$dirSourceCode/$i"
+                        echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
                         def parallels = genParallelStages(repoUrl, projectPath)
                         println "parallels: $parallels"
                     }
