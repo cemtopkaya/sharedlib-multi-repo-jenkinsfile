@@ -68,7 +68,7 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
                 label = "Zorla Publishing: $libDistFolderPath"
                 script = "npm publish ${params.NPM_REGISTRY} --force"
             } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
-                label = "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
+                label = "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath"
                 script = "npm publish ${params.NPM_REGISTRY}"
             }
             
