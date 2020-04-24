@@ -318,9 +318,9 @@ pipeline {
                 echo "params.REPOS: $params.REPOS"
                 script {
                     // repos.each { repo ->
-                        for(i=0;i<repos.size();i++){
+                        for(i=0;i<env.repos.size();i++){
                         
-                        repo = repos[i]
+                        repo = env.repos[i]
                         echo "repo: $repo"
                     }
                 }
