@@ -312,17 +312,17 @@ pipeline {
             environment{
                 dirSourceCode = "./source_code"
                 projectPath = "$dirSourceCode"
-                repos = params.REPOS.split("\n")
+                repoUrls = params.REPOS.split("\n")
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
-                echo "env.repos: $env.repos"
-                echo "env.repos.class.name: $env.repos.class.name"
+                echo "repoUrls: $repoUrls"
+                echo "repoUrls.class.name: $repoUrls.class.name"
                 script {
                     // repos.each { repo ->
-                        for(i=0;i<env.repos.size();i++){
+                        for(i=0;i<repoUrls.size();i++){
                         
-                        repo = env.repos[i]
+                        repo = repoUrls[i]
                         echo "repo: $repo"
                     }
                 }
