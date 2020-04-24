@@ -321,7 +321,7 @@ pipeline {
 
                                 dir(projectPath){
                                     node {
-                                        stage("Checkout ${repo.substring(repo.lastIndeOf('/')+1,-1)}"){
+                                        stage("Checkout ${repo.substring(repo.lastIndexOf('/')+1,-1)}"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
                                     }
