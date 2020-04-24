@@ -313,7 +313,6 @@ pipeline {
                 dirSourceCode = "./source_code"
                 projectPath = "$dirSourceCode"
                 repos = params.REPOS.split("\n")
-                isValidRepoUrl = (repo.size() > 0 && repo.lastIndexOf("/") > 0)
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
@@ -327,7 +326,7 @@ pipeline {
                         // repo = repos[i]
                         echo "-> repo adresi:  ${repo}"
 
-                        if(isValidRepoUrl)
+                        if(repo.size() > 0 && repo.lastIndexOf("/") > 0)
                         {
                             lastSlashPos = repo.lastIndexOf("/")+1
                             def fullRepoName = repo.substring(lastSlashPos)
