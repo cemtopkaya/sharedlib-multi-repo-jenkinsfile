@@ -310,10 +310,6 @@ pipeline {
 
         stage("checkout repos"){
             steps{
-
-                echo "====++++executing checkout repos++++===="
-                echo "params.REPOS: $params.REPOS"
-                
 				script {
                     dirSourceCode = "./source_codes"
                     repos = params.REPOS.split("\n")
