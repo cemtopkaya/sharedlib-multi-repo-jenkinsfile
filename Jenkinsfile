@@ -328,7 +328,7 @@ pipeline {
                                     repoName = repo.substring(lastSlashPos,repo.size()-1)
                                     echo "repoName: $repoName"
                                     node {
-                                        stage("Checkout ${}"){
+                                        stage("Checkout $repoName"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
                                     }
