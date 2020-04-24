@@ -324,6 +324,7 @@ pipeline {
                                 def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
                                 if(isValidRepoUrl){
                                     lastSlashPos = repo.lastIndexOf("/")+1
+                                    echo "repo: $repo ---- lastSlashPos: $lastSlashPos"
                                     repoName = repo.substring(lastSlashPos,-1)
                                     node {
                                         stage("Checkout ${}"){
