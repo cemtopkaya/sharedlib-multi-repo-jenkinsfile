@@ -396,7 +396,7 @@ pipeline {
                     repoUrls.eachWithIndex { repoUrl, idx ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
-                        projectPath = "$dirSourceCode/$i"
+                        projectPath = "$env.dirSourceCode/$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
                         def parallels = genParallelStages(repoUrl, projectPath)
                         println "parallels: $parallels"
