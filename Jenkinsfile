@@ -138,10 +138,9 @@ def getPackageVersion(packageSrcPath){
 }
 
 
-def oneNode = { rootDir, name, path ->
+def oneNode = { name, path ->
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    echo "---->$i - rootDir: $rootDir, name: $name - path: $path"
-    dir(rootDir){
+    echo "---->$i - name: $name - path: $path"
         packageVersion = getPackageVersion "$path"
         // packageVersion = getPackageVersion "$rootDir/$path"
         
@@ -154,7 +153,7 @@ def oneNode = { rootDir, name, path ->
         buildPackage name
         
         publishIfNeeded name, path, packageVersion, isPublished
-    }
+    
     echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 }
 
@@ -380,7 +379,10 @@ pipeline {
                                                 println "Paketttttttttt: $paket"
                                                 def libPath = "./$paket.path"
                                                 println "LibPathhhhh: $libPath"
-                                                oneNode(projectPath, libName, libPath)
+                                                
+                                                dir(projectPath){
+                                                    oneNode(libName, libPath)
+                                                }
                                         }
                                     }
                                 }
