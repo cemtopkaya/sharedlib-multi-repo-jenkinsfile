@@ -329,40 +329,49 @@ pipeline {
                                         stage("Checkout $repoName"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
+
+                                        stage("Install Packages\n$repoName"){
+                                            installPackages(".")
+                                        }
+                                                        
+                                        def projectLibs = getLibs(".")
+                                        echo "-> projectLibs: $projectLibs"
+
+                                        stage("Ordering Builds Of Libs\n$repoName"){
+                                            println "-> ------------ getLibDependencies ---------"
+                                            projectLibs.each{
+                                                println it.value.path
+                                                /**
+                                                * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                                                */
+                                                
+                                                // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                                                def libDirPath = "./$it.value.path"
+
+                                                // paketin bağımlılıklarını bulalım
+                                                it.value.dependencies  = getLibDependencies(libDirPath)
+                                            }
+                                        }
+
+                                        stage("Building & Publishing Libs\n$repoName"){
+                                    
+                                            println "-> ------------ getSortedLibraries ---------"
+                                            // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                                            def sortedLibs = getSortedLibraries(projectLibs)
+
+                                            sortedLibs.each{ libName ->
+                                                println "Kütüp adı: $libName"
+                                                def paket = projectLibs."$libName"
+                                                println "Paketttttttttt: $paket"
+                                                def libPath = "./$paket.path"
+                                                println "LibPathhhhh: $libPath"
+                                                oneNode(libName, libPath)
+                                            }
+                                        }
                                     }
                                 }
                                 continue
 
-                                installPackages(".")
-                                def projectLibs = getLibs(".")
-                                echo "-> projectLibs: $projectLibs"
-                                println "-> ------------ getLibDependencies ---------"
-                                projectLibs.each{
-                                    println it.value.path
-                                    /**
-                                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                                    */
-                                    
-                                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                                    def libDirPath = "./$it.value.path"
-
-                                    // paketin bağımlılıklarını bulalım
-                                    it.value.dependencies  = getLibDependencies(libDirPath)
-                                }
-
-                        
-                                println "-> ------------ getSortedLibraries ---------"
-                                // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                                def sortedLibs = getSortedLibraries(projectLibs)
-
-                                sortedLibs.each{ libName ->
-                                    println "Kütüp adı: $libName"
-                                    def paket = projectLibs."$libName"
-                                    println "Paketttttttttt: $paket"
-                                    def libPath = "./$paket.path"
-                                    println "LibPathhhhh: $libPath"
-                                    oneNode(libName, libPath)
-                                }
                                 // println ">>>>>>> Sorted Libs: $map"
                                 // println ">>>>>>> Sorted Deps: $res"
                             
