@@ -365,7 +365,7 @@ pipeline {
                             catch (err) {
                                 println "!!!!!!!!!!! istisna !!!!!!!!!!!!!!"
                                 echo "Caught: $err"
-                                echo "e.getMessage: ${e.getMessage()}"
+                                echo "err.getMessage: ${err.getMessage()}"
                             } 
 
                         // res.each { entry ->
