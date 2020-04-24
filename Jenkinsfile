@@ -320,8 +320,8 @@ pipeline {
                             def projectPath = "$dirSourceCode"
 
                             dir(projectPath){
-                                echo "Length ve LastIndexOf: $repo.length && ${repo.lastIndexOf('/')}"
-                                if(repo.length > 0 && repo.lastIndexOf('/')>0){
+                                echo "Length ve LastIndexOf: $repo.size() && ${repo.lastIndexOf('/')}"
+                                if(repo.size() > 0 && repo.lastIndexOf('/')>0){
                                     node {
                                         stage("Checkout ${repo.substring(repo.lastIndexOf('/')+1,-1)}"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
