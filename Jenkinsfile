@@ -312,7 +312,6 @@ pipeline {
             steps{
                 echo "params.REPOS: $params.REPOS"
                 
-                def dirSourceCode = "./source_codes"
                 def repos = params.REPOS.split("\n")
                 repos.each 
                 { repo ->
@@ -323,6 +322,7 @@ pipeline {
 
                         // repo = repos[i]
                         echo "-> repo adresi:  ${repo}"
+                        def dirSourceCode = "./source_code"
                         def projectPath = "$dirSourceCode"
 
                         def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
@@ -333,8 +333,11 @@ pipeline {
                             def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
                             repoName = "${fullRepoName.substring(0, length)}..."
                             echo "-> repoName: $repoName"
+                            def projectLibs = getLibs(projectPath)
+                            echo "-> projectLibs: $projectLibs"
                             
-                            stages {
+                            stages 
+                            {
                                 stage("Checkout $repoName")
                                 {
                                     dir(projectPath)
@@ -347,9 +350,6 @@ pipeline {
                                 {
                                     installPackages(projectPath)
                                 }
-                                                
-                                def projectLibs = getLibs(projectPath)
-                                echo "-> projectLibs: $projectLibs"
 
                                 stage("Ordering Builds Of Libs $repoName")
                                 {
