@@ -324,7 +324,9 @@ pipeline {
                             if(isValidRepoUrl)
                             {
                                 lastSlashPos = repo.lastIndexOf("/")+1
-                                repoName = "${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}..."
+                                def fullRepoName = repo.substring(lastSlashPos)
+                                def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
+                                repoName = "${fullRepoName.substring(0, length)}..."
                                 echo "-> repoName: $repoName"
                                 node
                                 {
