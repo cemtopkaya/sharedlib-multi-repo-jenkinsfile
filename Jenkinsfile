@@ -313,7 +313,7 @@ pipeline {
                 dirSourceCode = "./source_code"
                 projectPath = "$dirSourceCode"
                 repos = params.REPOS.split("\n")
-                isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
+                isValidRepoUrl = (repo.size() > 0 && repo.lastIndexOf("/") > 0)
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
