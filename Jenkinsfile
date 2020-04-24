@@ -1,6 +1,5 @@
 
 @Library('gui_multi_repo@master')
-// @Library('sl-multi-repo')
 
 import Parser.AngularParser;
 import Sorter.BuildSorter; 
@@ -40,51 +39,47 @@ def checkPublishStatus(String packageName, String packageVersion){
 }
 
 def buildPackage(String packageName){
-    echo "-> ------------- buildPackage ------------------"
+    println "----------------- buildPackage -----------------"
     if( params.PUBLISH_IF_NOT == true || params.FORCE_TO_PUBLISH == true){
-        try {
+        catchError (buildResult: "SUCCESS", stageResult:"UNSTABLE"){
             sh (
                 label:"NPM Package Building ($packageName)",
                 returnStatus: false,
                 script: "ng build $packageName"
             )
         }
-        catch (err) {
-            println "npm view hata fırlattı: $err"
-        }
     }
 }
 
 def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPublished){
-        		        
+    println "----------------- publishIfNeeded -----------------"
+		        
     echo "NPM Package Publishing ($packageName)"
-    def libDistFolderPath = "${packageSrcPath.replace('projects', 'dist')}"
+    def libDistFolderPath = packageSrcPath.replace('projects', 'dist')
     dir(libDistFolderPath){
         unpublish(packageName, packageVersion)
         
         def shStatusCode = 0
-        if ( params.FORCE_TO_PUBLISH == true) {
-            try {
-                shStatusCode = sh (
-                    label: "Zorla Publishing: $libDistFolderPath",
-                    returnStatus: true,
-                    script: "npm publish ${params.NPM_REGISTRY} --force"
-                )
+        try {
+            def label = ""
+            def script = ""
+
+            if (params.FORCE_TO_PUBLISH == true) {
+                label = "Zorla Publishing: $libDistFolderPath"
+                script = "npm publish ${params.NPM_REGISTRY} --force"
+            } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
+                label = "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
+                script = "npm publish ${params.NPM_REGISTRY}"
             }
-            catch (err) {
-                println "npm publish hata fırlattı: $err"
-            }
-        } else if (params.PUBLISH_IF_NOT == true && isPublished == false) {
-            try {                
-                shStatusCode = sh (
-                    label: "Paket yüklü değil ve yayınlansın istendiği için Publishing: $libDistFolderPath",
-                    returnStatus: true,
-                    script: "npm publish ${params.NPM_REGISTRY}"
-                )
-            }
-            catch (err) {
-                println "npm publish else içinde hata fırlattı: $err"
-            }
+            
+            shStatusCode = sh (
+                label: label,
+                script: script,
+                returnStatus: true
+            )
+        }
+        catch (err) {
+            println "-> Hata (publishIfNeeded): $script çalıştırılırken istisna oldu (Exception: $err)"   
         }
         
         checkPublishStatus(packageName, packageVersion)
@@ -92,15 +87,19 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
 }
 
 def unpublish(packageName, packageVersion){
+    println "----------------- getPackageVersion -----------------"
+
+    def label = "Unpublish Package: ${packageName}@${packageVersion}"
+    def script = "npm unpublish ${packageName}@${packageVersion}  ${params.NPM_REGISTRY}"
     try {
         sh (
-            label:"Unpublish Package: ${packageName}@${packageVersion}",
+            label: label,
             returnStatus: false,
-            script: "npm unpublish ${packageName}@${packageVersion}  ${params.NPM_REGISTRY}"
+            script: script
         )
     }
     catch (err) {
-        println "npm unpublish içinde hata fırlattı: $err"
+        println "-> Hata (unpublish): $script çalıştırılırken istisna oldu (Exception: $err)"   
     }
 }
 
@@ -115,10 +114,13 @@ def unpublishIfNeeded(String packageName, String packageVersion, Boolean isPubli
 }
 
 def checkPublishable(Boolean isPublished){
+    println "----------------- checkPublishable -----------------"
+
     if( params.FORCE_TO_PUBLISH == false){
         
         if(params.PUBLISH_IF_NOT && isPublished){
-            // zorla publish etme seçeneği işaretli değilse ve yayınlanması isteniyorsa, yayınlanmış olması durumunda hata fırlatacağız. 
+            // zorla publish etme seçeneği işaretli değilse ve yayınlanması isteniyorsa,
+            // yayınlanmış olması durumunda hata fırlatacağız. 
             error('Package has been published before! Aborting the build.')
         }
     }
@@ -128,33 +130,35 @@ def checkPublishable(Boolean isPublished){
 
 def getPackageVersion(packageSrcPath){
     println "----------------- getPackageVersion -----------------"
+
     def packageJsonPath = "$packageSrcPath/package.json"
-    echo "-> Folder path: $packageJsonPath"
-    def json = readJSON(file: packageJsonPath)
-    
-    String version = json.version
-    echo "** Paketin versiyonu > $version"
-    version
+    try {
+        def json = readJSON(file: packageJsonPath)
+        
+        String version = json.version
+        echo "-> Paketin versiyonu > $version"
+        return version
+    }
+    catch (err) {
+        println "-> Hata (getPackageVersion): $packageJsonPath yolu readJSON ile okurken istisna oldu (Exception: $err)"  
+    }
 }
 
 
 def oneNode = { name, path ->
-    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    println "----------------- oneNode -----------------"
     echo "---->$i - name: $name - path: $path"
-        packageVersion = getPackageVersion "$path"
-        // packageVersion = getPackageVersion "$rootDir/$path"
-        
-        Boolean isPublished = checkPublishStatus(name, packageVersion)
-        
-        Boolean isPublishable = checkPublishable(isPublished)
-        
-        unpublishIfNeeded(name, packageVersion, isPublished)
-        
-        buildPackage name
-        
-        publishIfNeeded name, path, packageVersion, isPublished
+    packageVersion = getPackageVersion "$path"
     
-    echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    Boolean isPublished = checkPublishStatus(name, packageVersion)
+    
+    Boolean isPublishable = checkPublishable(isPublished)
+    
+    unpublishIfNeeded(name, packageVersion, isPublished)
+    
+    buildPackage name
+    
+    publishIfNeeded name, path, packageVersion, isPublished
 }
 
 def installPackages(String sourceFolder){
