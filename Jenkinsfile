@@ -316,6 +316,7 @@ pipeline {
             }
             steps{
                 echo "params.REPOS: $params.REPOS"
+                return null
                 script {
                     // repos.each { repo ->
                         for(i=0;i<repos.size();i++){
