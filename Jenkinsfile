@@ -310,12 +310,10 @@ pipeline {
 
         stage("checkout repos"){
             steps{
-
-                echo "====++++executing checkout repos++++===="
                 echo "params.REPOS: $params.REPOS"
                 
-                dirSourceCode = "./source_codes"
-                repos = params.REPOS.split("\n")
+                def dirSourceCode = "./source_codes"
+                def repos = params.REPOS.split("\n")
                 repos.each 
                 { repo ->
                 // for(i=0;i<repos.size();i++){
