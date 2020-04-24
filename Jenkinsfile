@@ -127,7 +127,10 @@ def checkPublishable(Boolean isPublished){
 }
 
 def getPackageVersion(packageSrcPath){
-    def json = readJSON(file: "$packageSrcPath/package.json")
+    println "----------------- getPackageVersion -----------------"
+    def packageJsonPath = "$packageSrcPath/package.json"
+    echo "-> Folder path: $packageJsonPath"
+    def json = readJSON(file: packageJsonPath)
     
     String version = json.version
     echo "** Paketin versiyonu > $version"
@@ -323,7 +326,7 @@ pipeline {
                                 lastSlashPos = repo.lastIndexOf("/")+1
                                 repoName = repo.substring(lastSlashPos)
                                 echo "-> repoName: $repoName"
-                                node 
+                                node
                                 {
                                     stage("Checkout $repoName")
                                     {
