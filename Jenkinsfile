@@ -337,13 +337,10 @@ pipeline {
 
                                     stage("Install Packages $repoName")
                                     {
-                                        dir(projectPath)
-                                        {
-                                            installPackages(".")
-                                        }
+                                        installPackages(projectPath)
                                     }
                                                     
-                                    def projectLibs = getLibs(".")
+                                    def projectLibs = getLibs(projectPath)
                                     echo "-> projectLibs: $projectLibs"
 
                                     stage("Ordering Builds Of Libs ${repoName.substring(0,repoName.size()>5 ? 5 : repoName.size())}...")
