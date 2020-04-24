@@ -323,8 +323,10 @@ pipeline {
                                 echo "Size() ve LastIndexOf: ${repo.size()} && ${repo.lastIndexOf('/')}"
                                 def isValidRepoUrl = repo.size() > 0 && repo.lastIndexOf("/")>0
                                 if(isValidRepoUrl){
+                                    lastSlashPos = repo.lastIndexOf("/")+1
+                                    repoName = repo.substring(lastSlashPos,-1)
                                     node {
-                                        stage("Checkout ${repo.substring(repo.lastIndexOf('/')+1,-1)}"){
+                                        stage("Checkout ${}"){
                                             checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                                         }
                                     }
