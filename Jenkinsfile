@@ -193,6 +193,80 @@ def installNpmCliLogin(){
     sh "npm install -g npm-cli-login"
 }
 
+def genParallelStages(repoUrl, projectPath){
+    def repo = repoUrl
+
+    echo "-> repo adresi:  ${repo}"
+
+    if(repo.size() > 0 && repo.lastIndexOf("/") > 0)
+    {
+        lastSlashPos = repo.lastIndexOf("/")+1
+        def fullRepoName = repo.substring(lastSlashPos)
+        def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
+        repoName = "${fullRepoName.substring(0, length)}..."
+        echo "-> repoName: $repoName"
+        def projectLibs = getLibs(projectPath)
+        echo "-> projectLibs: $projectLibs"
+        
+        return {
+            stages 
+            {
+                stage("Checkout $repoName")
+                {
+                    dir(projectPath)
+                    {
+                        checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                    }
+                }
+
+                stage("Install Packages $repoName")
+                {
+                    installPackages(projectPath)
+                }
+
+                stage("Ordering Builds Of Libs $repoName")
+                {
+                    println "-> ------------ getLibDependencies ---------"
+                    projectLibs.each
+                    {
+                        println it.value.path
+                        /**
+                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                        */
+                        
+                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                        def libDirPath = "$projectPath/$it.value.path"
+
+                        // paketin bağımlılıklarını bulalım
+                        it.value.dependencies  = getLibDependencies(libDirPath)
+                    }
+                }
+
+                stage("Build & Publish Libs $repoName")
+                {
+                    println "-> ------------ getSortedLibraries ---------"
+                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                    def sortedLibs = getSortedLibraries(projectLibs)
+
+                    sortedLibs.each
+                    {
+                        libName ->
+                            println "Kütüp adı: $libName"
+                            def paket = projectLibs."$libName"
+                            println "Paketttttttttt: $paket"
+                            def libPath = "./$paket.path"
+                            println "LibPathhhhh: $libPath"
+                            
+                            dir(projectPath){
+                                oneNode(libName, libPath)
+                            }
+                    }
+                }
+            }
+        }
+    }
+}
+
 def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
 def repo_urls = base_address == "localhost" \
     ? 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git\nhttps://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git' \
@@ -308,25 +382,27 @@ pipeline {
             }
         }
 
-        stage("checkout repos"){
+        stage("Generate Stages"){
             environment{
                 dirSourceCode = "./source_code"
                 projectPath = "$dirSourceCode"
+                repos = params.REPOS.split("\n")
             }
+            
             steps{
-                
                 script {
-                    
                 echo "params.REPOS: $params.REPOS"
                 repoUrls = params.REPOS.split("\n")
                 echo "repoUrls: $repoUrls"
                 echo "repoUrls.size(): ${repoUrls.size()}"
                 echo "repoUrls.class.name: ${repoUrls.class.name}"
-                
-                    repoUrls.each { rep ->
+
+                    repoUrls.each { repoUrl ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
                         echo "rep: $rep"
+                        def parallels = genParallelStages(repoUrl, projectPath)
+                        println "parallels: $parallels"
                     }
                 }
             }
