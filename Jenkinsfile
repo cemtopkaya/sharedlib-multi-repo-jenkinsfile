@@ -400,7 +400,7 @@ pipeline {
                     repoUrls.each { repoUrl ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
-                        echo "rep: $rep"
+                        echo "repoUrl: $repoUrl"
                         def parallels = genParallelStages(repoUrl, projectPath)
                         println "parallels: $parallels"
                     }
