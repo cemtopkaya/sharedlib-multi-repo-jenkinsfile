@@ -275,7 +275,7 @@ def genParallelStages(repoUrl){
     }
 }
 
-@NonCPS
+//@NonCPS
 def createStages(String[] repoUrls){
     echo "-> repoUrls: $repoUrls"
     // echo "-> repoUrls.class.name: ${repoUrls.class.name}"
