@@ -81,7 +81,7 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
             )
         }
         catch (err) {
-            println "-> Hata (publishIfNeeded): $script çalıştırılırken istisna oldu (Exception: $err)"   
+            println "---*** Hata (publishIfNeeded): $script çalıştırılırken istisna oldu (Exception: $err)"   
         }
         
         checkPublishStatus(packageName, packageVersion)
@@ -101,7 +101,7 @@ def unpublish(packageName, packageVersion){
         )
     }
     catch (err) {
-        println "-> Hata (unpublish): $script çalıştırılırken istisna oldu (Exception: $err)"   
+        println "---*** Hata (unpublish): $script çalıştırılırken istisna oldu (Exception: $err)"   
     }
 }
 
@@ -138,11 +138,11 @@ def getPackageVersion(packageSrcPath){
         def json = readJSON(file: packageJsonPath)
         
         String version = json.version
-        echo "-> Paketin versiyonu > $version"
+        echo "---*** Paketin versiyonu > $version"
         return version
     }
     catch (err) {
-        println "-> Hata (getPackageVersion): $packageJsonPath yolu readJSON ile okurken istisna oldu (Exception: $err)"  
+        println "---*** Hata (getPackageVersion): $packageJsonPath yolu readJSON ile okurken istisna oldu (Exception: $err)"  
     }
 }
 
@@ -165,7 +165,7 @@ def oneNode = { name, path ->
 
 def installPackages(String sourceFolder){
     is_nodemodules_exits = fileExists("node_modules")
-    echo "-> is_nodemodules_exits: $is_nodemodules_exits"
+    echo "---*** is_nodemodules_exits: $is_nodemodules_exits"
 
     if( is_nodemodules_exits == false){
         echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
@@ -203,13 +203,13 @@ def genParallelStages(repoUrl){
     projectPath = pwd()+"/$repoName"
     println "projectPath: $projectPath"
 
-    println "-> repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
+    println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
     dir(projectPath)
     {
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
         env.projectLibs = getLibs(projectPath)
-        // println "-> projectLibs: $projectLibs"
+        // println "---*** projectLibs: $projectLibs"
     }
     
     return {
@@ -224,7 +224,7 @@ def genParallelStages(repoUrl){
             //     {
             //         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
             //         env.projectLibs = getLibs(projectPath)
-            //         echo "-> projectLibs: $projectLibs"
+            //         echo "---*** projectLibs: $projectLibs"
             //     }
             // }
 
@@ -235,7 +235,7 @@ def genParallelStages(repoUrl){
 
             stage("Ordering Builds Of Libs $repoName")
             {
-                println "-> ------------ getLibDependencies ---------"
+                println "---*** ------------ getLibDependencies ---------"
                 env.projectLibs.each
                 {
                     println it.value.path
@@ -253,7 +253,7 @@ def genParallelStages(repoUrl){
 
             stage("Build & Publish Libs $repoName")
             {
-                println "-> ------------ getSortedLibraries ---------"
+                println "---*** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
                 def sortedLibs = getSortedLibraries(env.projectLibs)
 
@@ -277,15 +277,15 @@ def genParallelStages(repoUrl){
 
 //@NonCPS
 def createStages(String[] repoUrls){
-    echo "-> repoUrls: $repoUrls"
-    // echo "-> repoUrls.class.name: ${repoUrls.class.name}"
+    echo "---*** repoUrls: $repoUrls"
+    // echo "---*** repoUrls.class.name: ${repoUrls.class.name}"
     println repoUrls instanceof String[]
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
     // for(idx=0; idx<repoUrls.size(); idx++){
     for(String repoUrl : repoUrls){
         def gelen = genParallelStages(repoUrl)
-        echo "-> gelen: $gelen" 
+        echo "---*** gelen: $gelen" 
         res[repoUrl] = gelen
     }
     return res
@@ -398,7 +398,7 @@ pipeline {
                         //npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                     catch (err) {
-                        echo "-> Hata:   $err"
+                        echo "---*** Hata:   $err"
                         installNpmCliLogin()
                         npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
@@ -419,7 +419,7 @@ pipeline {
                     repoUrls = params.REPOS.split("\n")
                     stepsForParallel = createStages(repoUrls)
                     
-                    println "-> stepsForParallel: $env.stepsForParallel"
+                    println "---*** stepsForParallel: $env.stepsForParallel"
                     parallel stepsForParallel
                 }
             }
