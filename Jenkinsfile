@@ -216,7 +216,7 @@ def genParallelStages(repoUrl){
         println tata.size()
         println tata
         println tata.getClass()
-        env.projectLibs = tata
+        env.pl = tata
         println env.projectLibs
         println env.projectLibs.size()
         // echo env.projectLibs.getClass()
