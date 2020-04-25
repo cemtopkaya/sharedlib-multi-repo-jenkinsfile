@@ -425,16 +425,16 @@ pipeline {
         }
 
         stage("Generate Stages"){
-            // steps{
-            //     script {
+            steps{
+                script {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
                     // parallel stepsForParallel
 
                       genParallelStages(repoUrls)
-            //     }
-            // }
+                }
+            }
         }
 
 		// stage("Checkout"){ 
