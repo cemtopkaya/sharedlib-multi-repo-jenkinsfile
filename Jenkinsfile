@@ -239,9 +239,8 @@ def genParallelStages(repoUrl){
                 println env.projectLibs
                 env.projectLibs.each
                 { entry ->
-                    println "entry"
-                    println entry
-                    println "entry.key: $entry.key"
+                    println "entry: "+ entry
+                    // println "entry.key: $entry.key"
                     println entry.value.path
                     /**
                     * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
