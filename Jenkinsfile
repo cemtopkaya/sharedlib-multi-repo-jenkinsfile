@@ -239,6 +239,7 @@ def genParallelStages(repoUrl){
                 println env.projectLibs
                 env.projectLibs.each
                 { entry ->
+                    println "entry"
                     println entry
                     println entry.key
                     println entry.value.path
