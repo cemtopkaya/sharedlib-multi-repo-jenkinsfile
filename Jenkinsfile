@@ -4,6 +4,7 @@
 import Parser.AngularParser;
 import Sorter.BuildSorter; 
 import hudson.FilePath;
+import com.cloudbees.groovy.cps.NonCPS
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
@@ -193,6 +194,7 @@ def installNpmCliLogin(){
     sh "npm install -g npm-cli-login"
 }
 
+@NonCPS
 def genParallelStages(repoUrl){
     def projectPath = pwd()
     def repo = repoUrl
