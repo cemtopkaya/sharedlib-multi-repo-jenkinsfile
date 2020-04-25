@@ -272,8 +272,14 @@ def genParallelStages(repoUrls){
             }
         }
     
-    println "result[repoUrl].node.environment.a:::::::: "
-    println result[repoUrl]
+        println "result[repoUrl].node.environment.a:::::::: "
+        try {
+            println result[repoUrl].getClass()
+            println result[repoUrl].type
+        }
+        catch (e) {
+            println "e: $e"
+        }
 
         println result
     }
