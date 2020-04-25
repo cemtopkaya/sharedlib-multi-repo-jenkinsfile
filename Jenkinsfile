@@ -199,7 +199,7 @@ def installNpmCliLogin(){
 //@NonCPS
 def genParallelStages(repoUrl){
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
-    def repoName = repoUrl.substring(++lastIndexOfSlash,5)+"..."
+    def repoName = repoUrl.substring(++lastIndexOfSlash, (lastIndexOfSlash+6))+"..."
     repoDir = "${WORKSPACE}/$repoName"
     println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
 
