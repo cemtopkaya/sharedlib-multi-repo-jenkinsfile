@@ -214,12 +214,12 @@ def genParallelStages(repoUrl){
     //     checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
     // }
     
-    return {
+    def obj = {
         node (params.AGENT_NAME){
-            // environment{
-            //     pl = getLibs(projectPath)
-            //     // LinkedHashMap pl = tata
-            // }
+            environment{
+                pl = getLibs(projectPath)
+                // LinkedHashMap pl = tata
+            }
 
             stage("Checkout $repoName")
             {
@@ -292,6 +292,10 @@ def genParallelStages(repoUrl){
             }
         }
     }
+
+    println "objjjjjjjjj"
+    println obj
+    return obj
 }
 
 //@NonCPS
