@@ -201,7 +201,7 @@ def genParallelStages(repoUrl){
     
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
     def repoName = repoUrl.substring(++lastIndexOfSlash)
-    projectPath = pwd()+"/$repoName"
+    projectPath = "${WORKSPACE}/$repoName"
     println "projectPath: $projectPath"
 
     println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
