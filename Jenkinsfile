@@ -237,6 +237,7 @@ def genParallelStages(repoUrl){
             {
                 println "---*** ------------ getLibDependencies ---------"
                 println env.projectLibs.class.name
+                println env.projectLibs
                 env.projectLibs.each
                 { entry ->
                     println "entry: "+ entry
