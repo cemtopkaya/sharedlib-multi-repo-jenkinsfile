@@ -212,7 +212,7 @@ def genParallelStages(){
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        result[repoUrl] = {repoDirectory, repoUrl ->
+        result[repositoryUrl] = {repoDirectory, repositoryUrl ->
             def libs = [:]
         
             return node (params.AGENT_NAME){
@@ -222,7 +222,7 @@ def genParallelStages(){
                 {
                     dir(repoDirectory)
                     {
-                        checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                        checkoutSCM(repositoryUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                     }
                 }
 
