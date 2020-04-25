@@ -194,7 +194,7 @@ def installNpmCliLogin(){
     sh "npm install -g npm-cli-login"
 }
 
-//@NonCPS
+@NonCPS
 def genParallelStages(repoUrl){
     def projectPath = pwd()
     def repo = repoUrl
