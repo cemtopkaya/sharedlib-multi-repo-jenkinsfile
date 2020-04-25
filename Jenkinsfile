@@ -250,7 +250,7 @@ def genParallelStages(repoUrl){
                     */
                     
                     // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                    def libDirPath = "$repoDir/$it.value.path"
+                    def libDirPath = "$repoDir/$entry.value.path"
                     println "libDirPath: $libDirPath"
                     // paketin bağımlılıklarını bulalım
                     it.value.dependencies  = getLibDependencies(libDirPath)
