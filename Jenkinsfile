@@ -285,7 +285,7 @@ def createStages(repoUrls){
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
     for(idx=0; idx<repoUrls.size(); idx++){
-        repoUrl = repoUrls.getAt(i)
+        repoUrl = repoUrls.getAt(idx)
         projectPath = "./$idx"
         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
         dir(projectPath){
