@@ -207,12 +207,12 @@ def genParallelStages(repoUrl){
     println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
     tata = [:]
-    dir(projectPath)
-    {
-        echo "---********* checkoutSCM ****"
+    // dir(projectPath)
+    // {
+    //     echo "---********* checkoutSCM ****"
                 
-        checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-    }
+    //     checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+    // }
     
     return {
         node (params.AGENT_NAME){
@@ -221,15 +221,16 @@ def genParallelStages(repoUrl){
             //     // LinkedHashMap pl = tata
             // }
 
-            // stage("Checkout $repoName")
-            // {
-            //     dir(projectPath)
-            //     {
-            //         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-            //         env.projectLibs = getLibs(projectPath)
-            //         echo "---*** projectLibs: $projectLibs"
-            //     }
-            // }
+            stage("Checkout $repoName")
+            {
+                dir("${WORKSPACE}/$repoName")
+                {
+                    checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                    env.projectLibs = getLibs(projectPath)
+                    echo "---*** eeeenv.projectLibs: "
+                    println env.projectLibs
+                }
+            }
 
             stage("Install Packages $repoName")
             {
