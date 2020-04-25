@@ -275,16 +275,6 @@ def genParallelStages(){
             }
         }
     
-        // println "result[repoUrl].node.environment.a:::::::: "
-        // try {
-        //     println result[repoUrl].getClass()
-        //     println result[repoUrl].type
-        // }
-        // catch (e) {
-        //     println "e: $e"
-        // }
-
-        // println result
         println result[repoUrl]
         println result[repoUrl].getClass()
     }
@@ -294,17 +284,12 @@ def genParallelStages(){
 }
 
 def extractProperties(obj) {
-    def a = obj.getClass()
+    obj.getClass()
        .declaredFields
        .findAll { !it.synthetic }
        .collectEntries { field ->
-        println field.name
-        println obj."$field.name"
            [field.name, obj."$field.name"]
-       }
-
-       obj.getClass().declaredFields.each{ println it }
-       println a
+       }.each{ println it }
 }
 
 //@NonCPS
@@ -436,9 +421,7 @@ pipeline {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
-                    // parallel stepsForParallel
-
-                      genParallelStages()
+                    parallel genParallelStages()
                 }
             }
         }
