@@ -211,7 +211,7 @@ def genParallelStages(repoUrl){
         env.projectLibs = getLibs(projectPath)
         echo "---*** env.projectLibs:"
         echo env.projectLibs
-        echo env.projectLibs.getClass()
+        // echo env.projectLibs.getClass()
         echo "---*** projectLibs:::::"
         echo "---*** env.RES:::::"
         echo env.RES
