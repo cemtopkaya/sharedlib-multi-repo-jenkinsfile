@@ -264,7 +264,7 @@ def genParallelStages(){
 
     result["failFast"] = true
     result.each{ key, value -> println ">>> Field: "+key }
-    
+
     return result
 }
 
@@ -397,7 +397,8 @@ pipeline {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
-                    parallel genParallelStages()
+                    map = genParallelStages()
+                    map.each{ key, value -> println ">>> key: $key , value: "+value }
                 }
             }
         }
