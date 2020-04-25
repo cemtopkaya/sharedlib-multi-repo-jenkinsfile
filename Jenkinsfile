@@ -166,16 +166,19 @@ def oneNode(name, path){
 }
 
 def installPackages(String sourceFolder){
-    is_nodemodules_exits = fileExists("node_modules")
-    echo "---*** is_nodemodules_exits: $is_nodemodules_exits"
+    println ">>> sourceFolder: "+sourceFolder
+    dir(sourceFolder){
+        is_nodemodules_exits = fileExists("node_modules")
+        echo "---*** is_nodemodules_exits: $is_nodemodules_exits"
 
-    if( is_nodemodules_exits == false){
-        echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
-        sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
-        //sh "npm --cache-min Infinity install"
-        sh "pwd && npm install --no-bin-links"
-    }else{
-        echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
+        if( is_nodemodules_exits == false){
+            echo "*** NODE_MODULES Yok! NPM paketlerini yükleyeceğiz"
+            sh "npm config set registry ${params.NPM_REGISTRY.replace('--registry=','')} "
+            //sh "npm --cache-min Infinity install"
+            sh "pwd && npm install --no-bin-links"
+        }else{
+            echo "*** NODE_MODULES var ve tekrar NPM paketlerini yüklemeyelim"
+        }
     }
 }
 
