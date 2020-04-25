@@ -209,14 +209,10 @@ def genParallelStages(repoUrl){
     tata = [:]
     dir(projectPath)
     {
+        echo "---********* checkoutSCM ****"
+                
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-        echo "---*** env.projectLibs:"
-        tata = getLibs(projectPath)
-        echo "---*** tata:"
-        println tata.size()
-        println tata
     }
-    println tata.getClass()
     
     return {
         // stages {
@@ -243,10 +239,14 @@ def genParallelStages(repoUrl){
             {
                 println "---*** ------------ getLibDependencies ---------"
                 println "---*** tata"
+                tata = getLibs(projectPath)
+                echo "---*** tata:"
+                println tata.size()
                 println tata
                 println tata.getClass()
-                env.each{ aa -> println aa }
-                println env.pl.getClass()
+                env.pl = tata 
+                println "env.pl::::"
+                println env.pl
                 println env.projectLibs
                 env.projectLibs.each
                 { entry ->
