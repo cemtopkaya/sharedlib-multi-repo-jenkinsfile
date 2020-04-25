@@ -234,7 +234,7 @@ def genParallelStages(repoUrl){
     return {
         // stages {
             environment{
-                LinkedHashMap projectLibs = tata
+                LinkedHashMap pl = tata
             }
 
             // stage("Checkout $repoName")
@@ -258,7 +258,7 @@ def genParallelStages(repoUrl){
                 println "---*** tata"
                 println tata
                 println tata.getClass()
-                println env.projectLibs.getClass()
+                println env.pl.getClass()
                 println env.projectLibs
                 env.projectLibs.each
                 { entry ->
