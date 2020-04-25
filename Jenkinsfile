@@ -124,7 +124,7 @@ def checkPublishable(Boolean isPublished){
         if(params.PUBLISH_IF_NOT && isPublished){
             // zorla publish etme seçeneği işaretli değilse ve yayınlanması isteniyorsa,
             // yayınlanmış olması durumunda hata fırlatacağız. 
-            error('Package has been published before! Aborting the build.')
+            //error('Package has been published before! Aborting the build.')
         }
     }
     
