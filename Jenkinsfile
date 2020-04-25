@@ -206,11 +206,12 @@ def genParallelStages(repoUrl){
 
     println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
+    tata = [:]
     dir(projectPath)
     {
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
         echo "---*** env.projectLibs:"
-        def tata = getLibs(projectPath)
+        tata = getLibs(projectPath)
         echo "---*** tata:"
         println tata.size()
         println tata
@@ -228,11 +229,12 @@ def genParallelStages(repoUrl){
         //env.projectLibs.eachWithIndex{key, value, i -> println "$i $key: $value"}
 
     }
+        println tata.getClass()
     
     return {
         // stages {
             environment{
-                projectLibs = [:]
+                projectLibs = tata
             }
 
             // stage("Checkout $repoName")
@@ -253,6 +255,8 @@ def genParallelStages(repoUrl){
             stage("Ordering Builds Of Libs $repoName")
             {
                 println "---*** ------------ getLibDependencies ---------"
+                println "---*** tata"
+                println tata
                 println env.projectLibs.class.name
                 println env.projectLibs
                 env.projectLibs.each
