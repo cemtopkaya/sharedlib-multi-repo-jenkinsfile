@@ -284,7 +284,7 @@ def genParallelStages(repoUrl){
 def createStages(String[] repoUrls){
     echo "-> repoUrls: $repoUrls"
     // echo "-> repoUrls.class.name: ${repoUrls.class.name}"
-    echo repoUrls instanceof String[]
+    println repoUrls instanceof String[]
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
     // for(idx=0; idx<repoUrls.size(); idx++){
