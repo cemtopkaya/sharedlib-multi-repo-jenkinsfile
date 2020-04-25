@@ -263,7 +263,7 @@ def genParallelStages(){
     }
 
     result["failFast"] = true
-    result.each { field -> println ">>> Field: $field" }
+    result.each{ key, value -> println ">>> Field: "+key }
     
     return result
 }
