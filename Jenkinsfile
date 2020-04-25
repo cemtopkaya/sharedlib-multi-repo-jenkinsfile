@@ -302,7 +302,7 @@ def extractProperties(obj) {
            [field.name, obj."$field.name"]
        }
 
-       println obj.getClass().declaredFields
+       obj.getClass().declaredFields.each{ println it }
        println a
 }
 
