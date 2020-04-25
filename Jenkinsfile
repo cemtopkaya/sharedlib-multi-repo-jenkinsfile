@@ -212,7 +212,9 @@ def genParallelStages(repoUrl){
         echo "---*** env.projectLibs:"
         def tata = getLibs(projectPath)
         echo "---*** tata:"
+        println tata.size()
         println tata
+        println tata.getClass()
         env.projectLibs = tata
         println env.projectLibs
         // echo env.projectLibs.getClass()
