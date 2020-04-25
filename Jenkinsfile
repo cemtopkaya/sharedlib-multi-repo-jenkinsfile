@@ -199,26 +199,14 @@ def installNpmCliLogin(){
 //@NonCPS
 def genParallelStages(repoUrl){
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
-    def repoName = repoUrl.substring(++lastIndexOfSlash)
+    def repoName = repoUrl.substring(++lastIndexOfSlash,5)+"..."
     repoDir = "${WORKSPACE}/$repoName"
-    println "repoDir: $repoDir"
-
     println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
 
     tata = [:]
-    // dir(repoDir)
-    // {
-    //     echo "---********* checkoutSCM ****"
-                
-    //     checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-    // }
     
     return {
         node (params.AGENT_NAME){
-            // environment{
-            //     pl = getLibs(repoDir)
-            //     // LinkedHashMap pl = tata
-            // }
 
             stage("Checkout $repoName")
             {
@@ -276,9 +264,6 @@ def genParallelStages(repoUrl){
 
 //@NonCPS
 def createStages(String[] repoUrls){
-    echo "---*** repoUrls: $repoUrls"
-    
-    println repoUrls instanceof String[]
     res = [:]
     
     for(String repoUrl : repoUrls){
