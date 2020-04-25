@@ -8,34 +8,50 @@ import java.util.LinkedHashMap
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
+
+
+    def fnCurl = { registry, package, version -> 
+        // sh "curl -s http://localhost:4873/@kapsam2/kutup11 | awk '/0.0.1/{count++;} END{print count=="" ? 0 : count}'"
+        def count = sh (
+            label: "REST sorgusuyla verdaccio kontrol ediliyor",
+            returnStatus: true,
+            script: "curl -s $registry/$package | awk '/$version/{count++;} END{print count=="" ? 0 : count}'"
+        ).trim()
     
-    npmViewScript = "npm view ${packageName}@${packageVersion} ${params.NPM_REGISTRY}"
-    echo "** Aynı versiyon kullanılmış mı kontrolü için script > npmViewScript: ${npmViewScript}"
-    /* Eğer npm view aranan paketi bulamazsa sh komutu 1 (Error 404) ile hata fırlatarak çıkacak!
-     * Bu yüzden kod kırılmasın diye "returnStatus: true" ile sh execute edilecek ve exit code okunacak.
-     * Exit code 0'dan farklıysa ise yani "npm ERR! code E404" ile npm view hata fırlatarak çıkış yapmışsa bileceğiz ki; paket yok!
-     * Eğer normal çıkış yapmışsa bu kez çıktıyı almak için "returnStdout: true" anahtarıyla tekrar paket sorgulanacak
-     **/
-    
-    npmViewStatusCode = sh(returnStatus: true, script: "$npmViewScript")
-    if(npmViewStatusCode == 1){
-        result = false
-    }else {
-        try {
-            checkVersionPublished = sh(
-                label: "$npmViewScript",
-                returnStdout: true, 
-                script: "${npmViewScript} | wc -m"
-            ).trim() as Integer
-            
-            result = checkVersionPublished > 0
-        }
-        catch (err) {
-            println "npm view hata fırlattı: $err"
-        }
+        echo "is published- Version sayısı: $count"
+
+        return count as Integer
     }
 
-    echo "is published: $result"
+    def fnNpmView = { -> 
+        npmViewScript = "npm view ${packageName}@${packageVersion} ${params.NPM_REGISTRY}"
+        echo "** Aynı versiyon kullanılmış mı kontrolü için script > npmViewScript: ${npmViewScript}"
+        /* Eğer npm view aranan paketi bulamazsa sh komutu 1 (Error 404) ile hata fırlatarak çıkacak!
+        * Bu yüzden kod kırılmasın diye "returnStatus: true" ile sh execute edilecek ve exit code okunacak.
+        * Exit code 0'dan farklıysa ise yani "npm ERR! code E404" ile npm view hata fırlatarak çıkış yapmışsa bileceğiz ki; paket yok!
+        * Eğer normal çıkış yapmışsa bu kez çıktıyı almak için "returnStdout: true" anahtarıyla tekrar paket sorgulanacak
+        **/
+        
+        npmViewStatusCode = sh(returnStatus: true, script: "$npmViewScript")
+        if(npmViewStatusCode == 1){
+            result = false
+        }else {
+            try {
+                checkVersionPublished = sh(
+                    label: "$npmViewScript",
+                    returnStdout: true, 
+                    script: "${npmViewScript} | wc -m"
+                ).trim() as Integer
+                
+                result = checkVersionPublished > 0
+            }
+            catch (err) {
+                println "npm view hata fırlattı: $err"
+            }
+        }
+    }
+    
+    result = fnCurl(params.NPM_REGISTRY, packageName, packageVersion) > 0
     return result
 }
 
