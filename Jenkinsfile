@@ -198,10 +198,9 @@ def installNpmCliLogin(){
 
 //@NonCPS
 def genParallelStages(repoUrl){
-    env.repo = repoUrl
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
     def repoName = repoUrl.substring(++lastIndexOfSlash)
-    projectPath = "${WORKSPACE}/$repoName"
+    repoDir = "${WORKSPACE}/$repoName"
     println "projectPath: $projectPath"
 
     println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
@@ -214,60 +213,47 @@ def genParallelStages(repoUrl){
     //     checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
     // }
     
-    def obj = {
-        pipeline {
-            agent params.AGENT_NAME
-            environment{
-                pl = getLibs(projectPath)
-                // LinkedHashMap pl = tata
-            }
+    return {
+        node (params.AGENT_NAME){
+            // environment{
+            //     pl = getLibs(repoDir)
+            //     // LinkedHashMap pl = tata
+            // }
 
             stage("Checkout $repoName")
             {
                 dir("${WORKSPACE}/$repoName")
                 {
-                    checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                    checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                 }
             }
 
             stage("Install Packages $repoName")
             {
-                //installPackages("${WORKSPACE}/$repoName")
+                //installPackages(repoDir)
             }
 
             stage("Ordering Builds Of Libs $repoName"){
-                environment {
-                    pl = getLibs("${WORKSPACE}/$repoName")
-                }
-                steps {
-                    println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
-                    println "env.pl"
-                    println env.pl
-                    tata = getLibs("${WORKSPACE}/$repoName")
-                    echo "---*** tata:"
-                    println tata
-                    println tata.size()
-                    println tata.getClass()
-                    // env.pl = tata 
-                    println "env.pl::::"
-                    println env.pl
-                    println env.pl.getClass()
-                    // println env.projectLibs
-                    env.pl.each
-                    { entry ->
-                        println "entry: "+ entry
-                        // println "entry.key: $entry.key"
-                        println entry.value.path
-                        /**
-                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                        */
-                        
-                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                        def libDirPath = "$projectPath/$it.value.path"
-                        println "libDirPath: $libDirPath"
-                        // paketin bağımlılıklarını bulalım
-                        it.value.dependencies  = getLibDependencies(libDirPath)
-                    }
+                println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
+                tata = getLibs(repoDir)
+                echo "---*** tata:"
+                println tata
+                println tata.size()
+                println tata.getClass()
+
+                tata.each{ entry ->
+                    println "entry: "+ entry
+                    // println "entry.key: $entry.key"
+                    println entry.value.path
+                    /**
+                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                    */
+                    
+                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                    def libDirPath = "$repoDir/$it.value.path"
+                    println "libDirPath: $libDirPath"
+                    // paketin bağımlılıklarını bulalım
+                    it.value.dependencies  = getLibDependencies(libDirPath)
                 }
             }
 
@@ -283,20 +269,16 @@ def genParallelStages(repoUrl){
                         println "Kütüp adı: $libName"
                         def paket = env.pl."$libName"
                         println "Paketttttttttt: $paket"
-                        def libPath = "./$paket.path"
+                        def libPath = "$repoDir/$paket.path"
                         println "LibPathhhhh: $libPath"
                         
-                        dir(projectPath){
+                        dir(repoDir){
                             oneNode(libName, libPath)
                         }
                 }
             }
         }
     }
-
-    println "objjjjjjjjj"
-    println obj
-    return obj
 }
 
 //@NonCPS
