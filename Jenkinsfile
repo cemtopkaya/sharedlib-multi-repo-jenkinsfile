@@ -402,8 +402,8 @@ pipeline {
                     }
                     catch (err) {
                         echo "---*** Hata:   $err"
-                        installNpmCliLogin()
-                        npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
+                        // installNpmCliLogin()
+                        // npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                 }
             }
