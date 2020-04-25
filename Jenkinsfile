@@ -229,6 +229,7 @@ def genParallelStages(repoUrl){
                     env.projectLibs = getLibs(projectPath)
                     echo "---*** eeeenv.projectLibs: "
                     println env.projectLibs
+                    println env.projectLibs.getClass()
                 }
             }
 
