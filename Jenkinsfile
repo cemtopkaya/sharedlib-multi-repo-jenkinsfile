@@ -280,7 +280,7 @@ def genParallelStages(repoUrl){
     }
 }
 
-//@NonCPS
+@NonCPS
 def createStages(String[] repoUrls){
     echo "-> repoUrls: $repoUrls"
     // echo "-> repoUrls.class.name: ${repoUrls.class.name}"
@@ -293,21 +293,23 @@ def createStages(String[] repoUrls){
         idx++
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
-        def projectPath = sh (
-            label:"pwd-mkdir-cd-pwd", 
-            """
-                pwd
-                mkdir -p "$repoName"
-                cd "$repoName"
-                pwd
-            """, 
-            returnStdout: true)
-        
-        echo "-> idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
+        dir(repoName){
+            echo "-> idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
-        def gelen = genParallelStages(repoUrl)
-        echo "-> gelen: $gelen" 
-        res[repoUrl] = gelen
+            def gelen = genParallelStages(repoUrl)
+            echo "-> gelen: $gelen" 
+            res[repoName] = gelen
+        }
+        // def projectPath = sh (
+        //     label:"pwd-mkdir-cd-pwd", 
+        //     """
+        //         pwd
+        //         mkdir -p "$repoName"
+        //         cd "$repoName"
+        //         pwd
+        //     """, 
+        //     returnStdout: true)
+        
     }
     return res
 }
