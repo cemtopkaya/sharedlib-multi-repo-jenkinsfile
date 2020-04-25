@@ -293,7 +293,7 @@ def createStages(String[] repoUrls){
         echo "-> repoUrl: $repoUrl"
         idx++
         //repoUrl = repoUrls.getAt(idx)
-        projectPath = "./$idx"
+        projectPath = pwd()
         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
         
         sh "pwd && cd $projectPath"
