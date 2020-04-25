@@ -294,7 +294,11 @@ def createStages(String[] repoUrls){
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
         dir(repoName){
+            env.PROJECT_PATH = sh "$PWD"
+            echo "1. env.PROJECT_PATH: ${env.PROJECT_PATH}"
             env.PROJECT_PATH = pwd()
+            echo "2. env.PROJECT_PATH: ${env.PROJECT_PATH}"
+            
             echo "-> idx: $idx, repoUrl: $repoUrl, env.PROJECT_PATH: $env.PROJECT_PATH,  repoName: $repoName"
 
             def gelen = genParallelStages(repoUrl)
