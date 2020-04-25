@@ -217,12 +217,14 @@ def genParallelStages(){
         // stages {
 
                 environment{
-                    a = "a"
+                    a = repoDir
                 }
                 
                 stage("Checkout $repoShortName")
                 {
                     println "repoDir >>> $repoDir"
+                    println "repoDir >>> $env.a"
+                    
                     def a = {-> repoDir}
                     println "aaa: "+a()
                     dir(repoDir)
