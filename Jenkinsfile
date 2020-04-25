@@ -388,7 +388,7 @@ pipeline {
                         angular_cli_version =  sh(
                             label: "Angular CLI Yüklü mü?",
                             returnStdout: true, 
-                            script: "ng --version | awk '/8.3/{count++} END{print count == "" ? 0 : count}'"
+                            script: "ng --version | awk '/8.3/{count++} END{print count == '' ? 0 : count}'"
                             // script: "ng --version"
                         ).trim()
 
