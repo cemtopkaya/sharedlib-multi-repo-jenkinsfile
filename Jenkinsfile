@@ -258,7 +258,7 @@ def genParallelStages(repoUrl){
                     entry.value.dependencies  = getLibDependencies(libDirPath)
                 }
 
-                println "---*** ------------ getSortedLibraries ---------"
+                println "---***** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
                 def sortedLibs = getSortedLibraries(tata)
 
