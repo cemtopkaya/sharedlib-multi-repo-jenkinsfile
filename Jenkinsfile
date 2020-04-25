@@ -266,7 +266,7 @@ def genParallelStages(repoUrl){
                 {
                     libName ->
                         println "Kütüp adı: $libName"
-                        def paket = "$repoDir/$libName"
+                        def paket = "$repoDir/projects/$libName"
                         println "Paketttttttttt: $paket"
                         def libPath = "$paket"
                         println "LibPathhhhh: $libPath"
