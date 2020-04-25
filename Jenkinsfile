@@ -220,6 +220,8 @@ def genParallelStages(repoUrls){
                 stage("Checkout $repoShortName")
                 {
                     println "repoDir >>> $repoDir"
+                    def a = {-> repoDir}
+                    println a()
                     dir(repoDir)
                     {
                         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
