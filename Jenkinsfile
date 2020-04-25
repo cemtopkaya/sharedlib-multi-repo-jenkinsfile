@@ -294,7 +294,7 @@ def createStages(String[] repoUrls){
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
         def projectPath = sh (
-            label:"pwd", 
+            label:"pwd-mkdir-cd-pwd", 
             """
                 pwd
                 mkdir -p $repoName
