@@ -52,6 +52,7 @@ def buildPackage(String packageName){
     }
 }
 
+@NonCPS
 def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPublished){
     println "----------------- publishIfNeeded -----------------"
 		        
