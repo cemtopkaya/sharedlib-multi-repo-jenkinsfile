@@ -1,4 +1,3 @@
-
 @Library('gui_multi_repo@master')
 
 import Parser.AngularParser;
@@ -247,9 +246,6 @@ def genParallelStages(){
                     println tata.getClass()
 
                     tata.each{ entry ->
-                        println "entry: "+ entry
-                        // println "entry.key: $entry.key"
-                        println entry.value.path
                         /**
                         * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
                         */
@@ -275,12 +271,9 @@ def genParallelStages(){
                 }
             }
         }(repoUrl)
-    
-        println result[repoUrl]
-        println result[repoUrl].getClass()
     }
 
-
+    result["failFast"] = true
     return result
 }
 
@@ -422,9 +415,7 @@ pipeline {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
-                    def map = genParallelStages()
-                    map.failFast = true
-                    parallel map
+                    parallel genParallelStages()
                 }
             }
         }
