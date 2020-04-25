@@ -269,7 +269,7 @@ def genParallelStages(repoUrls){
     
         println result
     }
-    
+
     result
 }
 
@@ -277,7 +277,10 @@ def genParallelStages(repoUrls){
 def createStages(String[] repoUrls){
     res = [:]
     
-        def gelen = genParallelStages(repoUrl)
+    echo ">>>> params.REPOS: $params.REPOS"
+    repoUrls = params.REPOS.split("\n")
+    
+    def gelen = genParallelStages(repoUrls)
     
     return res
 }
@@ -406,9 +409,7 @@ pipeline {
             steps{
                 script {
                     // stepsForParallel = [:]
-                    echo "params.REPOS: $params.REPOS"
-                    repoUrls = params.REPOS.split("\n")
-                    stepsForParallel = createStages(repoUrls)
+                    stepsForParallel = createStages()
                     
                     parallel stepsForParallel
                 }
