@@ -198,7 +198,7 @@ def installNpmCliLogin(){
 
 //@NonCPS
 def genParallelStages(repoUrl){
-    
+    env.repo = repoUrl
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
     def repoName = repoUrl.substring(++lastIndexOfSlash)
     projectPath = "${WORKSPACE}/$repoName"
