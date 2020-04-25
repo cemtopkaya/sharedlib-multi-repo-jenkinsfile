@@ -396,9 +396,11 @@ pipeline {
                     repoUrls.eachWithIndex { repoUrl, idx ->
                     // for(i=0;i<repoUrls.size();i++){
                         // rep = repoUrls.getAt(i)
-                        projectPath = "$env.dirSourceCode/$idx"
+                        projectPath = "./$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
-                        stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
+                        dir(projectPath){
+                            stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
+                        }
                     }
                     println "stepsForParallel: $env.stepsForParallel"
 
