@@ -296,6 +296,7 @@ def createStages(String[] repoUrls){
         projectPath = "./$idx"
         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
         dir(projectPath){
+            echo "-> projectPath: $projectPath" 
             def gelen = genParallelStages(repoUrl)
             echo "-> gelen: $gelen" 
             res[repoUrl] = genParallelStages(repoUrl)
@@ -433,8 +434,8 @@ pipeline {
                     stepsForParallel = createStages(repoUrls)
                     
                     println "-> stepsForParallel: $env.stepsForParallel"
-                }
                     parallel stepsForParallel
+                }
             }
         }
 
