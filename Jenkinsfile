@@ -148,7 +148,7 @@ def getPackageVersion(packageSrcPath){
 }
 
 
-def oneNode = { name, path ->
+def oneNode(name, path){
     println "----------------- oneNode -----------------"
     echo "---->$i - name: $name - path: $path"
     packageVersion = getPackageVersion "$path"
