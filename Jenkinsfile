@@ -235,7 +235,7 @@ def genParallelStages(repoUrl){
             }
             
 
-            stage("Build & Publish Libs $repoName")
+            stage("Build & Publish Libs $repoName") {
                 println "---*** ------------ Build & Publish Libs $repoName ---------"
                 tata = getLibs(repoDir)
                 echo "---*** tata:"
