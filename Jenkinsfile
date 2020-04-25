@@ -404,6 +404,8 @@ pipeline {
                         projectPath = "./$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
                         dir(projectPath){
+                            def gelen = genParallelStages(repoUrl)
+                            println "-> gelen: $gelen" 
                             stepsForParallel[repoUrl] = genParallelStages(repoUrl)
                         }
                     }
