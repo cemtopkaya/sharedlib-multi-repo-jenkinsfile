@@ -208,6 +208,13 @@ def genParallelStages(repoUrl){
         def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
         repoName = "${fullRepoName.substring(0, length)}..."
         echo "-> repoName: $repoName"
+
+        dir(projectPath)
+        {
+            checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+            env.projectLibs = getLibs(projectPath)
+            echo "-> projectLibs: $projectLibs"
+        }
         
         return {
             // stages {
@@ -215,15 +222,15 @@ def genParallelStages(repoUrl){
                     projectLibs = []
                 }
 
-                stage("Checkout $repoName")
-                {
-                    dir(projectPath)
-                    {
-                        checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                        env.projectLibs = getLibs(projectPath)
-                        echo "-> projectLibs: $projectLibs"
-                    }
-                }
+                // stage("Checkout $repoName")
+                // {
+                //     dir(projectPath)
+                //     {
+                //         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                //         env.projectLibs = getLibs(projectPath)
+                //         echo "-> projectLibs: $projectLibs"
+                //     }
+                // }
 
                 stage("Install Packages $repoName")
                 {
@@ -271,6 +278,23 @@ def genParallelStages(repoUrl){
             // }
         }
     }
+}
+
+@NonCPS
+def createStages(repoUrls){
+    res = [:]
+// repoUrls.eachWithIndex { repoUrl, idx ->
+    for(idx=0; idx<repoUrls.size(); idx++){
+        repoUrl = repoUrls.getAt(i)
+        projectPath = "./$idx"
+        echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
+        dir(projectPath){
+            def gelen = genParallelStages(repoUrl)
+            echo "-> gelen: $gelen" 
+            res[repoUrl] = genParallelStages(repoUrl)
+        }
+    }
+    return res
 }
 
 def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
@@ -396,21 +420,11 @@ pipeline {
             
             steps{
                 script {
-                    stepsForParallel = [:]
+                    // stepsForParallel = [:]
                     echo "params.REPOS: $params.REPOS"
                     repoUrls = params.REPOS.split("\n")
-
-                    repoUrls.eachWithIndex { repoUrl, idx ->
-                    // for(i=0;i<repoUrls.size();i++){
-                        // rep = repoUrls.getAt(i)
-                        projectPath = "./$idx"
-                        echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
-                        dir(projectPath){
-                            def gelen = genParallelStages(repoUrl)
-                            echo "-> gelen: $gelen" 
-                            stepsForParallel[repoUrl] = genParallelStages(repoUrl)
-                        }
-                    }
+                    stepsForParallel = createStages(repoUrls)
+                    
                     println "-> stepsForParallel: $env.stepsForParallel"
                 }
                 // parallel stepsForParallel
