@@ -5,6 +5,7 @@ import Parser.AngularParser;
 import Sorter.BuildSorter; 
 import hudson.FilePath;
 import com.cloudbees.groovy.cps.NonCPS
+import java.util.LinkedHashMap
 
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
@@ -208,8 +209,11 @@ def genParallelStages(repoUrl){
     dir(projectPath)
     {
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-        env.projectLibs = getLibs(projectPath)
         echo "---*** env.projectLibs:"
+        def tata = getLibs(projectPath)
+        echo "---*** tata:"
+        println tata
+        env.projectLibs = tata
         println env.projectLibs
         // echo env.projectLibs.getClass()
         echo "---*** projectLibs:::::"
