@@ -215,7 +215,7 @@ def genParallelStages(repoUrl){
     }
     
     return {
-        // stages {
+        stages {
             environment{
                 pl = getLibs(projectPath)
                 // LinkedHashMap pl = tata
@@ -286,7 +286,7 @@ println "libDirPath: $libDirPath"
                         }
                 }
             }
-        // }
+        }
     }
 }
 
