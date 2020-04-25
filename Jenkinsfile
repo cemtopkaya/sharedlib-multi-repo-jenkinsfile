@@ -275,14 +275,10 @@ def genParallelStages(repoUrls){
 
 //@NonCPS
 def createStages(String[] repoUrls){
-    res = [:]
-    
     echo ">>>> params.REPOS: $params.REPOS"
     repoUrls = params.REPOS.split("\n")
     
-    def gelen = genParallelStages(repoUrls)
-    
-    return res
+    return genParallelStages(repoUrls)
 }
 
 def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
