@@ -338,7 +338,7 @@ pipeline {
 		}
 
         stage('PreRequisites'){
-            agent{ params.AGENT_NAME }
+            agent { label params.AGENT_NAME }
             steps{
                 script{
 
