@@ -215,9 +215,9 @@ def genParallelStages(repoUrl){
         echo "---*** projectLibs:::::"
         echo "---*** env.RES:::::"
         echo env.RES
-        echo env.RES instanceof List
-        echo env.RES instanceof ArrayList
-        echo env.RES.size()
+        println env.RES instanceof List
+        println env.RES instanceof ArrayList
+        println env.RES.size()
         //env.projectLibs.eachWithIndex{key, value, i -> println "$i $key: $value"}
 
     }
