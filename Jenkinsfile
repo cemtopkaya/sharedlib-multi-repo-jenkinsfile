@@ -212,13 +212,13 @@ def genParallelStages(){
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        // result[repoUrl] = {
-        //     node (params.AGENT_NAME){
-        stages{
+        result[repoUrl] = {
+            node (params.AGENT_NAME){
+        // stages {
 
-        //         environment{
-        //             a = "a"
-        //         }
+                environment{
+                    a = "a"
+                }
                 
                 stage("Checkout $repoShortName")
                 {
@@ -272,7 +272,7 @@ def genParallelStages(){
                             oneNode(libName, "$repoDir/$lib.path")
                     }
                 }
-        //     }
+            }
         }
     
         // println "result[repoUrl].node.environment.a:::::::: "
@@ -287,7 +287,18 @@ def genParallelStages(){
         // println result
     }
 
-    //result
+extractProperties(result)
+
+    return result
+}
+
+def extractProperties(obj) {
+    obj.getClass()
+       .declaredFields
+       .findAll { !it.synthetic }
+       .collectEntries { field ->
+           [field.name, obj."$field.name"]
+       }
 }
 
 //@NonCPS
@@ -421,7 +432,7 @@ pipeline {
                     
                     // parallel stepsForParallel
 
-                    genParallelStages(repoUrls)
+                     parallel genParallelStages(repoUrls)
             //     }
             // }
         }
