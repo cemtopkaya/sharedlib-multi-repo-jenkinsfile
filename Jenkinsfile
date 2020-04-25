@@ -211,9 +211,12 @@ def genParallelStages(repoUrl){
         env.projectLibs = getLibs(projectPath)
         echo "---*** env.projectLibs:"
         echo env.projectLibs
-        echo env.projectLibs.class.name
+        echo env.projectLibs.getClass()
         echo "---*** projectLibs:::::"
-        env.projectLibs.eachWithIndex{key, value, i -> println "$i $key: $value"}
+        echo "---*** env.RES:::::"
+        echo env.RES
+        echo env.RES.getClass()
+        //env.projectLibs.eachWithIndex{key, value, i -> println "$i $key: $value"}
 
     }
     
