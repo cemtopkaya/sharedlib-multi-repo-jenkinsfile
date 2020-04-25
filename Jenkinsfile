@@ -198,6 +198,7 @@ def installNpmCliLogin(){
 def genParallelStages(){
     
     def result = [:]
+    
     echo ">>>> params.REPOS: $params.REPOS"
     repoUrls = params.REPOS.split("\n")
 
@@ -211,22 +212,15 @@ def genParallelStages(){
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        result[repoUrl] = {d->
-            def a = repoDir
-            println ">>> d: "+d
-            println ">>> a: "+a
+        result[repoUrl] = {repoDirectory, repoUrl ->
+            def libs = [:]
+        
             return node (params.AGENT_NAME){
         // stages {
                 
                 stage("Checkout $repoShortName")
                 {
-                    println "repoDir >>> $repoDir"
-                    println a
-                    println "repoDir >>> $a"
-
-                    def abc = {-> repoDir}
-                    println "aaa: "+abc()
-                    dir(repoDir)
+                    dir(repoDirectory)
                     {
                         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
                     }
@@ -234,25 +228,21 @@ def genParallelStages(){
 
                 stage("Install Packages $repoShortName")
                 {
-                    //installPackages(repoDir)
+                    //installPackages(repoDirectory)
                 }
                 
                 stage("Build & Publish Libs $repoShortName") {
                     println "---*** ------------ Build & Publish Libs $repoName ---------"
-                    echo "---*** repoDir: $repoDir"
-                    tata = getLibs(repoDir)
-                    echo "---*** tata:"
-                    println tata
-                    println tata?.size()
-                    println tata.getClass()
+                    echo "---*** repoDirectory: $repoDirectory"
+                    libs = getLibs(repoDirectory)
 
-                    tata.each{ entry ->
+                    libs.each{ entry ->
                         /**
                         * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
                         */
                         
                         // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                        def libDirPath = "$repoDir/$entry.value.path"
+                        def libDirPath = "$repoDirectory/$entry.value.path"
                         println "libDirPath: $libDirPath"
                         // paketin bağımlılıklarını bulalım
                         entry.value.dependencies  = getLibDependencies(libDirPath)
@@ -260,18 +250,18 @@ def genParallelStages(){
 
                     println "---***** ------------ getSortedLibraries ---------"
                     // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                    def sortedLibs = getSortedLibraries(tata)
+                    def sortedLibs = getSortedLibraries(libs)
 
                     sortedLibs.each
                     {
                         libName ->
                             println "Kütüp adı: $libName"
-                            lib = tata.get(libName)
-                            oneNode(libName, "$repoDir/$lib.path")
+                            lib = libs.get(libName)
+                            oneNode(libName, "$repoDirectory/$lib.path")
                     }
                 }
             }
-        }(repoUrl)
+        }(repoDir, repoUrl)
     }
 
     result["failFast"] = true
