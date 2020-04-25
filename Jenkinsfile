@@ -233,9 +233,10 @@ def genParallelStages(repoUrl){
             {
                 //installPackages(repoDir)
             }
+            
 
-            stage("Ordering Builds Of Libs $repoName"){
-                println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
+            stage("Build & Publish Libs $repoName")
+                println "---*** ------------ Build & Publish Libs $repoName ---------"
                 tata = getLibs(repoDir)
                 echo "---*** tata:"
                 println tata
@@ -256,13 +257,10 @@ def genParallelStages(repoUrl){
                     // paketin bağımlılıklarını bulalım
                     entry.value.dependencies  = getLibDependencies(libDirPath)
                 }
-            }
 
-            stage("Build & Publish Libs $repoName")
-            {
                 println "---*** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                def sortedLibs = getSortedLibraries(repoDir)
+                def sortedLibs = getSortedLibraries(tata)
 
                 sortedLibs.each
                 {
