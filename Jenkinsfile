@@ -286,6 +286,7 @@ def createStages(String[] repoUrls){
     for(String repoUrl : repoUrls){
         println ">>> repoUrl: $repoUrl"
         def gelen = genParallelStages(repoUrl)
+        println ">>> gelen"
         println gelen
         res[repoUrl] = gelen
         println res
