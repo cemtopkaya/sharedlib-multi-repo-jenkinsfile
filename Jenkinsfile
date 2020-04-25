@@ -285,7 +285,7 @@ def createStages(String[] repoUrls){
     // for(idx=0; idx<repoUrls.size(); idx++){
     for(String repoUrl : repoUrls){
         def gelen = genParallelStages(repoUrl)
-        echo "---*** gelen: $gelen" 
+        // echo "---*** gelen: $gelen"
         res[repoUrl] = gelen
     }
     return res
