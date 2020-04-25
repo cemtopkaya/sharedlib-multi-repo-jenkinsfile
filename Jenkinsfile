@@ -216,10 +216,10 @@ def genParallelStages(repoUrl){
     
     return {
         node {
-            environment{
-                pl = getLibs(projectPath)
-                // LinkedHashMap pl = tata
-            }
+            // environment{
+            //     pl = getLibs(projectPath)
+            //     // LinkedHashMap pl = tata
+            // }
 
             // stage("Checkout $repoName")
             // {
