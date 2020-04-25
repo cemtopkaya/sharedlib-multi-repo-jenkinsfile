@@ -410,7 +410,7 @@ pipeline {
                     println "stepsForParallel: $env.stepsForParallel"
 
                 }
-                //parallel stepsForParallel
+                parallel stepsForParallel
             }
         }
 
