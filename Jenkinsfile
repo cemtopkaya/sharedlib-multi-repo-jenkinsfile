@@ -297,8 +297,8 @@ def createStages(String[] repoUrls){
             label:"pwd-mkdir-cd-pwd", 
             """
                 pwd
-                mkdir -p $repoName
-                cd $repoName
+                mkdir -p "$repoName"
+                cd "$repoName"
                 pwd
             """, 
             returnStdout: true)
