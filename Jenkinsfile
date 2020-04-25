@@ -238,9 +238,10 @@ def genParallelStages(repoUrl){
                 println "---*** ------------ getLibDependencies ---------"
                 println env.projectLibs
                 env.projectLibs.each
-                {
-                    println it.key
-                    println it.value.path
+                { entry ->
+                    println entry
+                    println entry.key
+                    println entry.value.path
                     /**
                     * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
                     */
