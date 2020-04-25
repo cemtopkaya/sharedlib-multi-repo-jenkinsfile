@@ -385,13 +385,13 @@ pipeline {
             environment{
                 dirSourceCode = "./source_code"
                 repos = params.REPOS.split("\n")
-                stepsForParallel = [:]
             }
             
             steps{
                 script {
-                echo "params.REPOS: $params.REPOS"
-                repoUrls = params.REPOS.split("\n")
+                    stepsForParallel = [:]
+                    echo "params.REPOS: $params.REPOS"
+                    repoUrls = params.REPOS.split("\n")
 
                     repoUrls.eachWithIndex { repoUrl, idx ->
                     // for(i=0;i<repoUrls.size();i++){
