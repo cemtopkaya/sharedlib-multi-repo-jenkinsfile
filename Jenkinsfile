@@ -238,17 +238,17 @@ def genParallelStages(repoUrl){
             stage("Ordering Builds Of Libs $repoName")
             {
                 println "---*** ------------ getLibDependencies ---------"
-                println "---*** tata"
                 tata = getLibs(projectPath)
                 echo "---*** tata:"
-                println tata.size()
                 println tata
+                println tata.size()
                 println tata.getClass()
                 env.pl = tata 
                 println "env.pl::::"
                 println env.pl
-                println env.projectLibs
-                env.projectLibs.each
+                println env.pl.getClass()
+                // println env.projectLibs
+                env.pl.each
                 { entry ->
                     println "entry: "+ entry
                     // println "entry.key: $entry.key"
