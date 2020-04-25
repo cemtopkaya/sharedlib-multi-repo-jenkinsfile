@@ -229,10 +229,11 @@ def genParallelStages(repoUrl){
             
             stage("Build & Publish Libs $repoShortName") {
                 println "---*** ------------ Build & Publish Libs $repoName ---------"
+                echo "---*** repoDir: $repoDir"
                 tata = getLibs(repoDir)
                 echo "---*** tata:"
                 println tata
-                println tata.size()
+                println tata?.size()
                 println tata.getClass()
 
                 tata.each{ entry ->
