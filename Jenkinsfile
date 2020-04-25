@@ -232,7 +232,7 @@ def genParallelStages(repoUrl){
     return {
         // stages {
             environment{
-                projectLibs = []
+                projectLibs = [:]
             }
 
             // stage("Checkout $repoName")
