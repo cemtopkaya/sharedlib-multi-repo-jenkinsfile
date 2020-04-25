@@ -212,10 +212,11 @@ def genParallelStages(){
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        result[repoUrl] = {
-            node (params.AGENT_NAME){
+        result[repoUrl] = {d->
+            println "d: "+d
+            def a = repoDir
+            return node (params.AGENT_NAME){
         // stages {
-                def a = repoDir
                 
                 stage("Checkout $repoShortName")
                 {
@@ -273,7 +274,7 @@ def genParallelStages(){
                     }
                 }
             }
-        }
+        }(repoUrl)
     
         println result[repoUrl]
         println result[repoUrl].getClass()
