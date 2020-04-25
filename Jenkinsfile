@@ -150,7 +150,7 @@ def getPackageVersion(packageSrcPath){
 
 def oneNode(name, path){
     println "----------------- oneNode -----------------"
-    echo "---->$i - name: $name - path: $path"
+    echo "---->name: $name - path: $path"
     packageVersion = getPackageVersion "$path"
     
     Boolean isPublished = checkPublishStatus(name, packageVersion)
