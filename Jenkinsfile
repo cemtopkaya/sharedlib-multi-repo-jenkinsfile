@@ -215,18 +215,16 @@ def genParallelStages(){
         result[repoUrl] = {
             node (params.AGENT_NAME){
         // stages {
-
-                environment{
-                    a = repoDir
-                }
+                def a = repoDir
                 
                 stage("Checkout $repoShortName")
                 {
                     println "repoDir >>> $repoDir"
-                    println "repoDir >>> $env.a"
-                    
-                    def a = {-> repoDir}
-                    println "aaa: "+a()
+                    println a
+                    println "repoDir >>> $a"
+
+                    def abc = {-> repoDir}
+                    println "aaa: "+abc()
                     dir(repoDir)
                     {
                         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
