@@ -201,12 +201,12 @@ def genParallelStages(repoUrl){
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
     def repoName = repoUrl.substring(++lastIndexOfSlash)
     repoDir = "${WORKSPACE}/$repoName"
-    println "projectPath: $projectPath"
+    println "repoDir: $repoDir"
 
-    println "---*** repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
+    println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
 
     tata = [:]
-    // dir(projectPath)
+    // dir(repoDir)
     // {
     //     echo "---********* checkoutSCM ****"
                 
