@@ -271,9 +271,7 @@ def genParallelStages(repoUrl){
                         def libPath = "$paket"
                         println "LibPathhhhh: $libPath"
                         
-                        dir(repoDir){
-                            oneNode(libName, libPath)
-                        }
+                        oneNode(libName, libPath)
                 }
             }
         }
