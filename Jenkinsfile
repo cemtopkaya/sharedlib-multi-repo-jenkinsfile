@@ -210,12 +210,12 @@ def genParallelStages(repoUrls){
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        result[repoUrl] = {
-            node (params.AGENT_NAME){
+        // result[repoUrl] = {
+        //     node (params.AGENT_NAME){
 
-                environment{
-                    a = "a"
-                }
+        //         environment{
+        //             a = "a"
+        //         }
                 
                 stage("Checkout $repoShortName")
                 {
@@ -269,22 +269,22 @@ def genParallelStages(repoUrls){
                             oneNode(libName, "$repoDir/$lib.path")
                     }
                 }
-            }
-        }
+        //     }
+        // }
     
-        println "result[repoUrl].node.environment.a:::::::: "
-        try {
-            println result[repoUrl].getClass()
-            println result[repoUrl].type
-        }
-        catch (e) {
-            println "e: $e"
-        }
+        // println "result[repoUrl].node.environment.a:::::::: "
+        // try {
+        //     println result[repoUrl].getClass()
+        //     println result[repoUrl].type
+        // }
+        // catch (e) {
+        //     println "e: $e"
+        // }
 
-        println result
+        // println result
     }
 
-    result
+    //result
 }
 
 //@NonCPS
@@ -419,9 +419,13 @@ pipeline {
             steps{
                 script {
                     // stepsForParallel = [:]
-                    stepsForParallel = createStages()
+                    // stepsForParallel = createStages()
                     
-                    parallel stepsForParallel
+                    // parallel stepsForParallel
+                    echo ">>>> params.REPOS: $params.REPOS"
+                    repoUrls = params.REPOS.split("\n")
+
+                    genParallelStages(repoUrls)
                 }
             }
         }
