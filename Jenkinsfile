@@ -199,7 +199,56 @@ def genParallelStages(){
     
     def result = [:]
     
-    echo ">>>> params.REPOS: $params.REPOS"
+    def stageGenerator = { repoName, repoDirectory, repositoryUrl ->
+        def libs = [:]
+    
+        return node (params.AGENT_NAME){
+            
+            stage("Checkout $repoName")
+            {
+                dir(repoDirectory)
+                {
+                    checkoutSCM(repositoryUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                }
+            }
+
+            stage("Install Packages $repoName")
+            {
+                //installPackages(repoDirectory)
+            }
+            
+            stage("Build & Publish Libs $repoName") {
+                println "---*** ------------ Build & Publish Libs $repoName ---------"
+                echo "---*** repoDirectory: $repoDirectory"
+                libs = getLibs(repoDirectory)
+
+                libs.each{ entry ->
+                    /**
+                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                    */
+                    
+                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                    def libDirPath = "$repoDirectory/$entry.value.path"
+                    println "libDirPath: $libDirPath"
+                    // paketin bağımlılıklarını bulalım
+                    entry.value.dependencies  = getLibDependencies(libDirPath)
+                }
+
+                println "---***** ------------ getSortedLibraries ---------"
+                // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                def sortedLibs = getSortedLibraries(libs)
+
+                sortedLibs.each
+                {
+                    libName ->
+                        println "Kütüp adı: $libName"
+                        lib = libs.get(libName)
+                        oneNode(libName, "$repoDirectory/$lib.path")
+                }
+            }
+        }
+    }
+    
     repoUrls = params.REPOS.split("\n")
 
     for(String repoUrl : repoUrls)
@@ -209,59 +258,9 @@ def genParallelStages(){
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
         def repoShortName = repoName.substring(0, 5)
-        repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
-        result[repositoryUrl] = {repoDirectory, repositoryUrl ->
-            def libs = [:]
-        
-            return node (params.AGENT_NAME){
-        // stages {
-                
-                stage("Checkout $repoShortName")
-                {
-                    dir(repoDirectory)
-                    {
-                        checkoutSCM(repositoryUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                    }
-                }
-
-                stage("Install Packages $repoShortName")
-                {
-                    //installPackages(repoDirectory)
-                }
-                
-                stage("Build & Publish Libs $repoShortName") {
-                    println "---*** ------------ Build & Publish Libs $repoName ---------"
-                    echo "---*** repoDirectory: $repoDirectory"
-                    libs = getLibs(repoDirectory)
-
-                    libs.each{ entry ->
-                        /**
-                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                        */
-                        
-                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                        def libDirPath = "$repoDirectory/$entry.value.path"
-                        println "libDirPath: $libDirPath"
-                        // paketin bağımlılıklarını bulalım
-                        entry.value.dependencies  = getLibDependencies(libDirPath)
-                    }
-
-                    println "---***** ------------ getSortedLibraries ---------"
-                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                    def sortedLibs = getSortedLibraries(libs)
-
-                    sortedLibs.each
-                    {
-                        libName ->
-                            println "Kütüp adı: $libName"
-                            lib = libs.get(libName)
-                            oneNode(libName, "$repoDirectory/$lib.path")
-                    }
-                }
-            }
-        }(repoDir, repoUrl)
+        result[repoUrl] = stageGenerator(repoShortName, "${WORKSPACE}/$repoName", repoUrl)
     }
 
     result["failFast"] = true
