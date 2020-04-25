@@ -291,7 +291,8 @@ def createStages(String[] repoUrls){
     Integer idx = -1;
     for(String repoUrl : repoUrls){
         idx++
-        def repoName = repoUrl.substring($repoUrl.lastIndexOf('/')++)
+        def lastIndexOfSlash = repoUrl.lastIndexOf('/')++
+        def repoName = repoUrl.substring(lastIndexOfSlash)
         sh "pwd && cd $repoName"
         def projectPath = pwd()
         
