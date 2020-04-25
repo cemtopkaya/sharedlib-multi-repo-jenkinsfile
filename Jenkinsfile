@@ -287,8 +287,11 @@ def createStages(repoUrls){
     echo repoUrls instanceof String[]
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
-    for(idx=0; idx<repoUrls.size(); idx++){
-        repoUrl = repoUrls.getAt(idx)
+    // for(idx=0; idx<repoUrls.size(); idx++){
+    Integer idx = -1;
+    for(String repoUrl : repoUrls){
+        idx++
+        //repoUrl = repoUrls.getAt(idx)
         projectPath = "./$idx"
         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
         dir(projectPath){
