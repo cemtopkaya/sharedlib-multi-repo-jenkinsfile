@@ -294,7 +294,7 @@ def createStages(String[] repoUrls){
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
         sh "pwd && mkdir $repoName && cd $repoName"
-        def projectPath = pwd()
+        def projectPath = sh "pwd"
         
         echo "-> idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
