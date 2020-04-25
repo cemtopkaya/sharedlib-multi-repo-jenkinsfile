@@ -433,8 +433,8 @@ pipeline {
                     stepsForParallel = createStages(repoUrls)
                     
                     println "-> stepsForParallel: $env.stepsForParallel"
+                    parallel stepsForParallel
                 }
-                parallel stepsForParallel
             }
         }
 
