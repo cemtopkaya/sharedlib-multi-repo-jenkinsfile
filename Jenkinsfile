@@ -209,7 +209,7 @@ def genParallelStages(repoUrl){
     {
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
         env.projectLibs = getLibs(projectPath)
-        echo "-> projectLibs: $projectLibs"
+        // echo "-> projectLibs: $projectLibs"
     }
     
     return {
