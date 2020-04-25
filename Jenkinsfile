@@ -270,9 +270,9 @@ def genParallelStages(repoUrls){
             }
         }
     
-    println "result[repoUrl].environment.a:::::::: "
-    println result[repoUrl].environment.a
-    
+    println "result[repoUrl].node.environment.a:::::::: "
+    println result[repoUrl].node.environment.a
+
         println result
     }
 
