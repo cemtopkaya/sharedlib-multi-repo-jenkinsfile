@@ -283,7 +283,7 @@ def genParallelStages(repoUrl){
 @NonCPS
 def createStages(repoUrls){
     echo "-> repoUrls: $repoUrls"
-    echo "-> repoUrls.class.name: ${repoUrls.class.name}"
+    // echo "-> repoUrls.class.name: ${repoUrls.class.name}"
     echo repoUrls instanceof String[]
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
