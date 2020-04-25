@@ -196,87 +196,81 @@ def installNpmCliLogin(){
 
 @NonCPS
 def genParallelStages(repoUrl){
-    def projectPath = pwd()
-    def repo = repoUrl
+    
+    def lastIndexOfSlash = repoUrl.lastIndexOf('/')
+    def repoName = repoUrl.substring(++lastIndexOfSlash)
+    projectPath = pwd()+"/$repoName"
+    echo "projectPath: $projectPath"
 
-    echo "-> repo adresi:  ${repo}"
+    echo "-> repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
-    if(repo.size() > 0 && repo.lastIndexOf("/") > 0)
+    dir(projectPath)
     {
-        lastSlashPos = repo.lastIndexOf("/")+1
-        def fullRepoName = repo.substring(lastSlashPos)
-        def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
-        repoName = "${fullRepoName.substring(0, length)}..."
-        echo "-> repoName: $repoName"
+        checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+        env.projectLibs = getLibs(projectPath)
+        echo "-> projectLibs: $projectLibs"
+    }
+    
+    return {
+        // stages {
+            environment{
+                projectLibs = []
+            }
 
-        dir(projectPath)
-        {
-            checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-            env.projectLibs = getLibs(projectPath)
-            echo "-> projectLibs: $projectLibs"
-        }
-        
-        return {
-            // stages {
-                environment{
-                    projectLibs = []
-                }
-
-                // stage("Checkout $repoName")
-                // {
-                //     dir(projectPath)
-                //     {
-                //         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                //         env.projectLibs = getLibs(projectPath)
-                //         echo "-> projectLibs: $projectLibs"
-                //     }
-                // }
-
-                stage("Install Packages $repoName")
-                {
-                    installPackages(projectPath)
-                }
-
-                stage("Ordering Builds Of Libs $repoName")
-                {
-                    println "-> ------------ getLibDependencies ---------"
-                    env.projectLibs.each
-                    {
-                        println it.value.path
-                        /**
-                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                        */
-                        
-                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                        def libDirPath = "$projectPath/$it.value.path"
-
-                        // paketin bağımlılıklarını bulalım
-                        it.value.dependencies  = getLibDependencies(libDirPath)
-                    }
-                }
-
-                stage("Build & Publish Libs $repoName")
-                {
-                    println "-> ------------ getSortedLibraries ---------"
-                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                    def sortedLibs = getSortedLibraries(env.projectLibs)
-
-                    sortedLibs.each
-                    {
-                        libName ->
-                            println "Kütüp adı: $libName"
-                            def paket = env.projectLibs."$libName"
-                            println "Paketttttttttt: $paket"
-                            def libPath = "./$paket.path"
-                            println "LibPathhhhh: $libPath"
-                            
-                            dir(projectPath){
-                                oneNode(libName, libPath)
-                            }
-                    }
-                }
+            // stage("Checkout $repoName")
+            // {
+            //     dir(projectPath)
+            //     {
+            //         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+            //         env.projectLibs = getLibs(projectPath)
+            //         echo "-> projectLibs: $projectLibs"
+            //     }
             // }
-        }
+
+            stage("Install Packages $repoName")
+            {
+                installPackages(projectPath)
+            }
+
+            stage("Ordering Builds Of Libs $repoName")
+            {
+                println "-> ------------ getLibDependencies ---------"
+                env.projectLibs.each
+                {
+                    println it.value.path
+                    /**
+                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                    */
+                    
+                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                    def libDirPath = "$projectPath/$it.value.path"
+
+                    // paketin bağımlılıklarını bulalım
+                    it.value.dependencies  = getLibDependencies(libDirPath)
+                }
+            }
+
+            stage("Build & Publish Libs $repoName")
+            {
+                println "-> ------------ getSortedLibraries ---------"
+                // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                def sortedLibs = getSortedLibraries(env.projectLibs)
+
+                sortedLibs.each
+                {
+                    libName ->
+                        println "Kütüp adı: $libName"
+                        def paket = env.projectLibs."$libName"
+                        println "Paketttttttttt: $paket"
+                        def libPath = "./$paket.path"
+                        println "LibPathhhhh: $libPath"
+                        
+                        dir(projectPath){
+                            oneNode(libName, libPath)
+                        }
+                }
+            }
+        // }
     }
 }
 
@@ -288,17 +282,9 @@ def createStages(String[] repoUrls){
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
     // for(idx=0; idx<repoUrls.size(); idx++){
-    Integer idx = -1;
     for(String repoUrl : repoUrls){
-        idx++
-        def lastIndexOfSlash = repoUrl.lastIndexOf('/')
-        def repoName = repoUrl.substring(++lastIndexOfSlash)
         dir(repoName){
-            env.PROJECT_PATH = pwd()+"/$repoName"
-            echo "env.PROJECT_PATH: ${env.PROJECT_PATH}"
-
-            echo "-> idx: $idx, repoUrl: $repoUrl, env.PROJECT_PATH: $env.PROJECT_PATH,  repoName: $repoName"
-
+            
             def gelen = genParallelStages(repoUrl)
             echo "-> gelen: $gelen" 
             res[repoName] = gelen
