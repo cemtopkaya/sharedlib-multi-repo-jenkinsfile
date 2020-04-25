@@ -267,14 +267,7 @@ def genParallelStages(repoUrl){
                     libName ->
                         println "Kütüp adı: $libName"
                         lib = tata.get(libName)
-                        // println "lib: $lib"
-                        println "lib.path: $lib.path"
-                        def paket = "$repoDir/projects/$libName"
-                        println "Paketttttttttt: $paket"
-                        def libPath = "$paket"
-                        println "LibPathhhhh: $libPath"
-                        
-                        oneNode(libName, libPath)
+                        oneNode(libName, "$repoDir/$lib.path")
                 }
             }
         }
