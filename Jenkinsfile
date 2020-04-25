@@ -209,10 +209,13 @@ def genParallelStages(repoUrls){
         def repoShortName = repoName.substring(0, 5)
         repoDir = "${WORKSPACE}/$repoName"
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
-
-    
+        
         result[repoUrl] = {
             node (params.AGENT_NAME){
+
+                environment{
+                    a = "a"
+                }
                 
                 stage("Checkout $repoShortName")
                 {
@@ -266,6 +269,9 @@ def genParallelStages(repoUrls){
                 }
             }
         }
+    
+    println "result[repoUrl].environment.a:::::::: "
+    println result[repoUrl].environment.a
     
         println result
     }
