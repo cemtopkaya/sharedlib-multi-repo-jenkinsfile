@@ -215,7 +215,8 @@ def genParallelStages(repoUrl){
     // }
     
     def obj = {
-        node (params.AGENT_NAME){
+        pipeline {
+            agent params.AGENT_NAME
             environment{
                 pl = getLibs(projectPath)
                 // LinkedHashMap pl = tata
