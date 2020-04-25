@@ -261,7 +261,8 @@ def genParallelStages(){
 
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
-        def repoShortName = repoName.substring(0, 5)
+        def repoShortName = repoName.reverse().take(5).reverse()
+        // def repoShortName = repoName.substring(0, 5)
         
         result[repoUrl] = stageGenerator(repoShortName, "${WORKSPACE}/$repoName", repoUrl)
     }
