@@ -408,7 +408,7 @@ pipeline {
                 script{
                     def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
                     try {
-                        npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
+                        //npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                     catch (err) {
                         echo "-> Hata:   $err"
