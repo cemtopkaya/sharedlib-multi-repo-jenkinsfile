@@ -206,16 +206,20 @@ def genParallelStages(repoUrl){
         def length = fullRepoName.size()>5 ? 5 : fullRepoName.size()
         repoName = "${fullRepoName.substring(0, length)}..."
         echo "-> repoName: $repoName"
-        def projectLibs = getLibs(projectPath)
-        echo "-> projectLibs: $projectLibs"
         
         return {
             stages {
+                environment{
+                    projectLibs = []
+                }
+
                 stage("Checkout $repoName")
                 {
                     dir(projectPath)
                     {
                         checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                        env.projectLibs = getLibs(projectPath)
+                        echo "-> projectLibs: $projectLibs"
                     }
                 }
 
@@ -227,7 +231,7 @@ def genParallelStages(repoUrl){
                 stage("Ordering Builds Of Libs $repoName")
                 {
                     println "-> ------------ getLibDependencies ---------"
-                    projectLibs.each
+                    env.projectLibs.each
                     {
                         println it.value.path
                         /**
@@ -246,13 +250,13 @@ def genParallelStages(repoUrl){
                 {
                     println "-> ------------ getSortedLibraries ---------"
                     // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                    def sortedLibs = getSortedLibraries(projectLibs)
+                    def sortedLibs = getSortedLibraries(env.projectLibs)
 
                     sortedLibs.each
                     {
                         libName ->
                             println "Kütüp adı: $libName"
-                            def paket = projectLibs."$libName"
+                            def paket = env.projectLibs."$libName"
                             println "Paketttttttttt: $paket"
                             def libPath = "./$paket.path"
                             println "LibPathhhhh: $libPath"
