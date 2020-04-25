@@ -285,7 +285,7 @@ def genParallelStages(){
         // }
 
         // println result
-extractProperties(result[repoUrl])
+        extractProperties(result[repoUrl])
     }
 
 
@@ -302,6 +302,7 @@ def extractProperties(obj) {
            [field.name, obj."$field.name"]
        }
 
+       println obj.getClass().declaredFields
        println a
 }
 
