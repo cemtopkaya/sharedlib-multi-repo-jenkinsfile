@@ -422,7 +422,9 @@ pipeline {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
-                    parallel genParallelStages()
+                    def map = genParallelStages()
+                    map.failFast = true
+                    parallel map
                 }
             }
         }
