@@ -285,9 +285,9 @@ def genParallelStages(){
         // }
 
         // println result
+extractProperties(result[repoUrl])
     }
 
-extractProperties(result)
 
     return result
 }
