@@ -290,19 +290,18 @@ def createStages(String[] repoUrls){
     // for(idx=0; idx<repoUrls.size(); idx++){
     Integer idx = -1;
     for(String repoUrl : repoUrls){
-        echo "-> repoUrl: $repoUrl"
         idx++
-        //repoUrl = repoUrls.getAt(idx)
+        def repoName = repoUrl.substring($repoUrl.lastIndexOf('/')++)
+        sh "pwd && cd $repoName"
         projectPath = pwd()
-        echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
         
-        sh "pwd && cd $projectPath"
-        // {
-            echo "-> projectPath: $projectPath" 
-            def gelen = genParallelStages(repoUrl)
-            echo "-> gelen: $gelen" 
-            res[repoUrl] = gelen
-        // }
+        echo "-> repoName: ${repoUrl.substring($repoUrl.lastIndexOf('/')++)}"
+        //repoUrl = repoUrls.getAt(idx)
+        echo "-> idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
+
+        def gelen = genParallelStages(repoUrl)
+        echo "-> gelen: $gelen" 
+        res[repoUrl] = gelen
     }
     return res
 }
