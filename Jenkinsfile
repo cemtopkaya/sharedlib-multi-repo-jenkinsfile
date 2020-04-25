@@ -291,8 +291,8 @@ def createStages(String[] repoUrls){
     Integer idx = -1;
     for(String repoUrl : repoUrls){
         idx++
-        def lastIndexOfSlash = repoUrl.lastIndexOf('/')++
-        def repoName = repoUrl.substring(lastIndexOfSlash)
+        def lastIndexOfSlash = repoUrl.lastIndexOf('/')
+        def repoName = repoUrl.substring(++lastIndexOfSlash)
         echo "-> repoName: $repoName"
     }
     return res
