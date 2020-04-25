@@ -286,6 +286,7 @@ def genParallelStages(){
 
         // println result
         println result[repoUrl]
+        println result[repoUrl].getClass()
     }
 
 
