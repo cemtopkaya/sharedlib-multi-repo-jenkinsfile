@@ -245,7 +245,7 @@ def genParallelStages(repoUrl){
                 println "---*** tata"
                 println tata
                 println tata.getClass()
-                env.each{ it -> println it }
+                env.each{ aa -> println aa }
                 println env.pl.getClass()
                 println env.projectLibs
                 env.projectLibs.each
