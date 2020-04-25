@@ -290,6 +290,7 @@ def createStages(repoUrls){
     // for(idx=0; idx<repoUrls.size(); idx++){
     Integer idx = -1;
     for(String repoUrl : repoUrls){
+        echo "-> repoUrl: $repoUrl"
         idx++
         //repoUrl = repoUrls.getAt(idx)
         projectPath = "./$idx"
