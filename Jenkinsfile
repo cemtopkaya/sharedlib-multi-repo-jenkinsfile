@@ -241,7 +241,7 @@ def genParallelStages(repoUrl){
                 println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
                 println "env.pl"
                 println env.pl
-                tata = getLibs(projectPath)
+                tata = getLibs("${WORKSPACE}/$repoName")
                 echo "---*** tata:"
                 println tata
                 println tata.size()
