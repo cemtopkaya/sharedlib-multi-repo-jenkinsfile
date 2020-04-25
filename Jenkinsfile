@@ -193,7 +193,8 @@ def installNpmCliLogin(){
     sh "npm install -g npm-cli-login"
 }
 
-def genParallelStages(repoUrl, projectPath){
+def genParallelStages(repoUrl){
+    def projectPath = pwd()
     def repo = repoUrl
 
     echo "-> repo adresi:  ${repo}"
@@ -399,8 +400,8 @@ pipeline {
                         projectPath = "./$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
                         dir(projectPath){
+                            stepsForParallel[repoUrl] = genParallelStages(repoUrl)
                         }
-                            stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
                     }
                     println "stepsForParallel: $env.stepsForParallel"
 
