@@ -41,6 +41,7 @@ def checkPublishStatus(String packageName, String packageVersion){
 
 def buildPackage(String packageName){
     println "----------------- buildPackage -----------------"
+    sh "pwd"
     if( params.PUBLISH_IF_NOT == true || params.FORCE_TO_PUBLISH == true){
         catchError (buildResult: "SUCCESS", stageResult:"UNSTABLE"){
             sh (
@@ -149,17 +150,19 @@ def getPackageVersion(packageSrcPath){
 def oneNode(name, path){
     println "----------------- oneNode -----------------"
     echo "---->name: $name - path: $path"
-    packageVersion = getPackageVersion "$path"
-    
-    Boolean isPublished = checkPublishStatus(name, packageVersion)
-    
-    Boolean isPublishable = checkPublishable(isPublished)
-    
-    unpublishIfNeeded(name, packageVersion, isPublished)
-    
-    buildPackage name
-    
-    publishIfNeeded name, path, packageVersion, isPublished
+    dir(path){
+        packageVersion = getPackageVersion "$path"
+        
+        Boolean isPublished = checkPublishStatus(name, packageVersion)
+        
+        Boolean isPublishable = checkPublishable(isPublished)
+        
+        unpublishIfNeeded(name, packageVersion, isPublished)
+        
+        buildPackage name
+        
+        publishIfNeeded name, path, packageVersion, isPublished
+    }
 }
 
 def installPackages(String sourceFolder){
