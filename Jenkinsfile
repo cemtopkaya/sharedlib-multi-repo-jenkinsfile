@@ -293,12 +293,16 @@ extractProperties(result)
 }
 
 def extractProperties(obj) {
-    obj.getClass()
+    def a = obj.getClass()
        .declaredFields
        .findAll { !it.synthetic }
        .collectEntries { field ->
+        println field.name
+        println obj."$field.name"
            [field.name, obj."$field.name"]
        }
+
+       println a
 }
 
 //@NonCPS
