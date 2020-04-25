@@ -212,6 +212,7 @@ def genParallelStages(repoUrls){
         
         // result[repoUrl] = {
         //     node (params.AGENT_NAME){
+        stages{
 
         //         environment{
         //             a = "a"
@@ -270,7 +271,7 @@ def genParallelStages(repoUrls){
                     }
                 }
         //     }
-        // }
+        }
     
         // println "result[repoUrl].node.environment.a:::::::: "
         // try {
