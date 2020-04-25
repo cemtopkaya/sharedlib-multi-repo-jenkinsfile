@@ -278,16 +278,13 @@ def genParallelStages(repoUrl){
 //@NonCPS
 def createStages(String[] repoUrls){
     echo "---*** repoUrls: $repoUrls"
-    // echo "---*** repoUrls.class.name: ${repoUrls.class.name}"
+    
     println repoUrls instanceof String[]
     res = [:]
-// repoUrls.eachWithIndex { repoUrl, idx ->
-    // for(idx=0; idx<repoUrls.size(); idx++){
+    
     for(String repoUrl : repoUrls){
         println ">>> repoUrl: $repoUrl"
         def gelen = genParallelStages(repoUrl)
-        println ">>> gelen"
-        println gelen
         res[repoUrl] = gelen
         println res
     }
@@ -422,7 +419,6 @@ pipeline {
                     repoUrls = params.REPOS.split("\n")
                     stepsForParallel = createStages(repoUrls)
                     
-                    println "---*** stepsForParallel: $env.stepsForParallel"
                     parallel stepsForParallel
                 }
             }
