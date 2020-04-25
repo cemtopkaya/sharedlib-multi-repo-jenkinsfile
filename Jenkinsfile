@@ -239,6 +239,7 @@ def genParallelStages(repoUrl){
                 println env.projectLibs
                 env.projectLibs.each
                 {
+                    println it.key
                     println it.value.path
                     /**
                     * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
@@ -246,7 +247,7 @@ def genParallelStages(repoUrl){
                     
                     // ./projects/@kapsam/kütüp_adı yolunu olusturalım
                     def libDirPath = "$projectPath/$it.value.path"
-
+println "libDirPath: $libDirPath"
                     // paketin bağımlılıklarını bulalım
                     it.value.dependencies  = getLibDependencies(libDirPath)
                 }
