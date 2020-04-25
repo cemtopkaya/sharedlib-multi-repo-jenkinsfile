@@ -215,21 +215,8 @@ def genParallelStages(repoUrl){
         echo "---*** tata:"
         println tata.size()
         println tata
-        println tata.getClass()
-        env.pl = tata
-        println env.projectLibs
-        println env.projectLibs.size()
-        // echo env.projectLibs.getClass()
-        echo "---*** projectLibs:::::"
-        echo "---*** env.RES:::::"
-        println env.RES
-        println env.RES instanceof List
-        println env.RES instanceof ArrayList
-        println env.RES.size()
-        //env.projectLibs.eachWithIndex{key, value, i -> println "$i $key: $value"}
-
     }
-        println tata.getClass()
+    println tata.getClass()
     
     return {
         // stages {
