@@ -201,15 +201,15 @@ def genParallelStages(repoUrl){
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
     def repoName = repoUrl.substring(++lastIndexOfSlash)
     projectPath = pwd()+"/$repoName"
-    echo "projectPath: $projectPath"
+    println "projectPath: $projectPath"
 
-    echo "-> repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
+    println "-> repoUrl: $repoUrl, projectPath: $projectPath,  repoName: $repoName"
 
     dir(projectPath)
     {
         checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
         env.projectLibs = getLibs(projectPath)
-        // echo "-> projectLibs: $projectLibs"
+        // println "-> projectLibs: $projectLibs"
     }
     
     return {
