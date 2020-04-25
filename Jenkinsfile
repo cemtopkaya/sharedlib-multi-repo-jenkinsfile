@@ -224,8 +224,8 @@ def genParallelStages(){
 
                 libs.each{ entry ->
                     /**
-                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                    */
+                     * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                     */
                     
                     // ./projects/@kapsam/kütüp_adı yolunu olusturalım
                     def libDirPath = "$repoDirectory/$entry.value.path"
@@ -238,12 +238,10 @@ def genParallelStages(){
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
                 def sortedLibs = getSortedLibraries(libs)
 
-                sortedLibs.each
-                {
-                    libName ->
-                        println "Kütüp adı: $libName"
-                        lib = libs.get(libName)
-                        oneNode(libName, "$repoDirectory/$lib.path")
+                sortedLibs.each { libName ->
+                    println "Kütüp adı: $libName"
+                    lib = libs.get(libName)
+                    oneNode(libName, "$repoDirectory/$lib.path")
                 }
             }
         }
