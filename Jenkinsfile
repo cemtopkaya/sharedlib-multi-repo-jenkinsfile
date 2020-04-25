@@ -147,7 +147,6 @@ def getPackageVersion(packageSrcPath){
     }
 }
 
-
 def oneNode(name, path){
     println "----------------- oneNode -----------------"
     echo "---->name: $name - path: $path"
@@ -197,86 +196,89 @@ def installNpmCliLogin(){
 }
 
 //@NonCPS
-def genParallelStages(repoUrl){
-    def lastIndexOfSlash = repoUrl.lastIndexOf('/')
-    def repoName = repoUrl.substring(++lastIndexOfSlash)
-    def repoShortName = repoName.substring(0, 5)
-    repoDir = "${WORKSPACE}/$repoName"
-
-    println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
-
-    tata = [:]
+def genParallelStages(repoUrls){
     
-    return {
-        node (params.AGENT_NAME){
-            // environment{
-            //     pl = getLibs(repoDir)
-            //     // LinkedHashMap pl = tata
-            // }
-            stage("Checkout $repoShortName")
-            {
-                println "repoDir >>> $repoDir"
-                dir(repoDir)
+    def result = [:]
+
+    for(String repoUrl : repoUrls)
+    {
+        println ">>> repoUrl: $repoUrl"
+
+        def lastIndexOfSlash = repoUrl.lastIndexOf('/')
+        def repoName = repoUrl.substring(++lastIndexOfSlash)
+        def repoShortName = repoName.substring(0, 5)
+        repoDir = "${WORKSPACE}/$repoName"
+        println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
+
+    
+        result[repoUrl] = {
+            node (params.AGENT_NAME){
+                
+                stage("Checkout $repoShortName")
                 {
-                    checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                }
-            }
-
-            stage("Install Packages $repoShortName")
-            {
-                //installPackages(repoDir)
-            }
-            
-            stage("Build & Publish Libs $repoShortName") {
-                println "---*** ------------ Build & Publish Libs $repoName ---------"
-                echo "---*** repoDir: $repoDir"
-                tata = getLibs(repoDir)
-                echo "---*** tata:"
-                println tata
-                println tata?.size()
-                println tata.getClass()
-
-                tata.each{ entry ->
-                    println "entry: "+ entry
-                    // println "entry.key: $entry.key"
-                    println entry.value.path
-                    /**
-                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                    */
-                    
-                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                    def libDirPath = "$repoDir/$entry.value.path"
-                    println "libDirPath: $libDirPath"
-                    // paketin bağımlılıklarını bulalım
-                    entry.value.dependencies  = getLibDependencies(libDirPath)
+                    println "repoDir >>> $repoDir"
+                    dir(repoDir)
+                    {
+                        checkoutSCM(repoUrl, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
+                    }
                 }
 
-                println "---***** ------------ getSortedLibraries ---------"
-                // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                def sortedLibs = getSortedLibraries(tata)
-
-                sortedLibs.each
+                stage("Install Packages $repoShortName")
                 {
-                    libName ->
-                        println "Kütüp adı: $libName"
-                        lib = tata.get(libName)
-                        oneNode(libName, "$repoDir/$lib.path")
+                    //installPackages(repoDir)
+                }
+                
+                stage("Build & Publish Libs $repoShortName") {
+                    println "---*** ------------ Build & Publish Libs $repoName ---------"
+                    echo "---*** repoDir: $repoDir"
+                    tata = getLibs(repoDir)
+                    echo "---*** tata:"
+                    println tata
+                    println tata?.size()
+                    println tata.getClass()
+
+                    tata.each{ entry ->
+                        println "entry: "+ entry
+                        // println "entry.key: $entry.key"
+                        println entry.value.path
+                        /**
+                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                        */
+                        
+                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                        def libDirPath = "$repoDir/$entry.value.path"
+                        println "libDirPath: $libDirPath"
+                        // paketin bağımlılıklarını bulalım
+                        entry.value.dependencies  = getLibDependencies(libDirPath)
+                    }
+
+                    println "---***** ------------ getSortedLibraries ---------"
+                    // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
+                    def sortedLibs = getSortedLibraries(tata)
+
+                    sortedLibs.each
+                    {
+                        libName ->
+                            println "Kütüp adı: $libName"
+                            lib = tata.get(libName)
+                            oneNode(libName, "$repoDir/$lib.path")
+                    }
                 }
             }
         }
+    
+        println result
     }
+    
+    result
 }
 
 //@NonCPS
 def createStages(String[] repoUrls){
     res = [:]
     
-    for(String repoUrl : repoUrls){
-        println ">>> repoUrl: $repoUrl"
         def gelen = genParallelStages(repoUrl)
-        res[repoUrl] = gelen
-        println res
-    }
+    
     return res
 }
 
