@@ -234,35 +234,39 @@ def genParallelStages(repoUrl){
                 //installPackages("${WORKSPACE}/$repoName")
             }
 
-            stage("Ordering Builds Of Libs $repoName")
-            {
-                println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
-                println "env.pl"
-                println env.pl
-                tata = getLibs("${WORKSPACE}/$repoName")
-                echo "---*** tata:"
-                println tata
-                println tata.size()
-                println tata.getClass()
-                // env.pl = tata 
-                println "env.pl::::"
-                println env.pl
-                println env.pl.getClass()
-                // println env.projectLibs
-                env.pl.each
-                { entry ->
-                    println "entry: "+ entry
-                    // println "entry.key: $entry.key"
-                    println entry.value.path
-                    /**
-                    * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
-                    */
-                    
-                    // ./projects/@kapsam/kütüp_adı yolunu olusturalım
-                    def libDirPath = "$projectPath/$it.value.path"
-println "libDirPath: $libDirPath"
-                    // paketin bağımlılıklarını bulalım
-                    it.value.dependencies  = getLibDependencies(libDirPath)
+            stage("Ordering Builds Of Libs $repoName"){
+                environment {
+                    pl = getLibs("${WORKSPACE}/$repoName")
+                }
+                steps {
+                    println "---*** ------------ Ordering Builds Of Libs $repoName ---------"
+                    println "env.pl"
+                    println env.pl
+                    tata = getLibs("${WORKSPACE}/$repoName")
+                    echo "---*** tata:"
+                    println tata
+                    println tata.size()
+                    println tata.getClass()
+                    // env.pl = tata 
+                    println "env.pl::::"
+                    println env.pl
+                    println env.pl.getClass()
+                    // println env.projectLibs
+                    env.pl.each
+                    { entry ->
+                        println "entry: "+ entry
+                        // println "entry.key: $entry.key"
+                        println entry.value.path
+                        /**
+                        * ./projects içindeki kütüphanelerin bağımlılıklarını bulalım 
+                        */
+                        
+                        // ./projects/@kapsam/kütüp_adı yolunu olusturalım
+                        def libDirPath = "$projectPath/$it.value.path"
+                        println "libDirPath: $libDirPath"
+                        // paketin bağımlılıklarını bulalım
+                        it.value.dependencies  = getLibDependencies(libDirPath)
+                    }
                 }
             }
 
