@@ -282,6 +282,7 @@ def genParallelStages(repoUrl){
 
 @NonCPS
 def createStages(repoUrls){
+    echo "-> repoUrls: $repoUrls"
     res = [:]
 // repoUrls.eachWithIndex { repoUrl, idx ->
     for(idx=0; idx<repoUrls.size(); idx++){
