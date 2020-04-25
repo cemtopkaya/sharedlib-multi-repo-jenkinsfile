@@ -226,16 +226,12 @@ def genParallelStages(repoUrl){
                 dir("${WORKSPACE}/$repoName")
                 {
                     checkoutSCM(repo, params.SOURCE_BRANCH_NAME, params.GIT_CRED_ID)
-                    env.projectLibs = getLibs(projectPath)
-                    echo "---*** eeeenv.projectLibs: "
-                    println env.projectLibs
-                    println env.projectLibs.getClass()
                 }
             }
 
             stage("Install Packages $repoName")
             {
-                installPackages(projectPath)
+                //installPackages("${WORKSPACE}/$repoName")
             }
 
             stage("Ordering Builds Of Libs $repoName")
