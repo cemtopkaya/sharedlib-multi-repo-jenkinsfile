@@ -212,8 +212,9 @@ def genParallelStages(){
         println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
         
         result[repoUrl] = {d->
-            println "d: "+d
             def a = repoDir
+            println ">>> d: "+d
+            println ">>> a: "+a
             return node (params.AGENT_NAME){
         // stages {
                 
@@ -274,6 +275,8 @@ def genParallelStages(){
     }
 
     result["failFast"] = true
+    result.collectEntries { field -> println "Field: $field" }
+    
     return result
 }
 
