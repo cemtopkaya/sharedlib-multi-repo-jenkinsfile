@@ -270,13 +270,13 @@ println "libDirPath: $libDirPath"
             {
                 println "---*** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                def sortedLibs = getSortedLibraries(env.projectLibs)
+                def sortedLibs = getSortedLibraries(env.pl)
 
                 sortedLibs.each
                 {
                     libName ->
                         println "Kütüp adı: $libName"
-                        def paket = env.projectLibs."$libName"
+                        def paket = env.pl."$libName"
                         println "Paketttttttttt: $paket"
                         def libPath = "./$paket.path"
                         println "LibPathhhhh: $libPath"
