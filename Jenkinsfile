@@ -196,9 +196,11 @@ def installNpmCliLogin(){
 }
 
 //@NonCPS
-def genParallelStages(repoUrls){
+def genParallelStages(){
     
     def result = [:]
+    echo ">>>> params.REPOS: $params.REPOS"
+    repoUrls = params.REPOS.split("\n")
 
     for(String repoUrl : repoUrls)
     {
@@ -412,23 +414,16 @@ pipeline {
         }
 
         stage("Generate Stages"){
-            environment{
-                dirSourceCode = "./source_code"
-                repos = params.REPOS.split("\n")
-            }
-            
-            steps{
-                script {
+            // steps{
+            //     script {
                     // stepsForParallel = [:]
                     // stepsForParallel = createStages()
                     
                     // parallel stepsForParallel
-                    echo ">>>> params.REPOS: $params.REPOS"
-                    repoUrls = params.REPOS.split("\n")
 
                     genParallelStages(repoUrls)
-                }
-            }
+            //     }
+            // }
         }
 
 		// stage("Checkout"){ 
