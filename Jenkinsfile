@@ -262,13 +262,13 @@ def genParallelStages(repoUrl){
             {
                 println "---*** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                def sortedLibs = getSortedLibraries(env.pl)
+                def sortedLibs = getSortedLibraries(repoDir)
 
                 sortedLibs.each
                 {
                     libName ->
                         println "Kütüp adı: $libName"
-                        def paket = env.pl."$libName"
+                        def paket = "$repoDir/$libName"
                         println "Paketttttttttt: $paket"
                         def libPath = "$repoDir/$paket.path"
                         println "LibPathhhhh: $libPath"
