@@ -199,16 +199,21 @@ def installNpmCliLogin(){
 //@NonCPS
 def genParallelStages(repoUrl){
     def lastIndexOfSlash = repoUrl.lastIndexOf('/')
-    def repoName = repoUrl.substring(++lastIndexOfSlash, (lastIndexOfSlash+6))+"..."
+    def repoName = repoUrl.substring(++lastIndexOfSlash)
+    def repoShortName = repoName.substring(0, 5)
     repoDir = "${WORKSPACE}/$repoName"
+
     println "---*** repoUrl: $repoUrl, repoDir: $repoDir,  repoName: $repoName"
 
     tata = [:]
     
     return {
         node (params.AGENT_NAME){
-
-            stage("Checkout $repoName")
+            // environment{
+            //     pl = getLibs(repoDir)
+            //     // LinkedHashMap pl = tata
+            // }
+            stage("Checkout $repoShortName")
             {
                 println "repoDir >>> $repoDir"
                 dir(repoDir)
@@ -217,13 +222,12 @@ def genParallelStages(repoUrl){
                 }
             }
 
-            stage("Install Packages $repoName")
+            stage("Install Packages $repoShortName")
             {
                 //installPackages(repoDir)
             }
             
-
-            stage("Build & Publish Libs $repoName") {
+            stage("Build & Publish Libs $repoShortName") {
                 println "---*** ------------ Build & Publish Libs $repoName ---------"
                 tata = getLibs(repoDir)
                 echo "---*** tata:"
