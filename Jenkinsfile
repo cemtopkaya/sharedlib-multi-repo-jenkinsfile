@@ -263,18 +263,9 @@ def genParallelStages(){
     }
 
     result["failFast"] = true
-    result.collectEntries { field -> println "Field: $field" }
+    result.each { field -> println ">>> Field: $field" }
     
     return result
-}
-
-def extractProperties(obj) {
-    obj.getClass()
-       .declaredFields
-       .findAll { !it.synthetic }
-       .collectEntries { field ->
-           [field.name, obj."$field.name"]
-       }.each{ println it }
 }
 
 //@NonCPS
