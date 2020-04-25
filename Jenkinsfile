@@ -399,8 +399,8 @@ pipeline {
                         projectPath = "./$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
                         dir(projectPath){
-                            stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
                         }
+                            stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
                     }
                     println "stepsForParallel: $env.stepsForParallel"
 
