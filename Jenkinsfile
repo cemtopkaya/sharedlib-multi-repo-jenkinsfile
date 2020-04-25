@@ -432,7 +432,7 @@ pipeline {
                     
                     // parallel stepsForParallel
 
-                      genParallelStages(repoUrls)
+                      genParallelStages()
                 }
             }
         }
