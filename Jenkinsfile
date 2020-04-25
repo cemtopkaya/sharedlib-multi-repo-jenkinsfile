@@ -244,7 +244,7 @@ def genParallelStages(repoUrl){
                 println tata
                 println tata.size()
                 println tata.getClass()
-                env.pl = tata 
+                // env.pl = tata 
                 println "env.pl::::"
                 println env.pl
                 println env.pl.getClass()
