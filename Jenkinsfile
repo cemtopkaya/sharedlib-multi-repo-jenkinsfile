@@ -385,11 +385,11 @@ pipeline {
             environment{
                 dirSourceCode = "./source_code"
                 repos = params.REPOS.split("\n")
-                stepsForParallel = [:]
             }
             
             steps{
                 script {
+                    stepsForParallel = [:]
                     echo "params.REPOS: $params.REPOS"
                     repoUrls = params.REPOS.split("\n")
 
@@ -398,7 +398,7 @@ pipeline {
                         // rep = repoUrls.getAt(i)
                         projectPath = "$env.dirSourceCode/$idx"
                         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
-                        env.stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
+                        stepsForParallel[repoUrl] = genParallelStages(repoUrl, projectPath)
                     }
                     println "stepsForParallel: $env.stepsForParallel"
 
