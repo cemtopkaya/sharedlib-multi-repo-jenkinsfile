@@ -218,7 +218,7 @@ def genParallelStages(){
                 }
             }
 
-            stage("Install Packages $repoName")
+            stage("Install NPM Packages $repoName")
             {
                 installPackages(repoDirectory)
             }
