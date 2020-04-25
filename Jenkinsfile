@@ -295,12 +295,14 @@ def createStages(String[] repoUrls){
         //repoUrl = repoUrls.getAt(idx)
         projectPath = "./$idx"
         echo "------------ idx: $idx, repoUrl: $repoUrl, projectPath: $projectPath"
-        dir(projectPath){
+        
+        sh "pwd && cd $projectPath"
+        // {
             echo "-> projectPath: $projectPath" 
             def gelen = genParallelStages(repoUrl)
             echo "-> gelen: $gelen" 
-            res[repoUrl] = genParallelStages(repoUrl)
-        }
+            res[repoUrl] = gelen
+        // }
     }
     return res
 }
