@@ -407,10 +407,9 @@ pipeline {
                             stepsForParallel[repoUrl] = genParallelStages(repoUrl)
                         }
                     }
-                    println "stepsForParallel: $env.stepsForParallel"
-
+                    println "-> stepsForParallel: $env.stepsForParallel"
                 }
-                parallel stepsForParallel
+                // parallel stepsForParallel
             }
         }
 
