@@ -15,7 +15,7 @@ def checkPublishStatus(String packageName, String packageVersion){
         def count = sh (
             label: "REST sorgusuyla verdaccio kontrol ediliyor",
             returnStatus: true,
-            script: "curl -s $registry/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
+            script: "curl -s $registry.replace('--registry=','').trim()/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
         ).trim()
     
         echo ">>> is published - Version sayısı: $count"
