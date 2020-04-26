@@ -322,7 +322,7 @@ def RepoUrls = [
 Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
 println "$env.BUILD_URL - isRemote: $isRemote"
 if(isRemote){
-println "$env.BUILD_URL - isRemote: $isRemote"
+    println "$env.BUILD_URL - isRemote: $isRemote"
         
     // Jenkins Remote
     NpmRegistries=[
@@ -378,7 +378,7 @@ pipeline {
                 expression { params.CLEAN_WORKSPACE as Boolean == true }
             }
 			steps {
-				echo "*** Klasörü temizleyelim. Master located at $base_address"
+				echo "*** Klasörü temizleyelim."
 			    cleanWs()
 			}
 		}
