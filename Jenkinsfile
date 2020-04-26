@@ -303,8 +303,8 @@ def createStages(String[] repoUrls){
 
 def RepoCredId = "cem.topkaya_bb_user_pass"
 def RepoUrls = [
-    'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
-    ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
+    'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
+    ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
 def sRepoUrls = RepoUrls.join('\n')
 
