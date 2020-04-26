@@ -16,7 +16,7 @@ def checkPublishStatus(String packageName, String packageVersion){
             label: "REST sorgusuyla verdaccio kontrol ediliyor",
             returnStatus: true,
             script: "curl -s $registry/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
-        ).trim()
+        )
     
         echo ">>> is published - Version sayısı: $count"
 
@@ -408,7 +408,7 @@ pipeline {
                             returnStdout: true, 
                             script: "ng --version | awk '/8.3/{count=0; count++} END{print count == 0 ? 0 : count}'"
                             // script: "ng --version"
-                        ).trim()
+                        )
 
                         // yüklü ancak 8 versiyonu değil
                         if(angular_cli_version == "0"){ fnInstallAngularCli() }
