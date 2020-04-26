@@ -319,8 +319,10 @@ def RepoUrls = [
     ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
 
-Boolean isRemote = env.BUILD_URL.split('/')[2].split(':')[0] == "192.168.13.38"
+Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
+println "$env.BUILD_URL - isRemote: $isRemote"
 if(isRemote){
+println "$env.BUILD_URL - isRemote: $isRemote"
         
     // Jenkins Remote
     NpmRegistries=[
