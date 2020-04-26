@@ -343,9 +343,10 @@ class JenkinsSettings{
 
 
 def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
+println " ---*** base_address: $base_address"
 def sets = base_address == "localhost" \
     // ? JenkinsSettings.LocalBitbucket() 
-    ? JenkinsSettings.LocalGithub() 
+    ? JenkinsSettings.LocalGithub() \
     : JenkinsSettings.Remote()
 
 // def repo_urls = base_address == "localhost" \
