@@ -173,6 +173,8 @@ def oneNode(name, path){
         
         Boolean isPublished = checkPublishStatus(name, packageVersion)
         
+        if(isPublished){ currentBuild.result = "UNSTABLE" }
+        
         Boolean isPublishable = checkPublishable(isPublished)
         
         unpublishIfNeeded(name, packageVersion, isPublished)
