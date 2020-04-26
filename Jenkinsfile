@@ -10,12 +10,12 @@ def checkPublishStatus(String packageName, String packageVersion){
     def result = false
 
 
-    def fnCurl = { String registry, package, version -> 
+    def fnCurl = { String registry, def pgk, version -> 
         // sh "curl -s http://localhost:4873/@kapsam2/kutup11 | awk '/0.0.1/{count++;} END{print count=="" ? 0 : count}'"
         def count = sh (
             label: "REST sorgusuyla verdaccio kontrol ediliyor",
             returnStatus: true,
-            script: "curl -s $registry/$package | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
+            script: "curl -s $registry/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
         ).trim()
     
         echo ">>> is published - Version sayısı: $count"
