@@ -341,6 +341,12 @@ class JenkinsSettings{
     }
 }
 
+RepoUrls = [
+            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
+            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
+        ]
+
+        println "--** RepoUrls: ${RepoUrls.join('\n')}"
 
 def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
 println " ---*** base_address: $base_address"
@@ -375,7 +381,7 @@ pipeline {
         // text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git\nssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: repo_urls, description: 'Kütüphanelerin reposu')
-        text(name: 'REPOS', defaultValue: {->sets.RepoUrls.join('\n')}(), description: 'Kütüphanelerin reposu')
+        text(name: 'REPOS', defaultValue: RepoUrls.join('\n'), description: 'Kütüphanelerin reposu')
         
         booleanParam(name: 'FORCE_TO_PUBLISH', defaultValue: true, description: 'Eğer versiyon daha önce kullanılmışsa zorla aynı versiyon numarasıyla VERDACCIO ya yayınlar ')
         booleanParam(name: 'PUBLISH_IF_NOT', defaultValue: false, description: 'Daha önce yayınlanmamışsa yayınla, aksi halde hata fırlat ')
