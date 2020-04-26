@@ -301,67 +301,17 @@ def createStages(String[] repoUrls){
     return genParallelStages(repoUrls)
 }
 
-class JenkinsSettings{
-    String CredId
-    String[] RepoUrls
-    String NpmUser
-    String NpmPass
-    String NpmToken
-
-    static JenkinsSettings LocalGithub(){
-        def res = new JenkinsSettings()
-        res.CredId = "cem.topkaya_bb_user_pass" //  "github-user-pass-cemtopkaya"
-        
-            // 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
-            // ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
-            
-        res.RepoUrls = [
-            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_nrf_test.git'
-            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_lib_test.git'
-        ]
-        res.NpmUser = 'jenkins'
-        res.NpmPass = 'service'
-        res.NpmToken = ""
-
-        return res
-    }
-
-    static JenkinsSettings Remote(){
-        def res = new JenkinsSettings()
-        res.CredId = "cem.topkaya_bb_user_pass"
-        res.RepoUrls = [
-            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
-            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
-        ]
-        res.NpmUser = ""
-        res.NpmPass = ""
-        res.NpmToken = ""
-
-        return res
-    }
-}
-
+def RepoCredId = "cem.topkaya_bb_user_pass"
 def RepoUrls = [
-            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
-            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
-        ]
+    'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
+    ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
+]
 def sRepoUrls = RepoUrls.join('\n')
+
+NpmUser = "jenkins"
+NpmPass = "service"
 println "--** RepoUrls: $sRepoUrls"
 
-def base_address = env.BUILD_URL.split('/')[2].split(':')[0]
-println " ---*** base_address: $base_address"
-def sets = base_address == "localhost" \
-    // ? JenkinsSettings.LocalBitbucket() \
-    ? JenkinsSettings.LocalGithub() \
-    : JenkinsSettings.Remote()
-
-// def repo_urls = base_address == "localhost" \
-//     ?  \
-//     : 
-// def git_cred_id = base_address == "192.168.13.38" \
-//     // ? 'github-user-pass-cemtopkaya' \
-//     ? 'a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3' \
-//     : 'cem.topkaya_bitbucket' 
 
 pipeline {
 	agent { label params.AGENT_NAME }
@@ -369,13 +319,13 @@ pipeline {
     parameters {
         string(trim: true, name: 'AGENT_NAME', defaultValue: 'UI_demo_node', description: 'Hangi slave Üstünde çalışacağı bilgisi')
         // string(trim: true, name: 'GIT_HTTPS_CRED_ID', defaultValue: 'f483b6a5-1204-41d9-a82e-000d495fe34b', description: 'HTTPs ile bağlanacağı user id')
-        string(trim: true, name: 'GIT_CRED_ID', defaultValue: sets.CredId, description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
+        string(trim: true, name: 'GIT_CRED_ID', defaultValue: RepoCredId, description: 'GIT Repo bağlantısı olacaksa CRED_ID kullanılacak')
         string(trim: true, name: 'SOURCE_BRANCH_NAME', defaultValue: 'developer', description: 'Kodları hangi BRANCH üstünden çekeceğini belirtiyoruz')
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
 
-        string(trim: true, name: 'NPM_USERNAME', defaultValue: sets.NpmUser, description: 'NPM Kullanıcı Bilgileri')
-        string(trim: true, name: 'NPM_PASS', defaultValue: sets.NpmPass, description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_USERNAME', defaultValue: NpmUser, description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_PASS', defaultValue: NpmPass, description: 'NPM Kullanıcı Bilgileri')
 
         // text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git\nssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
