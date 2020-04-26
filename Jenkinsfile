@@ -330,7 +330,7 @@ if(isRemote){
                     ' --registry=http://192.168.13.183:4873 ' 
                 ]
     RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
-    RepoUrls = 'ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
+    RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
 }
 
 def sRepoUrls = ""
