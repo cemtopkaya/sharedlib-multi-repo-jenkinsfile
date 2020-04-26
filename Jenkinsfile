@@ -310,7 +310,7 @@ class JenkinsSettings{
 
     static JenkinsSettings LocalGithub(){
         def res = new JenkinsSettings()
-        res.CredId = "github-user-pass-cemtopkaya"
+        res.CredId = "cem.topkaya_bitbucket" //  "github-user-pass-cemtopkaya"
         
             // 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
             // ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
