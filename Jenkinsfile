@@ -333,7 +333,8 @@ if(isRemote){
     RepoUrls = 'ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 }
 
-def sRepoUrls = RepoUrls.join("\n")
+def sRepoUrls = ""
+RepoUrls.each{ url -> "${sRepoUrls}\n${url}" }
 
 NpmUser = "jenkins"
 NpmPass = "service"
