@@ -334,7 +334,10 @@ if(isRemote){
 }
 
 def sRepoUrls = ""
-RepoUrls.each{ url -> "${sRepoUrls}\n${url}" }
+RepoUrls.each{ url -> 
+    println url
+    sRepoUrls = sRepoUrls+"\n"+url 
+}
 
 NpmUser = "jenkins"
 NpmPass = "service"
