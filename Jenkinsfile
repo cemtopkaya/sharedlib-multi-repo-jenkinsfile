@@ -9,8 +9,8 @@ import java.util.LinkedHashMap
 def checkPublishStatus(String packageName, String packageVersion){
     def result = false
 
-
-    def fnCurl = { String registry, def pgk, version -> 
+    def fnCurl = { String registry, String pgk, String version -> 
+        println ">>> registry: $registry , pgk: $pgk , version: $version "
         // sh "curl -s http://localhost:4873/@kapsam2/kutup11 | awk '/0.0.1/{count++;} END{print count=="" ? 0 : count}'"
         def count = sh (
             label: "REST sorgusuyla verdaccio kontrol ediliyor",
