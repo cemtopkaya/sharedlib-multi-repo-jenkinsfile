@@ -310,7 +310,7 @@ class JenkinsSettings{
 
     static JenkinsSettings LocalGithub(){
         def res = new JenkinsSettings()
-        res.CredId = "cem.topkaya_bitbucket" //  "github-user-pass-cemtopkaya"
+        res.CredId = "cem.topkaya_bb_user_pass" //  "github-user-pass-cemtopkaya"
         
             // 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
             // ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
@@ -328,7 +328,7 @@ class JenkinsSettings{
 
     static JenkinsSettings Remote(){
         def res = new JenkinsSettings()
-        res.CredId = "cem.topkaya_bitbucket"
+        res.CredId = "cem.topkaya_bb_user_pass"
         res.RepoUrls = [
             'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
             ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
