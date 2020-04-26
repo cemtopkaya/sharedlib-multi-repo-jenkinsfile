@@ -257,17 +257,22 @@ def genParallelStages(){
                     def libDirPath = "$repoDirectory/$entry.value.path"
                     println "libDirPath: $libDirPath"
                     // paketin bağımlılıklarını bulalım
-                    entry.value.dependencies  = getLibDependencies(libDirPath)
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                        entry.value.dependencies  = getLibDependencies(libDirPath)
+                    }
                 }
 
                 println "---***** ------------ getSortedLibraries ---------"
                 // Tüm bağımlılıkları en az bağımlıdan, en çoka doğru sıralayalım
-                def sortedLibs = getSortedLibraries(libs)
+                
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                    def sortedLibs = getSortedLibraries(libs)
 
-                sortedLibs.each { libName ->
-                    println "Kütüp adı: $libName"
-                    lib = libs.get(libName)
-                    oneNode(libName, "$repoDirectory/$lib.path")
+                    sortedLibs.each { libName ->
+                        println "Kütüp adı: $libName"
+                        lib = libs.get(libName)
+                        oneNode(libName, "$repoDirectory/$lib.path")
+                    }
                 }
             }
         }
