@@ -15,7 +15,7 @@ def checkPublishStatus(String packageName, String packageVersion){
         def count = sh (
             label: "REST sorgusuyla verdaccio kontrol ediliyor",
             returnStatus: true,
-            script: "curl -s $registry.replace('--registry=','').trim()/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
+            script: "curl -s $registry/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
         ).trim()
     
         echo ">>> is published - Version sayısı: $count"
@@ -51,7 +51,9 @@ def checkPublishStatus(String packageName, String packageVersion){
         }
     }
     
-    result = fnCurl(params.NPM_REGISTRY, packageName, packageVersion) > 0
+    def scheme_host_port = params.NPM_REGISTRY.replace("--registry=","").trim()
+    echo "scheme_host_port: $scheme_host_port"
+    result = fnCurl(scheme_host_port, packageName, packageVersion) > 0
     return result
 }
 
