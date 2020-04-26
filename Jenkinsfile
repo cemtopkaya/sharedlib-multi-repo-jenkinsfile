@@ -312,8 +312,11 @@ class JenkinsSettings{
         def res = new JenkinsSettings()
         res.CredId = "github-user-pass-cemtopkaya"
         res.RepoUrls = [
-            'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
-            ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
+            // 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
+            // ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
+            
+            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_nrf_test.git'
+            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_lib_test.git'
         ]
         res.NpmUser = 'jenkins'
         res.NpmPass = 'service'
@@ -326,8 +329,8 @@ class JenkinsSettings{
         def res = new JenkinsSettings()
         res.CredId = "cem.topkaya_bitbucket"
         res.RepoUrls = [
-            'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
-            ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
+            'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
+            ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
         ]
         res.NpmUser = ""
         res.NpmPass = ""
