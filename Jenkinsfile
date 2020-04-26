@@ -311,10 +311,11 @@ class JenkinsSettings{
     static JenkinsSettings LocalGithub(){
         def res = new JenkinsSettings()
         res.CredId = "github-user-pass-cemtopkaya"
-        res.RepoUrls = [
+        
             // 'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-1.git'
             // ,'https://github.com/cemtopkaya/jenkins-shared-lib-project-multi-repo-angular-lib-2.git'
             
+        res.RepoUrls = [
             'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_nrf_test.git'
             ,'https://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:8443/scm/cin/gui_lib_test.git'
         ]
