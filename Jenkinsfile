@@ -314,10 +314,7 @@ String[] NpmRegistries=[
                 ,' --registry=http://192.168.13.183:4873 '
             ]
 def RepoCredId = "cem.topkaya_bb_user_pass"
-def RepoUrls = [
-    'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
-    ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
-]
+def RepoUrls = 'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git\nssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 
 Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
 println "$env.BUILD_URL - isRemote: $isRemote"
@@ -330,14 +327,9 @@ if(isRemote){
                     ' --registry=http://192.168.13.183:4873 ' 
                 ]
     RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
-    RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
+    RepoUrls = 'ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 }
 
-def sRepoUrls = ""
-RepoUrls.each{ url -> 
-    println url
-    sRepoUrls = sRepoUrls+"\n"+url 
-}
 
 NpmUser = "jenkins"
 NpmPass = "service"
