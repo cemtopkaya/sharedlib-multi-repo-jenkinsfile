@@ -286,7 +286,7 @@ def genParallelStages(){
 
         def lastIndexOfSlash = repoUrl.lastIndexOf('/')
         def repoName = repoUrl.substring(++lastIndexOfSlash)
-        def repoShortName = repoName.reverse().take(5).reverse()
+        def repoShortName = repoName.replaceAll(".git","") //.reverse().take(5).reverse()
         // def repoShortName = repoName.substring(0, 5)
         
         result[repoUrl] = stageGenerator(repoShortName, "${WORKSPACE}/$repoName", repoUrl)
@@ -323,28 +323,20 @@ def sRepoUrls = ""
 def NpmUser = "jenkins"
 def NpmPass = "service"
 
-// def checkIfRemote() {
+Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
 
-    Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
-    println "$env.BUILD_URL - isRemote: $isRemote"
-    println RepoUrls
-    
-    if(isRemote){
-            
-        // Jenkins Remote
-        NpmRegistries=[
-                        ' --registry=http://192.168.13.33:4873 ',
-                        ' --registry=http://192.168.13.183:4873 ' 
-                    ]
-        RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
-        RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
-        println RepoUrls
-    }
-    println RepoUrls
-    sRepoUrls = RepoUrls?.join("\n")
-// } checkIfRemote()
+if(isRemote){
+    // Jenkins Remote
+    NpmRegistries=[
+                    ' --registry=http://192.168.13.33:4873 ',
+                    ' --registry=http://192.168.13.183:4873 ' 
+                ]
+    RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
+    RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
+}
+sRepoUrls = RepoUrls?.join("\n")
 
-    println "---*** sRepoUrls: $sRepoUrls"
+println "---*** sRepoUrls: $sRepoUrls"
 
 pipeline {
 	agent { label params.AGENT_NAME }
