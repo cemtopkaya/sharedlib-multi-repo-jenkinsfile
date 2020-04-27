@@ -319,6 +319,9 @@ def RepoUrls = [
     'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
     ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
+def sRepoUrls = ""
+def NpmUser = "jenkins"
+def NpmPass = "service"
 
 def checkIfRemote(){
 
@@ -335,11 +338,9 @@ def checkIfRemote(){
         RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
     }
     println "$env.BUILD_URL - isRemote: $isRemote"
+    sRepoUrls = RepoUrls?.join("\n")
 }
 checkIfRemote()
-def sRepoUrls = RepoUrls?.join("\n")
-def NpmUser = "jenkins"
-def NpmPass = "service"
 
 
 pipeline {
