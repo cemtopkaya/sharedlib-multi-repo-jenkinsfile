@@ -337,8 +337,8 @@ def checkIfRemote(){
         RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
         RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
     }
-    println "$env.BUILD_URL - isRemote: $isRemote"
     sRepoUrls = RepoUrls?.join("\n")
+    println "$env.BUILD_URL - isRemote: $isRemote"
 }
 checkIfRemote()
 
