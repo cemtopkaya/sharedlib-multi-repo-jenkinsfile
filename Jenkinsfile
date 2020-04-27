@@ -323,24 +323,6 @@ def sRepoUrls = ""
 def NpmUser = "jenkins"
 def NpmPass = "service"
 
-def checkIfRemote(){
-
-    Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
-    println "$env.BUILD_URL - isRemote: $isRemote"
-    if(isRemote==true){
-            
-        // Jenkins Remote
-        NpmRegistries=[
-                        ' --registry=http://192.168.13.33:4873 ',
-                        ' --registry=http://192.168.13.183:4873 ' 
-                    ]
-        RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
-        RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
-    }
-    // sRepoUrls = RepoUrls?.join("\n")
-    println "$env.BUILD_URL - isRemote: $isRemote"
-}
-// checkIfRemote()
 
 
 pipeline {
