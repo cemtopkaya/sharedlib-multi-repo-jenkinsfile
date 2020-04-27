@@ -333,8 +333,8 @@ if(isRemote){
 }
 
 String sRepoUrls = RepoUrls?.join("\n")
-NpmUser = "jenkins"
-NpmPass = "service"
+String NpmUser = "jenkins"
+String NpmPass = "service"
 
 
 pipeline {
