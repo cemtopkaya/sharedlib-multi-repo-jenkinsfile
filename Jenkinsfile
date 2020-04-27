@@ -306,6 +306,7 @@ def createStages(String[] repoUrls){
     return genParallelStages(repoUrls)
 }
 
+
 // Jenkins Local
 String[] NpmRegistries=[
                 ' --registry=http://192.168.56.1:4873 '
@@ -319,19 +320,23 @@ def RepoUrls = [
     ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
 
-Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
-println "$env.BUILD_URL - isRemote: $isRemote"
-if(isRemote){
-        
-    // Jenkins Remote
-    NpmRegistries=[
-                    ' --registry=http://192.168.13.33:4873 ',
-                    ' --registry=http://192.168.13.183:4873 ' 
-                ]
-    RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
-    RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
-}
+def checkIfRemote(){
 
+    Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
+    println "$env.BUILD_URL - isRemote: $isRemote"
+    if(isRemote){
+            
+        // Jenkins Remote
+        NpmRegistries=[
+                        ' --registry=http://192.168.13.33:4873 ',
+                        ' --registry=http://192.168.13.183:4873 ' 
+                    ]
+        RepoCredId = "a64a70a5-6e93-4afe-9bab-aff1ddc1b9d3"
+        RepoUrls = ['ssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git']
+    }
+    println "$env.BUILD_URL - isRemote: $isRemote"
+}
+checkIfRemote()
 String sRepoUrls = RepoUrls?.join("\n")
 String NpmUser = "jenkins"
 String NpmPass = "service"
