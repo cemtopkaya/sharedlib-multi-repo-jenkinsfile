@@ -319,8 +319,6 @@ def RepoUrls = [
     'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
     ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
-def NpmUser = "jenkins"
-def NpmPass = "service"
 
 
 pipeline {
@@ -334,8 +332,8 @@ pipeline {
         string(trim: true, name: 'TARGET_BRANCH_NAME', defaultValue: 'master', description: 'Push ile kodun gönderileceği branch')
 
 
-        string(trim: true, name: 'NPM_USERNAME', defaultValue: NpmUser, description: 'NPM Kullanıcı Bilgileri')
-        string(trim: true, name: 'NPM_PASS', defaultValue: NpmPass, description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_USERNAME', defaultValue: "jenkins", description: 'NPM Kullanıcı Bilgileri')
+        string(trim: true, name: 'NPM_PASS', defaultValue: "service", description: 'NPM Kullanıcı Bilgileri')
 
         // text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git', description: 'Kütüphanelerin reposu')
         // text(name: 'REPOS', defaultValue: 'ssh://git@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git\nssh://jenkins.servis@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git', description: 'Kütüphanelerin reposu')
