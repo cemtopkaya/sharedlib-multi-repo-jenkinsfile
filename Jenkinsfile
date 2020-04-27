@@ -323,7 +323,7 @@ def sRepoUrls = ""
 def NpmUser = "jenkins"
 def NpmPass = "service"
 
-def checkIfRemote(){
+// def checkIfRemote() {
 
     Boolean isRemote = env.BUILD_URL.contains("192.168.13.38")
     println "$env.BUILD_URL - isRemote: $isRemote"
@@ -342,8 +342,7 @@ def checkIfRemote(){
     }
     println RepoUrls
     sRepoUrls = RepoUrls?.join("\n")
-}
-checkIfRemote()
+// } checkIfRemote()
 
     println "---*** sRepoUrls: $sRepoUrls"
 
