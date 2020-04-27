@@ -319,10 +319,6 @@ def RepoUrls = [
     'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_nrf_test.git'
     ,'ssh://cem.topkaya@bitbucket.ulakhaberlesme.com.tr:7999/cin/gui_lib_test.git'
 ]
-def sRepoUrls = ""
-def NpmUser = "jenkins"
-def NpmPass = "service"
-
 
 
 pipeline {
