@@ -289,11 +289,13 @@ def genParallelStages(){
         def repoShortName = repoName.replaceAll(".git","") //.reverse().take(5).reverse()
         // def repoShortName = repoName.substring(0, 5)
         
-        result[repoUrl] = stageGenerator(repoShortName, "${WORKSPACE}/$repoName", repoUrl)
+       def value = stageGenerator(repoShortName, "${WORKSPACE}/$repoName", repoUrl)
+       println ">>> value: "+value
+       result[repoUrl] = value
     }
 
     result["failFast"] = true
-    result.each{ key, value -> println ">>> Field: "+key }
+    result.each{ key, value -> println ">>> key: "+key+"  value: "+value }
 
     return result
 }
@@ -465,7 +467,7 @@ pipeline {
                 script {                    
                     def map = genParallelStages()
                     map.each{ key, value -> println ">>> key: $key , value: "+value }
-                    parallel map
+                    // parallel map
                 }
             }
         }
