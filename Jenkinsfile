@@ -308,7 +308,7 @@ def createStages(String[] repoUrls){
 
 
 // Jenkins Local
-String[] NpmRegistries=[
+ArrayList<String> NpmRegistries=[
                 ' --registry=http://192.168.56.1:4873 '
                 ,' --registry=http://localhost:4873 '
                 ,' --registry=http://192.168.13.33:4873 '
