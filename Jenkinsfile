@@ -337,9 +337,9 @@ def checkIfRemote(){
     println "$env.BUILD_URL - isRemote: $isRemote"
 }
 checkIfRemote()
-String sRepoUrls = RepoUrls?.join("\n")
-String NpmUser = "jenkins"
-String NpmPass = "service"
+def sRepoUrls = RepoUrls?.join("\n")
+def NpmUser = "jenkins"
+def NpmPass = "service"
 
 
 pipeline {
