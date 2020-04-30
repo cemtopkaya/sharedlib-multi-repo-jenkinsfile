@@ -8,26 +8,7 @@ import java.util.LinkedHashMap
 
 def checkPublishStatus(String packageName, String packageVersion, String registry){
     def result = false
-
-    def fnCurl = { String registry, String pgk, String version -> 
-        println ">>> registry: $registry , pgk: $pgk , version: $version "
-        // sh "curl -s http://localhost:4873/@kapsam2/kutup11 | awk '/0.0.1/{count++;} END{print count=="" ? 0 : count}'"
-        def count = sh (
-            label: "REST sorgusuyla verdaccio kontrol ediliyor",
-            returnStatus: true,
-            script: "curl -s $registry/$pgk | awk '/$version/{count++;} END{print count=='' ? 0 : count}'"
-        )
-    
-        echo ">>> is published - Version sayısı: $count"
-
-        return count as Integer
-    }
-
-    
-    
-    def scheme_host_port = params.NPM_REGISTRY.replace("--registry=","").trim()
-    echo "scheme_host_port: $scheme_host_port"
-    result = fnCurl(scheme_host_port, packageName, packageVersion) > 0
+    result = isPackagePublished(scheme_host_port, packageName, packageVersion)
     return result
 }
 
@@ -77,7 +58,9 @@ def publishIfNeeded(packageName, packageSrcPath, packageVersion, Boolean isPubli
             println "---*** Hata (publishIfNeeded): $script çalıştırılırken istisna oldu (Exception: $err)"   
         }
         
-        checkPublishStatus(packageName, packageVersion)
+        
+        def registry = params.NPM_REGISTRY.replace("--registry=","").trim()
+        checkPublishStatus(packageName, packageVersion, registry)
     }
 }
 
@@ -145,7 +128,8 @@ def oneNode(name, path){
     dir(path){
         packageVersion = getPackageVersion "$path"
         
-        Boolean isPublished = checkPublishStatus(name, packageVersion)
+        def registry = params.NPM_REGISTRY.replace("--registry=","").trim()
+        Boolean isPublished = checkPublishStatus(name, packageVersion, registry)
         
         if(isPublished){ currentBuild.result = "UNSTABLE" }
         
