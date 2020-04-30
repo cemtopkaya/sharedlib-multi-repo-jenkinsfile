@@ -6,7 +6,7 @@ import hudson.FilePath;
 import com.cloudbees.groovy.cps.NonCPS
 import java.util.LinkedHashMap
 
-def checkPublishStatus(String packageName, String packageVersion){
+def checkPublishStatus(String packageName, String packageVersion, String registry){
     def result = false
 
     def fnCurl = { String registry, String pgk, String version -> 
@@ -449,14 +449,15 @@ pipeline {
         stage('Npm Login'){
             steps{
                 script{
-                    def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
                     try {
-                        Map<String, String> ss = {
-                            "":npmRegistry,
-                            "@cinar":npmRegistry
+                        if(params.NPM_REGISTRY){
+                            def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
+                            Map<String, String> ss = [
+                                "":npmRegistry,
+                                "@cinar":npmRegistry
+                            ]
+                            setNpmConfigRegistries(ss)
                         }
-                        echo ">>> ss: $ss"
-                        setNpmConfigs(ss)
                         // npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                     catch (err) {
