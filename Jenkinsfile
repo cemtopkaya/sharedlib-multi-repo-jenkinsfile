@@ -451,10 +451,12 @@ pipeline {
                 script{
                     def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
                     try {
-                        setNpmConfigs({
+                        Map<String, String> ss = {
                             "":npmRegistry,
                             "@cinar":npmRegistry
-                        })
+                        }
+                        echo ">>> ss: $ss"
+                        setNpmConfigs(ss)
                         // npmLogin("$params.NPM_USERNAME", "$params.NPM_PASS", "jenkins@servis.com", npmRegistry)
                     }
                     catch (err) {
