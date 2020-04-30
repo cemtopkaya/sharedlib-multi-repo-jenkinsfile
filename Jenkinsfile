@@ -331,6 +331,25 @@ pipeline {
 	
 	stages {
         
+		stage("NPM Settings"){
+			steps {
+                script{
+                    def pkg = NpmPackage.parse(this, "@cinar/cn-main@0.0.1")
+                    
+                    def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
+                    Map<String, String> ss = [
+                        "":npmRegistry,
+                        "@cinar":npmRegistry
+                    ]
+                    echo ">>> ss: $ss"
+                    pkg.setNpmConfigRegistries(ss)
+                    pkg.isPublished('http://192.168.13.33:4873')
+                    currentBuild.result ='FAILURE'
+                    error('Stopping early…')
+		        }
+		    }
+		}
+        
 		stage("Clean Workspace"){
             when {
                 expression { params.CLEAN_WORKSPACE as Boolean == true }
