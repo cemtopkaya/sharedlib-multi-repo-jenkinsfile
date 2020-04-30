@@ -23,33 +23,7 @@ def checkPublishStatus(String packageName, String packageVersion, String registr
         return count as Integer
     }
 
-    def fnNpmView = { -> 
-        npmViewScript = "npm view ${packageName}@${packageVersion} ${params.NPM_REGISTRY}"
-        echo "** Aynı versiyon kullanılmış mı kontrolü için script > npmViewScript: ${npmViewScript}"
-        /* Eğer npm view aranan paketi bulamazsa sh komutu 1 (Error 404) ile hata fırlatarak çıkacak!
-        * Bu yüzden kod kırılmasın diye "returnStatus: true" ile sh execute edilecek ve exit code okunacak.
-        * Exit code 0'dan farklıysa ise yani "npm ERR! code E404" ile npm view hata fırlatarak çıkış yapmışsa bileceğiz ki; paket yok!
-        * Eğer normal çıkış yapmışsa bu kez çıktıyı almak için "returnStdout: true" anahtarıyla tekrar paket sorgulanacak
-        **/
-        
-        npmViewStatusCode = sh(returnStatus: true, script: "$npmViewScript")
-        if(npmViewStatusCode == 1){
-            result = false
-        }else {
-            try {
-                checkVersionPublished = sh(
-                    label: "$npmViewScript",
-                    returnStdout: true, 
-                    script: "${npmViewScript} | wc -m"
-                ).trim() as Integer
-                
-                result = checkVersionPublished > 0
-            }
-            catch (err) {
-                println "npm view hata fırlattı: $err"
-            }
-        }
-    }
+    
     
     def scheme_host_port = params.NPM_REGISTRY.replace("--registry=","").trim()
     echo "scheme_host_port: $scheme_host_port"
