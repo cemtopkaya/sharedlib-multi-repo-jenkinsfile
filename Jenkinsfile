@@ -334,7 +334,7 @@ pipeline {
 		stage("NPM Settings"){
 			steps {
                 script{
-                    def pkg = NpmPackage.parse(this, "@cinar/cn-main@0.0.1")
+                    def pkg = NpmPackage.parseFromFullName(this, "@cinar/cn-main@0.0.1")
                     
                     def npmRegistry = params.NPM_REGISTRY.replace('--registry=','').trim()
                     Map<String, String> ss = [
